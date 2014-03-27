@@ -43,7 +43,7 @@ JavaScript lib for DOM, CORE, utility and so on
 * bs Unit Test [[ko](https://github.com/projectBS/bsJS/wiki/Unit-Test-of-BS-ko)][[ja](https://github.com/projectBS/bsJS/wiki/Unit-Test-of-BS-ja)]  
 * Structure of BS [[ko](https://github.com/projectBS/bsJS/wiki/Structure-of-BS)][[ja](https://github.com/projectBS/bsJS/wiki/Structure-of-BS-ja)]  
 
-### [showcase page](http://projectbs.github.io/bsJS/showcase/)  
+### [showcase page](http://projectbs.github.io/bsShowCase/)  
 
 ### [demo(test) page](http://projectbs.github.io/bsTest/test/)
 
