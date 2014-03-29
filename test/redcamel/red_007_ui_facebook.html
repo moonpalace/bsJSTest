@@ -46,7 +46,9 @@ function getFriends() {
                 },
                 function(response) {
 
-                    var max=response.length > 100 ? 100 : response.length
+                    var maxNum = (bs.DETECT.device=='tablet' || bs.DETECT.device=='mobile') ? 30 : 100
+                    var max=response.length > maxNum ? maxNum : response.length
+
                     for(var i=0; i < max; i++) {
                         response[i].uid;
                         response[i].pic_square;
