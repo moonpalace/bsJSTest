@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<div id="fb-root"></div>
+<div id="fstage"></div>
 <script src="http://connect.facebook.net/ko_KR/all.js"></script>
 <script src="../../../bsJS/bs/bsjs.js"></script>
 <script>
@@ -22,89 +22,33 @@
 // By Redcamel
 // 개발목적 : Open API를 연동해봅세... JSON 콜백처리도 좀 -_-;;
 ////////////////////
-var sAppID="1433664116880693";
-function sLogin(){
-    FB.getLoginStatus(function(response) {
-        if(response.session) LoginSuccessGo(response)
-        else FB.login(function(response) { LoginSuccessGo(response); }, {perms: 'publish_stream,email'});
-    });
-}
-function LoginSuccessGo(response) {
-    bs.Dom('#login').S('display', 'none')
-    bs.Dom('#toolbar').S('display', 'block')
-    bs.Dom('#alert').S('html','<b>info!</b> W : forward / S : backward / A : left / D : right / R : up / F : down / Q : panLeft / E : panRight / T : tiltUp / G : tiltDown')
-    getFriends()
-}
-function getFriends() {
-    FB.getLoginStatus(handleSessionResponse);
-    function handleSessionResponse(response) {
-        FB.api(
-                {
-                    method: 'fql.query',
-                    query: 'SELECT uid, name, email, birthday, pic_square, online_presence  FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
-                },
-                function(response) {
 
-                    var maxNum = (bs.DETECT.device=='tablet' || bs.DETECT.device=='mobile') ? 30 : 100
-                    var max=response.length > maxNum ? maxNum : response.length
-
-                    for(var i=0; i < max; i++) {
-                        response[i].uid;
-                        response[i].pic_square;
-                        response[i].name;
-                        response[i].birthday;
-                        response[i].online_presence;
-                        bs.D3m('mat' + i).S(
-                                '>', bs.Ui('label', 'primary').S(
-                                        'html', response[i].name + ' ', 'position', 'absolute', 'margin-top', -50,
-                                        '>', bs.Ui('buttonIcon', 'icon@heart', response[i].online_presence=="offline" ? 'danger' : 'primary').S('html+', ' ' + response[i].online_presence, 'this'),
-                                        'this'
-                                ),
-                                '>', bs.Dom("<div></div>").S('html', "<img src=" + response[i].pic_square + " style='border-radius:10px'>")
-                        ),
-                                bs.D3('plane@aa' + i).S('<', '#stage', // d3객체의 부모가 지정되면 d3가 렌더링될 월드로 자동 지정됩니다.
-                                        'x', bs.rand(-1000, 1000), 'z', bs.rand(-1000, 1000),
-                                        'width', 100, 'height', 100,
-                                        'material', 'mat' + i // 재질 설정 d3의 material프로퍼티에 D3m으로 생성한 재질이름을 입력합니다.
-                                )
-                    }
-                }
-        );
-    }
-}
 ////////////////////
 bs.plugin('d3', 'last'),bs.plugin( 'fb', 'last' )
 bs(function() {
 
-    bs.FB.start( '1433664116880693', function( $data, $conn, $disconn ){
-        bs.Dom( '<div></div>' ).S( '<', '#stage', 'html', [
-            '<div class="item">id</div><div class="data">' + $data.username +'</div>',
-            '<div class="item">name</div><div class="data">' + $data.name +'</div>',
-            '<div class="item">link</div><div class="data"><a href="' + $data.link + '" target="_blank">' + $data.link +'</a></div>',
-            '<img class="thumb" src="' + $data.url +'">'
-        ].join('<br clear="both">') );
-        bs.Dom( '<div class="box"></div>' ).S( '<', '#stage', 'html', 'logout', 'down', function( $e ){
-            bs.FB.logout();
-        } );
-    }, function( $status, $conn, $disconn ){
-        bs.Dom( '<div class="box"></div>' ).S( '<', '#stage', 'html', 'login', 'down', function( $e ){
-            bs.Dom( '#stage' ).S( 'html', '' );
-            bs.FB.login();
-        } );
-    }, function( $status, $conn, $disconn ){
-        bs.Dom( '#stage' ).S( 'html', '' );
-    } );
 
     start()
     function start() {
-        console.log('혹시여기냐')
-        FB.init({
-            appId: sAppID,
-            status: true, // check login status
-            cookie: true, // enable cookies to allow the server to access the session
-            xfbml: true  // parse XFBML
-        });
 
+        bs.FB.start( '1433664116880693', function( $data, $conn, $disconn ){
+            bs.Dom( '<div></div>' ).S( '<', '#fstage', 'html', [
+                '<div class="item">id</div><div class="data">' + $data.username +'</div>',
+                '<div class="item">name</div><div class="data">' + $data.name +'</div>',
+                '<div class="item">link</div><div class="data"><a href="' + $data.link + '" target="_blank">' + $data.link +'</a></div>',
+                '<img class="thumb" src="' + $data.url +'">'
+            ].join('<br clear="both">') );
+            bs.Dom( '<div class="box"></div>' ).S( '<', '#fstage', 'html', 'logout', 'down', function( $e ){
+                bs.FB.logout();
+            } );
+        }, function( $status, $conn, $disconn ){
+            bs.Dom( '<div class="box"></div>' ).S( '<', '#fstage', 'html', 'login', 'down', function( $e ){
+                bs.Dom( '#fstage' ).S( 'html', '' );
+                bs.FB.login();
+            } );
+        }, function( $status, $conn, $disconn ){
+            bs.Dom( '#fstage' ).S( 'html', '' );
+        } );
 
         var target=bs.Dom('<div></div>').S('<', 'body', 'max-width', 980, 'margin', '0px auto', 'height', 500, 'padding', '20px auto', 'this')
         target.S('>', bs.Dom('<div><a href="https://github.com/projectBS/bsJS/"><img src="ui/res/logo.png"></a></div>').S('background', '#333', 'padding', 20, 'border-radius', 10, 'this'))
