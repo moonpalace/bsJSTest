@@ -73,8 +73,27 @@ function getFriends() {
     }
 }
 ////////////////////
-bs.plugin('d3', 'last')
+bs.plugin('d3', 'last'),bs.plugin( 'fb', 'last' )
 bs(function() {
+
+    bs.FB.start( '1433664116880693', function( $data, $conn, $disconn ){
+        bs.Dom( '<div></div>' ).S( '<', '#stage', 'html', [
+            '<div class="item">id</div><div class="data">' + $data.username +'</div>',
+            '<div class="item">name</div><div class="data">' + $data.name +'</div>',
+            '<div class="item">link</div><div class="data"><a href="' + $data.link + '" target="_blank">' + $data.link +'</a></div>',
+            '<img class="thumb" src="' + $data.url +'">'
+        ].join('<br clear="both">') );
+        bs.Dom( '<div class="box"></div>' ).S( '<', '#stage', 'html', 'logout', 'down', function( $e ){
+            bs.FB.logout();
+        } );
+    }, function( $status, $conn, $disconn ){
+        bs.Dom( '<div class="box"></div>' ).S( '<', '#stage', 'html', 'login', 'down', function( $e ){
+            bs.Dom( '#stage' ).S( 'html', '' );
+            bs.FB.login();
+        } );
+    }, function( $status, $conn, $disconn ){
+        bs.Dom( '#stage' ).S( 'html', '' );
+    } );
 
     start()
     function start() {
