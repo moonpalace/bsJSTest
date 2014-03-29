@@ -14,9 +14,9 @@
     <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<div id="fstage"></div>
-<script src="http://connect.facebook.net/ko_KR/all.js"></script>
-<script src="../../../bsJS/bs/bsjs.js"></script>
+
+<script src="http://projectbs.github.io/bsJS/bs/bsjs.js"></script>
+<!--<script src="../../../bsJS/bs/bsjs.js"></script>-->
 <script>
 // 2014.03.23
 // By Redcamel
@@ -24,36 +24,50 @@
 ////////////////////
 
 ////////////////////
-bs.plugin('d3', 'last'),bs.plugin( 'fb', 'last' )
+bs.plugin('d3', 'last')
+bs.plugin('fb', 'last')
 bs(function() {
+    var maxNum=(bs.DETECT.device=='tablet'||bs.DETECT.device=='mobile') ? 30 : 100
+    var max=0
 
+    function getFriends() {
+        var response=bs.FB.res
+        FB.api(
+                {
+                    method: 'fql.query',
+                    query: 'SELECT uid, name, email, birthday, pic_square, online_presence  FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())'
+                },
+                function(r) {
+
+                    max=r.length > maxNum ? maxNum : r.length
+
+                    for(var i=0; i < max; i++) {
+                        r[i].uid;
+                        r[i].pic_square;
+                        r[i].name;
+                        r[i].birthday;
+                        r[i].online_presence;
+                        bs.D3m('mat' + i).S(
+                                '>', bs.Ui('label', 'primary').S(
+                                        'html', r[i].name + ' ', 'position', 'absolute', 'margin-top', -50,
+                                        '>', bs.Ui('buttonIcon', 'icon@heart', r[i].online_presence=="offline" ? 'danger' : 'primary').S('html+', ' ' + r[i].online_presence, 'this'),
+                                        'this'
+                                ),
+                                '>', bs.Dom("<div></div>").S('html', "<img src=" + r[i].pic_square + " style='border-radius:10px'>")
+                        ),
+                                bs.D3('plane@aa' + i).S('<', '#stage', // d3객체의 부모가 지정되면 d3가 렌더링될 월드로 자동 지정됩니다.
+                                        'x', bs.rand(-1000, 1000), 'z', bs.rand(-1000, 1000),
+                                        'width', 100, 'height', 100,
+                                        'material', 'mat' + i // 재질 설정 d3의 material프로퍼티에 D3m으로 생성한 재질이름을 입력합니다.
+                                )
+                    }
+                }
+        );
+
+    }
 
     start()
     function start() {
-        bs.Css( 'body' ).S( 'margin', 0, 'padding', 0 );
-        bs.Css( '.box' ).S( 'width', 100, 'cursor', 'pointer', 'padding', 5, 'margin', 5, 'border-radius', 5, 'border', '1px solid #999', 'background', '#ff9' );
-        bs.Css( '.item' ).S( 'float', 'left', 'width', 100, 'text-align', 'center', 'padding', 5, 'margin', 2, 'border-radius', 5, 'border', '1px dashed #99f' );
-        bs.Css( '.data' ).S( 'width', 500, 'padding', 5, 'margin', '2px 0 2px 130px', 'border-radius', 5, 'border', '1px dashed #eee' );
-        bs.Css( '.thumb' ).S( 'display', 'block', 'width', 100, 'text-align', 'center', 'padding', 5, 'margin', 2, 'border-radius', 5, 'border', '1px dashed #99f' );
-        bs.FB.start( '1433664116880693', function( $data, $conn, $disconn ){
-            bs.Dom( '<div></div>' ).S( '<', '#fstage', 'html', [
-                '<div class="item">id</div><div class="data">' + $data.username +'</div>',
-                '<div class="item">name</div><div class="data">' + $data.name +'</div>',
-                '<div class="item">link</div><div class="data"><a href="' + $data.link + '" target="_blank">' + $data.link +'</a></div>',
-                '<img class="thumb" src="' + $data.url +'">'
-            ].join('<br clear="both">') );
-            bs.Dom( '<div class="box"></div>' ).S( '<', '#fstage', 'html', 'logout', 'down', function( $e ){
-                bs.FB.logout();
-            } );
-        }, function( $status, $conn, $disconn ){
-            bs.Dom( '<div class="box"></div>' ).S( '<', '#fstage', 'html', 'login', 'down', function( $e ){
-                bs.Dom( '#fstage' ).S( 'html', '' );
-                bs.FB.login();
-            } );
-        }, function( $status, $conn, $disconn ){
-            bs.Dom( '#fstage' ).S( 'html', '' );
-        } );
-
         var target=bs.Dom('<div></div>').S('<', 'body', 'max-width', 980, 'margin', '0px auto', 'height', 500, 'padding', '20px auto', 'this')
         target.S('>', bs.Dom('<div><a href="https://github.com/projectBS/bsJS/"><img src="ui/res/logo.png"></a></div>').S('background', '#333', 'padding', 20, 'border-radius', 10, 'this'))
 
@@ -62,7 +76,38 @@ bs(function() {
         panel=bs.Ui('panel', 'default', 'title@bs.Ui & D3 플러그인 연동')
         panel.box.S('<', target)
         panelContents=panel.contents
-        bs.Dom('<div id="login"><a href="javascript:sLogin();">여기를 눌러서 로그인을 시전하시오!</a></div>').S('<', panelContents)
+        bs.Dom('<div id="fstage">').S('<', panelContents)
+
+        bs.FB.start( '1433664116880693', function( $data, $conn, $disconn ){
+            bs.Dom( '<div></div>' ).S( '<', '#fstage', 'float','left',
+                    'html', [
+                        '<div style="float:left;"><img src="' + $data.url + '" style="border-radius:10px"></div>',
+                        '<div style="float:left;margin:0px 10px 0px 10px ">id : ' + $data.username + ' / name : ' + $data.name + '<br/>link : ' + '<a href="' + $data.link + '" target="_blank">' + $data.link + '</a></div>',
+                        '<div style="clear:both"></div>'
+                    ].join('')
+            );
+            bs.Dom('<div style="clear:both"></div>').S('<','#fstage','height',10)
+            bs.Dom('#toolbar').S('display', 'block')
+            bs.Dom('#alert').S('html','<b>info!</b> W : forward / S : backward / A : left / D : right / R : up / F : down / Q : panLeft / E : panRight / T : tiltUp / G : tiltDown')
+            getFriends($data)
+
+//            bs.Ui( 'buttonIcon','danger','icon@user' ,'lg').S( '<', '#fstage', 'html+', ' logout', 'margin-bottom',10, 'down',function( $e ){
+//                bs.Dom('#alert').S('html','페이스북 로그인을 진행해야 테스트가능~합니다 로그인해주세요')
+//                bs.Dom('#toolbar').S('display', 'none')
+//                for(var i =0; i<max; i++){
+//                    bs.D3('plane@aa'+i).S(null)
+//                    console.log(i, bs.D3('plane@aa'+i))
+//                }
+//                bs.FB.logout();
+//            } );
+        }, function( $status, $conn, $disconn ){
+            bs.Ui('buttonIcon','danger','icon@user','lg' ).S( '<', '#fstage', 'html+', ' 여기를 눌러서 로그인을 시전하시오!', 'margin-bottom',10,'down', function( $e ){
+                bs.FB.login();
+            } );
+        }, function( $status, $conn, $disconn ){
+            bs.Dom( '#fstage' ).S( 'html', '' );
+        } );
+
         bs.Ui('alert','danger').S('html','<b>info!</b> 페이스북 로그인을 진행해야 테스트가능~합니다 로그인해주세요','<',panelContents,'@id','alert')
         bs.Ui('buttonToolbar').S('<', panelContents,
                 '>', bs.Ui('buttonGroup').S(
