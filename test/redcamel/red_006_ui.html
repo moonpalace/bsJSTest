@@ -130,7 +130,7 @@ bs(function() {
         bs.Dom('<div></div>').S('<', panelContents, 'display', 'block', 'padding', '0px 0px 10px 0px', 'html',
                 '<li>bs.Ui("buttonGroup")</li>'
         )
-        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('buttonGroup','lg')")
+        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('buttonGroup','lg') 버튼그룹자체에 사이즈적용")
         bs.Ui('buttonGroup', 'lg').S('<', panelContents,
                 '>', bs.Ui('buttonIcon', 'icon@align-left', 'success').S('html+', ' left', 'this'),
                 '>', bs.Ui('buttonIcon', 'icon@align-center', 'success').S('html+', ' center', 'this'),
@@ -234,6 +234,9 @@ bs(function() {
         panel = bs.Ui('panel','default','title@label')
         panel.box.S('<',target)
         panelContents =panel.contents
+        bs.Dom('<div></div>').S('<', panelContents, 'display', 'block', 'padding', '0px 0px 10px 0px', 'html',
+                '<li>bs.Ui("label", "default").S("html", "label이다", "this")</li>'
+        )
         panelContents.S(
                 '>', bs.Ui('label', 'default').S('html', 'label이다', 'this'),
                 '>', bs.Ui('label', 'primary').S('html', 'label이다', 'this'),
@@ -242,16 +245,32 @@ bs(function() {
                 '>', bs.Ui('label', 'warning').S('html', 'label이다', 'this'),
                 '>', bs.Ui('label', 'danger').S('html', 'label이다', 'this')
         )
+        bs.Dom('<h1></h1>').S(
+                '<', panelContents,
+                '>', bs.Ui('label', 'default').S('html', 'label이다', 'this')
+        )
+
+        bs.Dom('<h2></h2>').S(
+                '<', panelContents,
+                '>', bs.Ui('label', 'primary').S('html', 'label이다', 'this')
+        )
+
         bs.Dom('<h3></h3>').S(
                 '<', panelContents,
-                '>', bs.Ui('label', 'default').S('html', 'label이다', 'this'),
-                '>', bs.Ui('label', 'primary').S('html', 'label이다', 'this'),
-                '>', bs.Ui('label', 'success').S('html', 'label이다', 'this'),
-                '>', bs.Ui('label', 'info').S('html', 'label이다', 'this'),
-                '>', bs.Ui('label', 'warning').S('html', 'label이다', 'this'),
-                '>', bs.Ui('label', 'danger').S('html', 'label이다', 'this')
+                '>', bs.Ui('label', 'success').S('html', 'label이다', 'this')
         )
+
         bs.Dom('<h4></h4>').S(
+                '<', panelContents,
+                '>', bs.Ui('label', 'info').S('html', 'label이다', 'this')
+        )
+
+        bs.Dom('<h5></h5>').S(
+                '<', panelContents,
+                '>', bs.Ui('label', 'warning').S('html', 'label이다', 'this')
+        )
+
+        bs.Dom('<h6></h6>').S(
                 '<', panelContents,
                 '>', bs.Ui('label', 'default').S('html', 'label이다', 'this'),
                 '>', bs.Ui('label', 'primary').S('html', 'label이다', 'this'),
@@ -492,7 +511,6 @@ bs.Ui=(function() {
             case "buttonGroup" :return bs.Dom('<div></div>').S('@class','btn-group ' + add,'this')
             case "button" :return bs.Dom('<input type="button"/>').S('@class','btn btn-' + add,'this')
             case "buttonIcon" : {
-                console.log(etcs)
                 var result = bs.Dom('<button type="button"></button>').S('@class','btn btn-' + add,'html','<span class="glyphicon glyphicon-'+etcs['icon']+'"></span>','this')
                 return result
             }
@@ -500,28 +518,26 @@ bs.Ui=(function() {
             case "dialog" :
                 //TODO 다이알로그 일단 구현해보자 -0-
                 //TODO 부트스트랩 IE7에서 먼가 렌더링문제가 -_- 있는듯한데?
-                var result={box:bs.Dom('<div></div>').S(
+                var result={box: bs.Dom('<div></div>').S(
                         '<', bs.Dom('body'),
-                        'left', document.documentElement.offsetWidth/2,
-                        'top', (window.pageYOffset ? window.pageYOffset : document.documentElement.scrollTop)+document.documentElement.clientHeight/2,
+                        'left', document.documentElement.offsetWidth / 2,
+                        'top', (window.pageYOffset ? window.pageYOffset : document.documentElement.scrollTop) + document.documentElement.clientHeight / 2,
                         'border', '1px solid #eee', 'border-radius', 5, 'user-select', 'none', 'position', 'absolute', 'box-shadow', '0px 0px 20px 0px rgba(50, 50, 50, 0.75)',
                         'this'
-                ), contents:[]}, t0=arguments, t1, startX, startY, x, y, move={}
+                ), contents: []}, t0=arguments, t1, startX, startY, x, y, move={}
                 var titleBox=bs.Dom('<div></div>').S(
-                        '>', bs.Dom('<div>X</div>').S('float', 'right', 'mousedown', function(){titleBox.S('mousedown', null), result.box.S(null)}, 'this'),
+                        '>', bs.Dom('<div>X</div>').S('float', 'right', 'mousedown', function() {titleBox.S('mousedown', null), result.box.S(null)}, 'this'),
                         '<', result.box,
                         'cursor', 'pointer', 'user-select', 'none', '@class', 'btn btn-default', 'width', '100%', 'padding', 10, 'user-select', 'none', 'font-size', 16,
                         'border-bottom-right-radius', 0, 'border-bottom-left-radius', 0,
-                        'mousedown', function($e){
+                        'mousedown', function($e) {
                             startX=$e.event.offsetX||$e.lx, startY=$e.event.offsetY||$e.ly, x=$e.x, y=$e.y
-                            console.log($e.event.clientX, $e.event.clientY)
-
-                            bs.Dom('body').S('mousemove', function($e){x=$e.x, y=$e.y})
-                            move.ANI=function(){result.box.S('left', x-startX, 'top', y-startY)}
+                            bs.Dom('body').S('mousemove', function($e) {x=$e.x, y=$e.y})
+                            move.ANI=function() {result.box.S('left', x - startX, 'top', y - startY)}
                             bs.ANI.ani(move)
                             bs.Dom('body').S(
-                                    'mouseup', function(){
-                                        move.ANI=function(){return true}
+                                    'mouseup', function() {
+                                        move.ANI=function() {return true}
                                         bs.Dom('body').S('mousemove', null)
                                     }
                             )
