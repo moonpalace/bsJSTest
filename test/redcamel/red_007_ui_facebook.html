@@ -38,7 +38,6 @@ function LoginSuccessGo(response) {
 function getFriends() {
     FB.getLoginStatus(handleSessionResponse);
     function handleSessionResponse(response) {
-        console.log(response)
         FB.api(
                 {
                     method: 'fql.query',
