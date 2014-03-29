@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
 <meta name="viewport"
       content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
-<link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
 <a href="https://github.com/projectBS/bsJS">
@@ -19,7 +19,7 @@
 </a>
 
 <div id="stage"></div>
-<script src="../../bsJS/bs/bsjs.js"></script>
+<script src="../../../bsJS/bs/bsjs.js"></script>
 <script>
     //bs.repository('../../bs/plugin/')
     bs.plugin('d3', 'last');
@@ -28,12 +28,12 @@
         bs.Css('img').S('transform', 'rotateZ(0deg)')
         bs.Css('div').S('transform', 'rotateZ(0deg)')
         bs.Dom("<div></div>").S('<', 'body', '@id', 'stage')
-        if(bs.DETECT.device=='tablet'||bs.DETECT.device=='mobile')  bs.Dom('<div><img src="redcamel_test_demo2_asset/spaceBg_m.png" width="100%" ></div>').S('<', '#stage', 'position', 'absolute', 'width', '100%', '@id', 'bgImage')
-        else bs.Dom('<div><img src="redcamel_test_demo2_asset/spaceBg.png" width="100%" ></div>').S('<', '#stage', 'position', 'absolute', 'width', '100%', '@id', 'bgImage')
+        if(bs.DETECT.device=='tablet'||bs.DETECT.device=='mobile')  bs.Dom('<div><img src="d3/spaceBg_m.png" width="100%" ></div>').S('<', '#stage', 'position', 'absolute', 'width', '100%', '@id', 'bgImage')
+        else bs.Dom('<div><img src="d3/spaceBg.png" width="100%" ></div>').S('<', '#stage', 'position', 'absolute', 'width', '100%', '@id', 'bgImage')
         bs.D3('camera@doom'), bs.D3('camera@doom').S('camera').S('left', 'a', 'right', 'd', 'panleft', 'q', 'panright', 'e', 'tiltup', 't', 'tiltdown', 'g', 'up', 'r', 'down', 'f')
         bs.D3('camera@doom').S('camera').y= -300,bs.D3('camera@doom').S('camera').tilt= -130
-        bs.D3m('mat').S('html', "<img src='redcamel_test_demo2_asset/ship.png'>"),
-                bs.D3m('mat2').S('html', "<img src='redcamel_test_demo2_asset/rock.png'>"), bs.D3m('mat3').S('html', "<img src='redcamel_test_demo2_asset/rock2.png'>");
+        bs.D3m('mat').S('html', "<img src='d3/ship.png'>"),
+                bs.D3m('mat2').S('html', "<img src='d3/rock.png'>"), bs.D3m('mat3').S('html', "<img src='d3/rock2.png'>");
         var started;
         bs.Css('body').S('background', '#000', 'overflow', 'hidden', 'margin', 0), bs.Css('.ani').S('position', 'absolute');
         bs.WIN.sizer(function(w, h) {
@@ -91,7 +91,7 @@
                 bs.ANI.tween(
                         bs.Dom('<div></div>').S(
                                 'opacity', 1, 'left', w * .5 + sw, 'top', h * .5 + sh, 'width', 1, 'height', 1,
-                                'html', "<img src='redcamel_test_demo2_asset/bullet.png' width='100%' height='100%'>",
+                                'html', "<img src='d3/bullet.png' width='100%' height='100%'>",
                                 'class', 'ani', '<', '#stage', 'this'
                         ),
                         'opacity', 0, 'width', s, 'height', s, 'left', k ? bs.rand(0, 1) ? 0 : w - 30 : bs.rand(0, w - 30), 'top', k ? bs.rand(0, h - 30) : bs.rand(0, 1) ? 0 : h - 30,
@@ -99,7 +99,7 @@
                 );
             }
 
-            var imgPath='redcamel_test_demo2_asset/redcamel_imgs/';
+            var imgPath='d3/redcamel_imgs/';
             bs.Dom('<div><img src=' + imgPath + "frame_bottom.jpg width=100%" + '></div>').S('<', '#stage', '@id', 'btFc', 'position', 'absolute', 'top', h, 'width', '100%', 'height', '100', 'z-index', 100000000001)
             bs.Dom('<div><img src=' + imgPath + 'frame_left.png' + '></div>').S('<', '#stage', '@id', 'btFl', 'position', 'absolute', 'top', h - 88, 'z-index', 100000000001)
             bs.Dom('<div><img src=' + imgPath + 'frame_right.png' + '></div>').S('<', '#stage', '@id', 'btFr', 'position', 'absolute', 'left', w, 'top', h - 88, 'z-index', 100000000001)
@@ -112,7 +112,7 @@
             bs.ANI.tween(bs.Dom('#btFlight2').S('opacity', 0, 'this'), 'opacity', 1, 'ease', 'sineOut', 'delay', 2, 'time', 1, 'loop', 1)
             function makeFire() {
                 bs.Sprite('explosion').S('src', '../hika/explosion.png', 'col', 29, 'row', 1);
-                bs.Sprite('explosion2').S('src', '../redcamel/redcamel_test_demo2_asset/fire1.png', 'col', 6, 'row', 4 ),
+                bs.Sprite('explosion2').S('src', '../redcamel/d3/fire1.png', 'col', 6, 'row', 4 ),
                         bs.Dom('#stage').S('>', bs.Sprite('explosion').S('@0', 'position', 'absolute', 'z-index', 10000000000001, 'div'),
                                 'overflow', 'hidden', 'background', '#000', 'width', w, 'height', h
                         )
