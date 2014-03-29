@@ -25,7 +25,7 @@
 var sAppID="1433664116880693";
 function sLogin(){
     FB.getLoginStatus(function(response) {
-        if(response.session) LoginSuccessGo()
+        if(response.session) LoginSuccessGo(response)
         else FB.login(function(response) { LoginSuccessGo(response); }, {perms: 'publish_stream,email'});
     });
 }
