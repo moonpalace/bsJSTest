@@ -30,7 +30,11 @@ bs(function() {
 
     start()
     function start() {
-
+        bs.Css( 'body' ).S( 'margin', 0, 'padding', 0 );
+        bs.Css( '.box' ).S( 'width', 100, 'cursor', 'pointer', 'padding', 5, 'margin', 5, 'border-radius', 5, 'border', '1px solid #999', 'background', '#ff9' );
+        bs.Css( '.item' ).S( 'float', 'left', 'width', 100, 'text-align', 'center', 'padding', 5, 'margin', 2, 'border-radius', 5, 'border', '1px dashed #99f' );
+        bs.Css( '.data' ).S( 'width', 500, 'padding', 5, 'margin', '2px 0 2px 130px', 'border-radius', 5, 'border', '1px dashed #eee' );
+        bs.Css( '.thumb' ).S( 'display', 'block', 'width', 100, 'text-align', 'center', 'padding', 5, 'margin', 2, 'border-radius', 5, 'border', '1px dashed #99f' );
         bs.FB.start( '1433664116880693', function( $data, $conn, $disconn ){
             bs.Dom( '<div></div>' ).S( '<', '#fstage', 'html', [
                 '<div class="item">id</div><div class="data">' + $data.username +'</div>',
