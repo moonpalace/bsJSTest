@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,7 +14,7 @@
 </head>
 
 <body>
-<script src="http://projectbs.github.io/bsJS/bs/bsjs.js"></script>
+<script src="../../../bsJS/bs/bsjs.js"></script>
 
 <div class="_CLEAR"></div>
 <script>
@@ -113,10 +112,10 @@ bs(function() {
                 '>', bs.Ui('buttonIcon', 'warning', 'sm', 'icon@remove').S('html+', ' remove', 'this'),
                 '>', bs.Ui('buttonIcon', 'danger', 'icon@star').S('html+', ' star', 'this'),
                 '>', bs.Ui('buttonIcon', 'link', 'lg', 'icon@star').S('html+', ' star', 'this'),
-                '>', bs.Dom('<div>반환구조</div>'),
-                '>', bs.Dom('<div>button Tag<br><br></div>').S('@class', 'exBase',
-                        '>', bs.Dom('<div>span tag(icon)<br><br></div>').S('@class', 'exBase', 'float', 'left', 'this'),
-                        '>', bs.Dom('<div>텍스트</div>').S('html', 'contents', '@class', 'exBase', 'float', 'right', 'this'),
+                '>', bs.Dom('<div></div>').S('html','반환구조','this'),
+                '>', bs.Dom('<div></div>').S('@class', 'exBase','html','button Tag<br><br>',
+                        '>', bs.Dom('<div></div>').S('@class', 'exBase', 'float', 'left', 'html','span tag(icon)','this'),
+                        '>', bs.Dom('<div></div>').S('html', 'text', '@class', 'exBase', 'float', 'right', 'this'),
                         '>', bs.Dom('<div></div>').S('clear', 'both', 'this'),
                         'this'
                 )
