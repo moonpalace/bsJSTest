@@ -73,7 +73,7 @@ bs(function() {
 
         // bs 패널생성
         var panel, panelContents
-        panel=bs.Ui('panel', 'default', 'title@bs.Ui & D3 플러그인 연동')
+        panel=bs.Ui('panel', 'default', 'title@bs.Ui & D3 플러그인 연동(Thank you! https://www.facebook.com/shallaa')
         panel.box.S('<', target)
         panelContents=panel.contents
         bs.Dom('<div id="fstage">').S('<', panelContents)
@@ -175,9 +175,11 @@ bs(function() {
                         'left', 'a', 'right', 'd',
                         'panleft', 'q', 'panright', 'e',
                         'tiltup', 't', 'tiltdown', 'g',
-                        'up', 'r', 'down', 'f'
+                        'up', 'r', 'down', 'f',
+                        'y',-100,'tilt',-70
+
                 )
-        bs.Dom('<div id="stage" style="overflow:hidden; position:absolute"></div>').S('<', panelContents, 'width', '90%', 'max-width', 900, 'height', '100%')
+        bs.Dom('<div id="stage" style="overflow:hidden; position:absolute"></div>').S('<', panelContents, 'width', '90%', 'max-width', 900, 'height', 500,'margin-top',20)
     }
 });
 
