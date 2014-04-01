@@ -50,6 +50,53 @@ bs(function() {
                 , 'display', 'block', 'padding', '0px 0px 10px 0px')
 
         ///여기서 부터 보심됩니다 -0-;;
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // 드롭다운
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        panel = bs.Ui('panel','default','title@드롭다운')
+        panel.box.S('<',target)
+        panelContents =panel.contents
+
+        bs.Dom('<div></div>').S('<', panelContents, 'display', 'block', 'padding', '0px 0px 10px 0px', 'html',
+                "<li>bs.Ui('dropdown').S('<','body')</li>"
+        );
+
+        var str=''
+        str+='<li role="presentation" class="dropdown-header">Dropdown header</li>'
+        str+='<li><a href="#">Dropdown link</a></li>'
+        str+='<li><a href="#">Dropdown link</a></li>'
+        str+='<li role="presentation" class="divider"></li>'
+        str+='<li role="presentation" class="dropdown-header">Dropdown header</li>'
+        str+='<li><a href="#">Dropdown link</a></li>'
+
+        var a = bs.Ui('btnGroup').S('<',panelContents,'this')
+        for(var i=0; i<5; i++){
+            var t = bs.Ui('dropdown')
+            t.box.S('<',a)
+            t.title.S('html','dropdown'+i)
+            t.item.S('html',str)
+        }
+        bs.Dom('<div></div>').S('<',panelContents,'height',20)
+
+        var t = bs.Ui('dropdown')
+        t.box.S('<',panelContents)
+        t.item.S('html',str)
+        bs.Dom('<div></div>').S('<',panelContents,'height',20)
+
+
+        var a = bs.Ui('btnGroup','vertical').S('<',panelContents,'this')
+        for(var i=0; i<5; i++){
+            var t = bs.Ui('dropdown')
+            t.box.S('<',a)
+            t.title.S('html','dropdown'+i)
+            t.item.S('html',str)
+        }
+
+        bs.Dom('<div>반환 오브젝트 : </div>').S('<', panelContents, 'margin-top', 10, 'html+','box:전체박스, title:타이틀버튼, item:서브메뉴넣을 컨테이너')
+
+
+
         ////////////////////////////////////////////////////////////////////////////////////////////
         // 테마변경
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -61,11 +108,11 @@ bs(function() {
                         '<li><a href="http://bootswatch.com/" target="_blank"> 여기서 테마css만 골라서 테스트해보셔도;;</a></li>'
         );
         panelContents.S(
-                '>', bs.Ui('button', 'danger').S('@value', '기본테마', 'mousedown', function(){bs.Ui('theme', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css')}, 'this'),
-                '>', bs.Ui('button', 'danger').S('@value', 'cerulean 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/cerulean/bootstrap.min.css')}, 'this'),
-                '>', bs.Ui('button', 'danger').S('@value', 'darkly 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/darkly/bootstrap.min.css')}, 'this'),
-                '>', bs.Ui('button', 'danger').S('@value', 'shamrock 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/shamrock/bootstrap.min.css')}, 'this'),
-                '>', bs.Ui('button', 'danger').S('@value', 'superhero 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/superhero/bootstrap.min.css')}, 'this')
+                '>', bs.Ui('btn', 'danger').S('html', '기본테마', 'mousedown', function(){bs.Ui('theme', '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css')}, 'this'),
+                '>', bs.Ui('btn', 'danger').S('html', 'cerulean 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/cerulean/bootstrap.min.css')}, 'this'),
+                '>', bs.Ui('btn', 'danger').S('html', 'darkly 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/darkly/bootstrap.min.css')}, 'this'),
+                '>', bs.Ui('btn', 'danger').S('html', 'shamrock 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/shamrock/bootstrap.min.css')}, 'this'),
+                '>', bs.Ui('btn', 'danger').S('html', 'superhero 테마', 'mousedown', function(){bs.Ui('theme', 'http://bootswatch.com/superhero/bootstrap.min.css')}, 'this')
         )
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,19 +125,19 @@ bs(function() {
                 '<li>input,form,label - 생성은 각각 다음과 같습니다</li>'+
                         "<li> bs.Ui('label','danger').S(~~~~~)</li>"+
                         "<li> bs.Ui('form').S(~~~~~)</li>"+
-                        "<li> bs.Ui('타입!','className','className','className'....).S(~~~~~) - ex) bs.Ui('button') ,bs.Ui('email')</li>"+
+                        "<li> bs.Ui('타입!','className','className','className'....).S(~~~~~) - ex) bs.Ui('btn') ,bs.Ui('email')</li>"+
                         "<li> 타입이 버튼일경우 btn-default와 같은 클래스네임을 btn-를 빼고 dafault만 설정하시면됩니다.</li>"
         )
 
         panelContents.S(
-                '>', bs.Ui('button').S('@value', "bs.Ui('button')", 'this'),
-                '>', bs.Ui('button', 'default', 'lg').S( '@value', "bs.Ui('button','default','lg')", 'this'),
-                '>', bs.Ui('button', 'primary').S( '@value', "bs.Ui('button','primary')", 'this'),
-                '>', bs.Ui('button', 'success', 'sm').S( '@value', "bs.Ui('button','success','sm')", 'this'),
-                '>', bs.Ui('button', 'info', 'xs').S( '@value', "bs.Ui('button','info','xs')", 'this'),
-                '>', bs.Ui('button', 'warning', 'sm').S( '@value', "bs.Ui('button','warning','sm')", 'this'),
-                '>', bs.Ui('button', 'danger').S( '@value', "bs.Ui('button','danger')", 'this'),
-                '>', bs.Ui('button', 'link', 'lg').S( '@value', "bs.Ui('button','link','lg')", 'this')
+                '>', bs.Ui('btn').S('html', "bs.Ui('btn')", 'this'),
+                '>', bs.Ui('btn', 'default', 'lg').S( 'html', "bs.Ui('btn','default','lg')", 'this'),
+                '>', bs.Ui('btn', 'primary').S( 'html', "bs.Ui('btn','primary')", 'this'),
+                '>', bs.Ui('btn', 'success', 'sm').S( 'html', "bs.Ui('btn','success','sm')", 'this'),
+                '>', bs.Ui('btn', 'info', 'xs').S( 'html', "bs.Ui('btn','info','xs')", 'this'),
+                '>', bs.Ui('btn', 'warning', 'sm').S( 'html', "bs.Ui('btn','warning','sm')", 'this'),
+                '>', bs.Ui('btn', 'danger').S( 'html', "bs.Ui('btn','danger')", 'this'),
+                '>', bs.Ui('btn', 'link', 'lg').S( 'html', "bs.Ui('btn','link','lg')", 'this')
         )
         ////////////////////////////////////////////////////////////////////////////////////////////
         // 아이콘있는 버튼 구조체
@@ -104,14 +151,14 @@ bs(function() {
         )
 
         panelContents.S(
-                '>', bs.Ui('buttonIcon', 'icon@star').S('html+', ' star', 'this'),
-                '>', bs.Ui('buttonIcon', 'default', 'lg', 'icon@star').S('html+', ' star', 'this'),
-                '>', bs.Ui('buttonIcon', 'primary', 'icon@asterisk').S('html+', ' asterisk', 'this'),
-                '>', bs.Ui('buttonIcon', 'success', 'sm', 'icon@asterisk').S('html+', ' asterisk', 'this'),
-                '>', bs.Ui('buttonIcon', 'info', 'xs', 'icon@remove').S('html+', ' remove', 'this'),
-                '>', bs.Ui('buttonIcon', 'warning', 'sm', 'icon@remove').S('html+', ' remove', 'this'),
-                '>', bs.Ui('buttonIcon', 'danger', 'icon@star').S('html+', ' star', 'this'),
-                '>', bs.Ui('buttonIcon', 'link', 'lg', 'icon@star').S('html+', ' star', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@star').S('html+', ' star', 'this'),
+                '>', bs.Ui('btnIcon', 'default', 'lg', 'icon@star').S('html+', ' star', 'this'),
+                '>', bs.Ui('btnIcon', 'primary', 'icon@asterisk').S('html+', ' asterisk', 'this'),
+                '>', bs.Ui('btnIcon', 'success', 'sm', 'icon@asterisk').S('html+', ' asterisk', 'this'),
+                '>', bs.Ui('btnIcon', 'info', 'xs', 'icon@remove').S('html+', ' remove', 'this'),
+                '>', bs.Ui('btnIcon', 'warning', 'sm', 'icon@remove').S('html+', ' remove', 'this'),
+                '>', bs.Ui('btnIcon', 'danger', 'icon@star').S('html+', ' star', 'this'),
+                '>', bs.Ui('btnIcon', 'link', 'lg', 'icon@star').S('html+', ' star', 'this'),
                 '>', bs.Dom('<div></div>').S('html','반환구조','this'),
                 '>', bs.Dom('<div></div>').S('@class', 'exBase','html','button Tag<br><br>',
                         '>', bs.Dom('<div></div>').S('@class', 'exBase', 'float', 'left', 'html','span tag(icon)','this'),
@@ -128,42 +175,42 @@ bs(function() {
         panel.box.S('<',target)
         panelContents =panel.contents
         bs.Dom('<div></div>').S('<', panelContents, 'display', 'block', 'padding', '0px 0px 10px 0px', 'html',
-                '<li>bs.Ui("buttonGroup")</li>'
+                '<li>bs.Ui("btnGroup")</li>'
         )
-        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('buttonGroup','lg') 버튼그룹자체에 사이즈적용")
-        bs.Ui('buttonGroup', 'lg').S('<', panelContents,
-                '>', bs.Ui('buttonIcon', 'icon@align-left', 'success').S('html+', ' left', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-center', 'success').S('html+', ' center', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-right', 'success').S('html+', ' right', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-justify', 'success').S('html+', ' justify', 'this')
+        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('btnGroup','lg') 버튼그룹자체에 사이즈적용")
+        bs.Ui('btnGroup', 'lg').S('<', panelContents,
+                '>', bs.Ui('btnIcon', 'icon@align-left', 'success').S('html+', ' left', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-center', 'success').S('html+', ' center', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-right', 'success').S('html+', ' right', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-justify', 'success').S('html+', ' justify', 'this')
         )
-        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('buttonGroup') 응용")
-        bs.Ui('buttonGroup').S('<', panelContents,
-                '>', bs.Ui('buttonIcon', 'icon@align-left', 'primary').S('html+', ' left', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-center', 'primary').S('html+', ' center', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-right', 'primary').S('html+', ' right', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-justify', 'primary').S('html+', ' justify', 'this')
+        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('btnGroup') 응용")
+        bs.Ui('btnGroup').S('<', panelContents,
+                '>', bs.Ui('btnIcon', 'icon@align-left', 'primary').S('html+', ' left', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-center', 'primary').S('html+', ' center', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-right', 'primary').S('html+', ' right', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-justify', 'primary').S('html+', ' justify', 'this')
         )
-        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', " bs.Ui('buttonGroup') 응용 내부버튼에 sm적용")
-        bs.Ui('buttonGroup').S('<', panelContents,
-                '>', bs.Ui('buttonIcon', 'icon@align-left', 'success', 'sm').S('html+', ' left', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-center', 'success', 'sm').S('html+', ' center', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-right', 'success', 'sm').S('html+', ' right', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-justify', 'success', 'sm').S('html+', ' justify', 'this')
+        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', " bs.Ui('btnGroup') 응용 내부버튼에 sm적용")
+        bs.Ui('btnGroup').S('<', panelContents,
+                '>', bs.Ui('btnIcon', 'icon@align-left', 'success', 'sm').S('html+', ' left', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-center', 'success', 'sm').S('html+', ' center', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-right', 'success', 'sm').S('html+', ' right', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-justify', 'success', 'sm').S('html+', ' justify', 'this')
         )
-        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', " bs.Ui('buttonGroup') 응용 내부버튼에 xs적용")
-        bs.Ui('buttonGroup').S('<', panelContents,
-                '>', bs.Ui('buttonIcon', 'icon@align-left', 'warning', 'xs').S('html+', ' left', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-center', 'warning', 'xs').S('html+', ' center', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-right', 'warning', 'xs').S('html+', ' right', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-justify', 'warning', 'xs').S('html+', ' justify', 'this')
+        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', " bs.Ui('btnGroup') 응용 내부버튼에 xs적용")
+        bs.Ui('btnGroup').S('<', panelContents,
+                '>', bs.Ui('btnIcon', 'icon@align-left', 'warning', 'xs').S('html+', ' left', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-center', 'warning', 'xs').S('html+', ' center', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-right', 'warning', 'xs').S('html+', ' right', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-justify', 'warning', 'xs').S('html+', ' justify', 'this')
         )
-        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('buttonGroup','vertical') 버튼그룹에 세로형 지정")
-        bs.Ui('buttonGroup', 'vertical').S('<', panelContents,
-                '>', bs.Ui('buttonIcon', 'icon@align-left', 'warning', 'xs').S('html+', ' left', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-center', 'warning', 'xs').S('html+', ' center', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-right', 'warning', 'xs').S('html+', ' right', 'this'),
-                '>', bs.Ui('buttonIcon', 'icon@align-justify', 'warning', 'xs').S('html+', ' justify', 'this')
+        bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', "bs.Ui('btnGroup','vertical') 버튼그룹에 세로형 지정")
+        bs.Ui('btnGroup', 'vertical').S('<', panelContents,
+                '>', bs.Ui('btnIcon', 'icon@align-left', 'warning', 'xs').S('html+', ' left', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-center', 'warning', 'xs').S('html+', ' center', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-right', 'warning', 'xs').S('html+', ' right', 'this'),
+                '>', bs.Ui('btnIcon', 'icon@align-justify', 'warning', 'xs').S('html+', ' justify', 'this')
         )
         ////////////////////////////////////////////////////////////////////////////////////////////
         // 버튼툴바
@@ -174,42 +221,42 @@ bs(function() {
         bs.Dom('<div></div>').S('<', panelContents, 'display', 'block', 'padding', '0px 0px 10px 0px', 'html',
                 '<li>bs.Ui("buttonToolbar") - 말그대로 툴바임 텍스트 에디터위에표면 툴바만드는거처럼</li>'
         )
-        bs.Ui('buttonToolbar').S('<', panelContents,
-                '>', bs.Ui('buttonGroup').S(
-                        '>', bs.Ui('buttonIcon', 'icon@align-left', 'default').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@align-center', 'default').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@align-right', 'default').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@align-justify', 'default').S( 'this'),
+        bs.Ui('btnToolbar').S('<', panelContents,
+                '>', bs.Ui('btnGroup').S(
+                        '>', bs.Ui('btnIcon', 'icon@align-left', 'default').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@align-center', 'default').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@align-right', 'default').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@align-justify', 'default').S( 'this'),
                         'this'
                 ),
-                '>', bs.Ui('buttonGroup').S(
-                        '>', bs.Ui('buttonIcon', 'icon@resize-full', 'default').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@resize-small', 'default').S( 'this'),
+                '>', bs.Ui('btnGroup').S(
+                        '>', bs.Ui('btnIcon', 'icon@resize-full', 'default').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@resize-small', 'default').S( 'this'),
                         'this'
                 ),
-                '>', bs.Ui('buttonGroup').S(
-                        '>', bs.Ui('buttonIcon', 'icon@plus', 'default').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@minus', 'default').S( 'this'),
+                '>', bs.Ui('btnGroup').S(
+                        '>', bs.Ui('btnIcon', 'icon@plus', 'default').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@minus', 'default').S( 'this'),
                         'this'
                 )
         )
         bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10)
-        bs.Ui('buttonToolbar').S('<', panelContents,
-                '>', bs.Ui('buttonGroup').S(
-                        '>', bs.Ui('buttonIcon', 'icon@align-left', 'default', 'xs').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@align-center', 'default', 'xs').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@align-right', 'default', 'xs').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@align-justify', 'default', 'xs').S( 'this'),
+        bs.Ui('btnToolbar').S('<', panelContents,
+                '>', bs.Ui('btnGroup').S(
+                        '>', bs.Ui('btnIcon', 'icon@align-left', 'default', 'xs').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@align-center', 'default', 'xs').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@align-right', 'default', 'xs').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@align-justify', 'default', 'xs').S( 'this'),
                         'this'
                 ),
-                '>', bs.Ui('buttonGroup').S(
-                        '>', bs.Ui('buttonIcon', 'icon@resize-full', 'default', 'xs').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@resize-small', 'default', 'xs').S( 'this'),
+                '>', bs.Ui('btnGroup').S(
+                        '>', bs.Ui('btnIcon', 'icon@resize-full', 'default', 'xs').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@resize-small', 'default', 'xs').S( 'this'),
                         'this'
                 ),
-                '>', bs.Ui('buttonGroup').S(
-                        '>', bs.Ui('buttonIcon', 'icon@plus', 'default', 'xs').S( 'this'),
-                        '>', bs.Ui('buttonIcon', 'icon@minus', 'default', 'xs').S( 'this'),
+                '>', bs.Ui('btnGroup').S(
+                        '>', bs.Ui('btnIcon', 'icon@plus', 'default', 'xs').S( 'this'),
+                        '>', bs.Ui('btnIcon', 'icon@minus', 'default', 'xs').S( 'this'),
                         'this'
                 )
         )
@@ -220,7 +267,7 @@ bs(function() {
         panel.box.S('<',target)
         panelContents =panel.contents
         bs.Ui('form').S('<', panelContents,
-                '>', bs.Ui('button', 'primary').S('@value', "bs.Ui('button','primary')", 'this'),
+                '>', bs.Ui('button', 'primary').S('@value', "bs.Ui('btn','primary')", 'this'),
                 '>', bs.Ui('email').S('@value', "bs.Ui('email')", 'this'),
                 '>', bs.Ui('text').S('@value', "bs.Ui('text')", 'this'),
                 '>', bs.Ui('password').S('@value', "bs.Ui('password')", 'this'),
@@ -411,11 +458,11 @@ bs(function() {
         bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', '고민2. 음 일단 API를 좀더 고민해야것음...먼가 많이 불편해질듯한데')
         bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', '고민3. API가 확정되면 완전 중앙 정렬도 도입')
         bs.Dom('<div></div>').S('<', panelContents, 'margin-top', 10, 'html', '고민4. 모바일에서 다이알로그가 애매하군....모바일일때는 가로 100%에 적당히 맞춰주는 기능이 필요한겐가')
-        bs.Ui('button', 'default').S('@value', '다이얼로그 띄우기', 'mousedown', function($e){
+        bs.Ui('btn', 'default').S('html', '다이얼로그 띄우기', 'mousedown', function($e){
             var txt="bs.Ui('dialog', 'title', '타이틀입니당', 'contents', 'txt').box.S('width',500,'left',$e.x,'top',$e.y)"
             bs.Ui('dialog', 'title', '타이틀입니당', 'contents', txt).box.S('width', 500, 'left', $e.x, 'top', $e.y)
         }, '<', panelContents)
-        bs.Ui('button', 'default').S('@value', '다이얼로그 띄우기(중앙)', 'mousedown', function($e){
+        bs.Ui('btn', 'default').S('html', '다이얼로그 띄우기(중앙)', 'mousedown', function($e){
             var txt="bs.Ui('dialog', 'title', '타이틀입니당', 'contents', 'txt').box.S('width',500)"
             bs.Ui('dialog', 'title', '타이틀입니당', 'contents', txt).box.S('width', 500)
         }, '<', panelContents)
@@ -464,16 +511,19 @@ bs.Ui=(function() {
         headID.appendChild(css);
         return css
     }
-
+    var idx = 0
     cssLoad('//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css');
     var theme=cssLoad('//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css','__bsTheme');
     return function() {
-        var add=arguments[1] ? arguments[1] : '',pre=" "
+        var add='',pre=" "
         switch(arguments[0]){
+            case 'btn' : pre=' btn-' ;break
             case 'button' : pre=' btn-' ;break
+            case 'submit' : pre=' btn-' ;break
+            case 'reset' : pre=' btn-' ;break
+            case 'btnIcon' : pre=' btn-';break
+            case 'btnGroup' : pre=' btn-group-';break
             case 'label' : pre=' label-' ;break
-            case 'buttonIcon' : pre=' btn-';break
-            case 'buttonGroup' : pre=' btn-group-';break
             case 'inputGroup' : pre=' input-group-';break
             case 'alert' : pre=" alert-" ;break
             case 'panel' : pre=" panel-" ;break
@@ -485,8 +535,8 @@ bs.Ui=(function() {
                 return
             case 'icon' :return bs.Dom('<span></span>').S('@class','glyphicon glyphicon-' + add,'this')
             case "form" :return bs.Dom('<form></form>').S('@class',add,'this')
-            case "submit" :return bs.Dom('<input type="submit"/>').S('@class','btn btn-' + add,'this')
-            case "reset" :return bs.Dom('<input type="reset"/>').S('@class','btn btn-' + add,'this')
+            case "submit" :return bs.Dom('<input type="submit"/>').S('@class','btn' + add,'this')
+            case "reset" :return bs.Dom('<input type="reset"/>').S('@class','btn' + add,'this')
             case "text" :return bs.Dom('<input type="text"/>').S('@class','form-control','@placeholder','textField','this')
             case "email" :return bs.Dom('<input type="email"/>').S('@class','form-control','@placeholder','email','this')
             case "password" :return bs.Dom('<input type="password"/>').S('@class','form-control','@placeholder','password','this')
@@ -507,14 +557,33 @@ bs.Ui=(function() {
             case "inputGroup" :return bs.Dom('<div></div>').S('@class','input-group ' + add,'this')
             case "inputAddon" :return bs.Dom('<div class="input-group-addon"></div>')
 
-            case "buttonToolbar" :return bs.Dom('<div class="btn-toolbar" role="toolbar"></div>')
-            case "buttonGroup" :return bs.Dom('<div></div>').S('@class','btn-group ' + add,'this')
-            case "button" :return bs.Dom('<input type="button"/>').S('@class','btn btn-' + add,'this')
-            case "buttonIcon" : {
-                var result = bs.Dom('<button type="button"></button>').S('@class','btn btn-' + add,'html','<span class="glyphicon glyphicon-'+etcs['icon']+'"></span>','this')
-                return result
-            }
+            case "btnToolbar" :return bs.Dom('<div class="btn-toolbar" role="toolbar"></div>')
+            case "btnGroup" :return bs.Dom('<div></div>').S('@class','btn-group' + add,'this')
+            case 'btn' :return bs.Dom('<button type="button"/>').S('@class','btn' + add,'this')
+            case 'button' :return bs.Dom('<input type="button"/>').S('@class','btn' + add,'this')
+            case "btnIcon" : return bs.Dom('<button type="button"></button>').S('@class','btn' + add,'html','<span class="glyphicon glyphicon-'+etcs['icon']+'"></span>','this')
             case "alert" :return bs.Dom('<div></div>').S('@class','alert alert-' + add,'this')
+
+            case "dropdown" :
+                var result = {}
+                result.box = bs.Ui('btnGroup')
+                result.title =bs.Ui('btn', 'default').S(
+                        'class+','dropdown-toggle','@id','aria-labelledby'+ ++idx,
+                        'mousedown',function($e){
+                            var t0 = result.box['0'].parentNode
+                            result.box.S('class').indexOf('open')> -1 ? result.box.S('class-','open') : result.box.S('class+','open')
+                            if(t0.className.indexOf('btn-group')>-1){
+                                t0['active'] ? t0['active'].S('class-','open') : null
+                                t0['active'] = t0['active'] == result.box ? null : result.box
+                            }
+                        },
+                        'html','dropdown','@data-toggle','dropdown',
+                        'this'
+                )
+                result.item = bs.Dom('<ul></ul>').S('class','dropdown-menu','@roll','menu','@aria-labelledby','aria-labelledby'+idx, 'this')
+                result.box.S('>', result.title,'>',result.item)
+                return result
+
             case "dialog" :
                 //TODO 다이알로그 일단 구현해보자 -0-
                 //TODO 부트스트랩 IE7에서 먼가 렌더링문제가 -_- 있는듯한데?
