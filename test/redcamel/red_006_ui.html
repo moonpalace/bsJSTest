@@ -14,7 +14,7 @@
 </head>
 
 <body>
-<script src="../../../bsJS/bs/bsjs.js"></script>
+<script src="http://projectbs.github.io/bsJS/bs/bsjs.js"></script>
 
 <div class="_CLEAR"></div>
 <script>
@@ -38,19 +38,28 @@ bs(function() {
         bs.Dom('<div></div>').S('<', panelContents, 'html',
                 "<li>bs.Ui는 부트스트랩 css를 기본적으로 사용하며 테마파일 적용을 지원합니다.(1차적용완료)</li>"+
                         "<li><b>(1차완료)</b> 일단 기본 form 양식부터 해결</li>"+
-                        "<li>확장 기본 단위UI 결정 및 개발(ex - 스피너/온오프버튼..등등 기본이 되는단위부터(아마 이쯤에서 플러그인화 될듯)</li>"+
-                        "<li><b>(1차완료)</b> 버튼아이콘 / 버튼 그룹/ 버튼 그룹 툴바 / alert</li>"+
-                        '<ol>- 아이콘있는 버튼 및 컨테이너 형태에대해서 정의해야할듯하고</ol>'+
-                        "<li>확장 레이아웃 단위 UI 결정 및 개발(에디드온으로 갈지 플러그인으로 걍 다떄려박을지는 몰것네용,여튼먼가 복잡한형태에 대한 확장)</li>"+
-                        '<ol>- 최종테크는 역시 네비인가..</ol>'+
-                        '<ol>- tabs</ol>'+
-                        '<ol>- 얼마전에 올린 링크리스트 같은거..도 가능하것고..(갤러리의 원형이 되것지..갤러리는 아예 bs.Ui를 의존하는 새로운 플러그인화될지도)</ol>'+
-                        '<li>아마도 확장단위부터는 생성후 오브젝트를 반환하는 형식이될듯<br> {<br>  box:랩퍼컨테이너(bsDom),<br>  contents:[요소1(bsDom),요소2(bsDom)] // 요소명을 다 네이밍화하기엔 버거움 배열로 일단 생각중<br> }</li>'+
-                        "<li>자 추가할 리스트 생각나는게 있으면 적으시라~~~</li>"
+                        "<li>기본단위 목업은 완료되어가는듯</li>"+
+                        "<li>S매서드로 다태울지 2분화 할지 결정해야됨</li>"
+
                 , 'display', 'block', 'padding', '0px 0px 10px 0px')
 
         ///여기서 부터 보심됩니다 -0-;;
 
+
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // Breadcrumbs
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        panel=bs.Ui('panel', 'default', 'title@Breadcrumbs')
+        panel.box.S('<', target)
+        panelContents=panel.contents
+        var a=bs.Ui('breadcrumb').S('<', panelContents,'this')
+        a.addItem( {link: '#', title: 'Home'})
+        a.addItem( {link: '#', title: 'Library'})
+        a.addActiveItem( {link: '#', title: 'last'})
+        bs.Dom('<div></div>').S('<', panelContents, 'display', 'block', 'padding', '0px 0px 10px 0px', 'html',
+                "<li>음 이런 방법도 있긴한데..S매서드에 어케 태우지 -_-</li>"
+        );
+        
         ////////////////////////////////////////////////////////////////////////////////////////////
         // 드롭다운
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,6 +104,25 @@ bs(function() {
 
         bs.Dom('<div>반환 오브젝트 : </div>').S('<', panelContents, 'margin-top', 10, 'html+','box:전체박스, title:타이틀버튼, item:서브메뉴넣을 컨테이너')
 
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        // 툴팁
+        ////////////////////////////////////////////////////////////////////////////////////////////
+        panel=bs.Ui('panel', 'default', 'title@툴팁')
+        panel.box.S('<', target)
+        panelContents=panel.contents
+
+        bs.Dom('<div></div>').S('<', panelContents, 'html', '일단 btnTooltip에서만 가능-가능한 모든놈에서 가능하도록 생각좀 해보는중')
+        bs.Ui('btnTooltip', 'dafault', 'direction@left', 'tooltip@왼쪽!').S('<', panelContents, 'html', 'left')
+        bs.Ui('btnTooltip', 'dafault', 'direction@right', 'tooltip@오른쪽!').S('<', panelContents, 'html', 'right')
+        bs.Ui('btnTooltip', 'dafault', 'direction@top', 'tooltip@상단!').S('<', panelContents, 'html', 'top')
+        bs.Ui('btnTooltip', 'dafault', 'direction@bottom', 'tooltip@하단!!').S('<', panelContents, 'html', 'bottom')
+
+        bs.Dom('<div></div>').S('<', panelContents, 'height', 20)
+
+        bs.Ui('btnTooltip', 'direction@left', 'tooltip@툴팁아나와라!툴팁도 열라 길어지면 어떻게되는거야?!').S('<', panelContents, 'html', 'left')
+        bs.Ui('btnTooltip', 'direction@right', 'tooltip@툴팁아나와라!툴팁도 열라 길어지면 어떻게되는거야?!').S('<', panelContents, 'html', 'right')
+        bs.Ui('btnTooltip', 'direction@top', 'tooltip@툴팁아나와라!툴팁도 열라 길어지면 어떻게되는거야?').S('<', panelContents, 'html', '이게 엄청길어지면 어떠한 사태가 일어나지?')
+        bs.Ui('btnTooltip', 'direction@bottom', 'tooltip@툴팁아나와라!툴팁도 열라 길어지면 어떻게되는거야?!').S('<', panelContents, 'html', 'bottom')
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////
@@ -541,13 +569,12 @@ bs.Ui=(function() {
             case "email" :return bs.Dom('<input type="email"/>').S('@class','form-control','@placeholder','email','this')
             case "password" :return bs.Dom('<input type="password"/>').S('@class','form-control','@placeholder','password','this')
 
-
             case "panel" :
                 etcs['title'] = etcs['title'] ? etcs['title'] : ''
                 etcs['contents'] = etcs['contents'] ? etcs['contents'] : ''
                 var box =  bs.Dom('<div></div>').S('@class','panel '+add,'this')
-                var title = bs.Dom('<div class="panel-heading"">'+etcs['title']  +'</div>')
-                var contents = bs.Dom('<div class="panel-body">'+etcs['contents']+'</div>')
+                var title = bs.Dom('<div class="panel-heading""></div>').S('html',etcs['title'],'this')
+                var contents = bs.Dom('<div class="panel-body"></div>').S('html',etcs['contents'],'this')
                 box.S('>', title,'>', contents,'this')
                 return {box:box,title:title,contents:contents}
 
@@ -563,6 +590,13 @@ bs.Ui=(function() {
             case 'button' :return bs.Dom('<input type="button"/>').S('@class','btn' + add,'this')
             case "btnIcon" : return bs.Dom('<button type="button"></button>').S('@class','btn' + add,'html','<span class="glyphicon glyphicon-'+etcs['icon']+'"></span>','this')
             case "alert" :return bs.Dom('<div></div>').S('@class','alert alert-' + add,'this')
+
+            case 'breadcrumb' :
+                var result = bs.Dom('<ol></ol>')
+                result.S('@class','breadcrumb')
+                result.addItem = function(v){console.log(v),result.S('>',bs.Dom('<li></li>').S('html','<a href="' +v.link+'">'+v.title+'</a>','this'))}
+                result.addActiveItem = function(v){result.S('>',bs.Dom('<li></li>').S('@class','active','html',v.title,'this'))}
+                return result
 
             case "dropdown" :
                 var result = {}
@@ -583,6 +617,30 @@ bs.Ui=(function() {
                 result.item = bs.Dom('<ul></ul>').S('class','dropdown-menu','@roll','menu','@aria-labelledby','aria-labelledby'+idx, 'this')
                 result.box.S('>', result.title,'>',result.item)
                 return result
+
+            case "btnTooltip" :
+                var  direction =  etcs['direction'] ? etcs['direction'] : 'top'
+                var  tooltip =  etcs['tooltip'] ? etcs['tooltip'] : ''
+                return  bs.Ui('btn', 'default').S( '@data-toggle', 'tooltip','@data-placement', direction,
+                        'mouseover', function($e) {
+                            var t = bs.Dom(this),arrow = bs.Dom('<div></div>').S('@class','tooltip-arrow','this'),inner = bs.Dom('<div></div>').S('@class','tooltip-inner','html',tooltip, '>',arrow,'this')
+                            if(t.S('@tooltip')) return
+                            else t.S('@tooltip',bs.Dom('<div></div>').S('@class', 'tooltip fade '+direction+' in','display','block','>',inner,'<','body','this'))
+                            var x, y,t0=inner[0].clientWidth,t1=t[0].clientWidth,t2=t[0].clientHeight,t3=inner[0].clientHeight
+                            var ee = $e.event
+                            switch(direction){
+                                case 'left' :x = $e.$x-ee.offsetX-t0-arrow['0'].offsetWidth-5,y=$e.$y-ee.offsetY+t2/2-t3/2;break
+                                case 'right' :x = $e.$x-ee.offsetX+t1+5,y = $e.y-ee.offsetY+t2/2-t3/2;break
+                                case 'top' :x = $e.$x-ee.offsetX+t1/2-t0/2,y = $e.y-ee.offsetY-t3-arrow['0'].offsetHeight-5;break
+                                case 'bottom' :x = $e.$x-ee.offsetX+t1/2-t0/2,y = $e.y-ee.offsetY+t2+5;break                            }
+                            t.S('@tooltip').S( 'left' ,x,'top',y)
+                        },
+                        'mouseout', function($e) {
+                            var t =bs.Dom(this).S('@tooltip')
+                            console.log(t)
+                            if(t) t.S(null),bs.Dom(this).S('@tooltip',null)
+                        },'this'
+                )
 
             case "dialog" :
                 //TODO 다이알로그 일단 구현해보자 -0-
