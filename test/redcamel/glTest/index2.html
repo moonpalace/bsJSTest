@@ -30,12 +30,10 @@
 var gl;
 // 지엘 초기화
 function initGL(canvas) {
-    try {
-        gl = canvas.getContext("webgl");
-        gl.viewportWidth = canvas.width,gl.viewportHeight = canvas.height;
-    } catch (e) {
-    }
-    if (!gl) alert("Could not initialise WebGL, sorry :-(");
+    gl=canvas.getContext('webgl')||canvas.getContext("experimental-webgl");
+    console.log(gl)
+    if(gl==undefined) return alert('지원안되!')
+    gl.viewportWidth = canvas.width,gl.viewportHeight = canvas.height;
 }
 
 // 자바스크립트로 쉐이더 만들고 지퓨한테 컴파일만 맡깁니다.

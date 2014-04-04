@@ -26,12 +26,10 @@
 <script type="text/javascript">
 var gl;
 function initGL(canvas) {
-    try {
-        gl = canvas.getContext("webgl");
-        gl.viewportWidth = canvas.width,gl.viewportHeight = canvas.height;
-    } catch (e) {
-    }
-    if (!gl) alert("Could not initialise WebGL, sorry :-(");
+    gl=canvas.getContext('webgl')||canvas.getContext("experimental-webgl");
+    console.log(gl)
+    if(gl==undefined) return alert('지원안되!')
+    gl.viewportWidth = canvas.width,gl.viewportHeight = canvas.height;
 }
 
 function getShader(gl, id) {
