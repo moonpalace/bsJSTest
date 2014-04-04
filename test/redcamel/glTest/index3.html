@@ -133,9 +133,9 @@ function drawScene() {
     gl.drawElements(gl.TRIANGLES, teapotVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
 
 
-    for(var i=0; i<30; i++){
+    for(var i=0; i<100; i++){
         mat4.identity(mvMatrix);
-        mat4.translate(mvMatrix, [Math.sin(time+i)*55, Math.cos(time+i)*55,-50-10*i]);
+        mat4.translate(mvMatrix, [Math.sin(time+i)*55, Math.cos(time+i)*55,-50-5*i]);
         gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, teapotVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.uniform4fv(shaderProgram.color, [Math.random(),Math.random(),Math.random(),1]);
