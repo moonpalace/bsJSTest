@@ -46,7 +46,7 @@
             else if(shaderScript.type=="x-shader/x-vertex") shader=gl.createShader(gl.VERTEX_SHADER);
             else return null;
 
-            // 지퓨쉐이더에 소스랑 쉐이더를
+            // 지퓨쉐이더에 소스랑 쉐이더를 컴파일 시킴...(gl은 노예...)
             gl.shaderSource(shader, str);
             gl.compileShader(shader);
 
@@ -213,8 +213,6 @@
             setInterval(drawScene, 16)
         }
     </script>
-
-
 </head>
 
 <body onload="webGLStart();">
