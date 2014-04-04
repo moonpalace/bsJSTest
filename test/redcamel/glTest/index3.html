@@ -120,9 +120,7 @@ function drawScene() {
     time +=0.01
     mat4.identity(mvMatrix);
     mat4.translate(mvMatrix, [0.0, 0.0, -50]);
-    mat4.rotateY(mvMatrix,time)
-    mat4.rotateX(mvMatrix,time)
-    mat4.rotateZ(mvMatrix,time)
+
     gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
     gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, teapotVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
     gl.uniform4fv(shaderProgram.color, [Math.random(),Math.random(),Math.random(),1]);
@@ -135,7 +133,10 @@ function drawScene() {
 
     for(var i=0; i<100; i++){
         mat4.identity(mvMatrix);
-        mat4.translate(mvMatrix, [Math.sin(time+i)*55, Math.cos(time+i)*55,-50-5*i]);
+        mat4.translate(mvMatrix, [Math.sin(time+i)*55, Math.cos(time+i)*55,-50-3*i]);
+        mat4.rotateY(mvMatrix,time+i)
+        mat4.rotateX(mvMatrix,time+i)
+        mat4.rotateZ(mvMatrix,time+i)
         gl.bindBuffer(gl.ARRAY_BUFFER, teapotVertexPositionBuffer);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, teapotVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.uniform4fv(shaderProgram.color, [Math.random(),Math.random(),Math.random(),1]);
