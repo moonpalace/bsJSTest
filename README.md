@@ -34,6 +34,13 @@ bsJSTest의 모든 Test는 bsJS 연구 나무의 bsjs.js를 상대 경로로 참
 bsJS의 사용법은 <a href='https://github.com/projectBS/bsJS/blob/gh-pages/README.md' target='_blank'><b>여기</b></a>를 참조하세요.
 
 
+## bsJSTest의 Push 권한 얻기
+
+로컬에서만 놀지 마시고 bsJSTest에 직접 올리면서 마음껏 테스트해보세요.
+
+Push 권한을 얻으려면 <a href='https://www.facebook.com/photo.php?fbid=828142343867893' target='_blank'><b>여기</b></a>에 GitHub의 아이디와 함께 'bsJSTest Push 권한 주세요'라고 댓글 달아주시면 처리해 드립니다.
+
+
 ## bsJSTest GitHub 페이지에서 마음껏 테스트 하기
 
     bsJSTest
