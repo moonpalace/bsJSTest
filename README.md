@@ -1,56 +1,73 @@
-﻿bsJS
+bsJSTest
 ===
 
-JavaScript lib for DOM, CORE, utility and so on
+Test whatever you want using bsJS!!
 
-## 시작하기
+## bsJSTest 구경 하기
 
-1. 문서의 아무 곳이나 스크립트태그를 통해 bs를 삽입합니다.
-    ```
-    <script src="http://projectbs.github.io/bsJS/bs/bsjs.js"></script>
-    ```
+<a href='http://projectbs.github.io/bsJSTest/test/' target='_blank'>bsJSTest</a>
 
-2. 삽입한 이 후에는 다음과 같은 형식으로 bs를 사용합니다.
-    ```
-    <script>
-    bs( function(){
-    	// 여기에 소스
-    } );
-    </script>
-    ```
+## bsJSTest 내려 받기
 
-3. 간단히 dom을 생성하고 스타일과 내용, 이벤트 리스너를 일시에 지정해 봅니다.
-    ```
-    <script>
-    bs( function(){
-    	bs.Dom( '<div></div>' ).S( 
-    		'<', 'body', // 부모를 body로
-    		'html', '안녕', // html을 넣어준다
-    		'width', 300, // 스타일을 지정한다.
-    		'click', function( $e ){alert(1);} // 이벤트를 지정한다.
-    	);
-    } );
-    </script>
-    ```
+bsJSTest의 모든 Test는 bsJS 연구 나무의 bsjs.js를 상대 경로로 참조하고 있습니다.
 
-## Documents
-### Wiki
-[bsJS Wiki](https://github.com/projectBS/bsJS/wiki)
-### APIs
-* bs core [[ko](https://github.com/projectBS/bsJS/wiki/doc1-core)][[ja](https://github.com/projectBS/bsJS/wiki/doc1-core-ja)]  
-* bs base function [[ko](https://github.com/projectBS/bsJS/wiki/doc2-base-function)][[ja](https://github.com/projectBS/bsJS/wiki/doc2-base-function-ja)]  
-* bs Dom [[ko](https://github.com/projectBS/bsJS/wiki/doc3-Dom)][[ja](https://github.com/projectBS/bsJS/wiki/doc3-Dom-ja)]  
-* bs Unit Test [[ko](https://github.com/projectBS/bsJS/wiki/Unit-Test-of-BS-ko)][[ja](https://github.com/projectBS/bsJS/wiki/Unit-Test-of-BS-ja)]  
-* Structure of BS [[ko](https://github.com/projectBS/bsJS/wiki/Structure-of-BS)][[ja](https://github.com/projectBS/bsJS/wiki/Structure-of-BS-ja)]  
+그래서 bsJSTest를 내려 받아 로컬에서 사용해보려면 bsJSTest뿐 아니라 bsJS도 모두 아래와 같이 같은 폴더 아래에 받아야 합니다.
 
-### [showcase page](http://projectbs.github.io/bsShowCase/)  
+    ANY-FOLDER
+          └----bsJS           
+          └----bsJSTest
+          └----bsShowCase (이건 선택)
 
-### [demo(test) page](http://projectbs.github.io/bsTest/test/)
+구체적으로 말씀드리면 `ANY-FOLDER`에서 
 
-## License
-Dual licensed under the MIT or GPL Version 2 licenses.  
+>git clone https://github.com/projectBS/bsJS.git
 
-## Contact us
-#### [facebook group](https://www.facebook.com/groups/bs5js/?hc_location=stream)  
+>git clone https://github.com/projectBS/bsJSTest.git
 
-Copyright 2013.10 projectBS committee.
+>git clone https://github.com/projectBS/bsShowCase.git
+
+를 모두 수행하시면 됩니다.
+
+
+## bsJS 사용하기
+
+bsJS의 사용법은 <a href='https://github.com/projectBS/bsJS/blob/gh-pages/README.md' target='_blank'><b>여기</b></a>를 참조하세요.
+
+
+## bsJSTest의 Push 권한 얻기
+
+로컬에서만 놀지 마시고 bsJSTest에 직접 올리면서 마음껏 테스트해보세요.
+
+Push 권한을 얻으려면 <a href='https://www.facebook.com/photo.php?fbid=828142343867893' target='_blank'><b>여기</b></a>에 GitHub의 아이디와 함께 'bsJSTest Push 권한 주세요'라고 댓글 달아주시면 처리해 드립니다.
+
+
+## bsJSTest GitHub 페이지에서 마음껏 테스트 하기
+
+    bsJSTest
+        └----test
+              └----YOUR_GITHUB_ID
+        
+위와 같이 `bsJSTest>test` 폴더 아래에 `GITHUB 아이디`를 이름으로 하는 폴더를 만들고, 그 안에서 자유롭게 마음껏 만드시고 `http://projectbs.github.io/bsJSTest/test/YOUR_GITHUB_ID/YOUR_FILE` 로 접근하면 만든 것을 확인할 수 있습니다.
+
+
+## bsJSTest 테스트 케이스 만들기
+
+만들고 확인하는 것뿐 아니라 테스트 케이스를 만드실 수도 있습니다.
+
+1. `bsJSTest>test` 폴더에 이미 만들어져있는 다른 테스트 케이스를 참고하셔서 만드신 후, 
+2. `bsJSTest>test>suite.txt` 파일에 만드신 테스트 케이스 파일 이름을 추가하시면,
+3. <a href='http://projectbs.github.io/bsJSTest/test/' target='_blank'>bsJSTest</a>에 등록되어 확인할 수 있습니다.
+
+
+
+# License
+
+bsJS는 <a href='http://opensource.org/licenses/MIT' target='_blank'><b>MIT 라이선스</b></a> 또는 <a href='http://www.gnu.org/licenses/gpl-2.0.html' target='_blank'><b>GPL v2 라이선스</b></a>로 배포되는 Open Source Software 입니다.
+
+# Contact us
+
+<a href='https://www.facebook.com/groups/bs5js/' target='_blank'>bsJS Facebook Group</a>
+
+
+----------
+Copyrightⓒ 2013, ProjectBS Committee. All rights reserved.
