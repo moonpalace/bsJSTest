@@ -1,4 +1,5 @@
 bs.ajax.html
+bs.bsTest.html
 bs.Css.html
 bs.Dom.html
 bs.detect.html
