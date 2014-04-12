@@ -2,7 +2,7 @@ var bsTest = (function(){
 	var f2s, compare, js,
 		id, isOK, title2id,
 		printer, result, test, 
-		isNode, con, conStyles;
+		isNode, con;
 	f2s = (function(){
 		var r0 = /</g, r1 = /\t/g;
 		return function(f){
@@ -42,7 +42,7 @@ var bsTest = (function(){
 			case'in':return t0[0] = 'of [' + t.join(',') +']', t0[1] = t.indexOf(o) > -1 ? 1 : 0, t0;
 			case'not':return t0[0] = '!= ' + t[0], t0[1] = o !== t[0] ? 1 : 0, t0;
 			case'item':return t0[0] = '== ' + t, t0[1] = deepCompare( t, o ), t0;
-			case'range':return t0[0] = '( ' + t[0] + ' ~ ' + t[1] + ' ) ', t0[1] = t[0] <= o && o <= t[1], t0;
+			case'range':return t0[0] = '( ' + t[0] + ' ~ ' + t[1] + ' ) ', t0[1] = ( t[0] < t[1] ? t[0] : t[1] ) <= o && o <= ( t[0] < t[1] ? t[1] : t[0] ), t0;
 			default:return t0[0] = t, t0[1] = o, t0;
 			}
 		};
