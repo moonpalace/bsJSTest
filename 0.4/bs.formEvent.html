@@ -14,7 +14,6 @@
 </head>
 <body>
 <div id="stage">옵션을 선택하면 얼러트가 떠야함 0.4에서 에러!</div>
-<script src="../../bsJS/bsjs.0.4.js"></script>
 <div style="position:absolute; height:50px;background:#fff;font-size:30px">블렌드모드
     <select id="blendMode" style="font-size:20px">
         <option>NORMAL</option>
@@ -38,10 +37,19 @@
         <option>EXCLUSION</option>
     </select>
 </div>
+<div id="result"></div>
+<div id="test"></div>
+<script src="../../bsJS/bsjs.0.4.js"></script>
+<script src="../bsTest.js"></script>
+<script src="../0.3/printer.js"></script>
 <script>
+bs.debug(1);
 bs( function(){
-    bs.Dom('#blendMode').S('change', function($e) {
-      alert(this.selectedOptions[0].innerHTML)
+    bs.Dom('#blendMode').S('change', function(e){
+		var t0 = this.selectedOptions[0].innerHTML;
+		bsTest( '변경시마다 체크', function(){
+			return t0;
+		}, this.selectedOptions[0].innerHTML );
     })
 } );
 </script>
