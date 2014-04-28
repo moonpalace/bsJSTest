@@ -9,6 +9,7 @@
 <br/>
 <input type='text' id='keyword2'>
 </form>
+<div id='btnArea'></div>
 <hr>
 <span id='result'></span>
 <script src="http://projectbs.github.io/bsJS/bsjs.0.3.js"></script>
@@ -16,14 +17,14 @@
 bs( function(){
 var xhr = getXHR();
 bs.Dom( '<div></div>' ).S( 
-    '<', 'body', // body를 부모로
+    '<', '#btnArea', // body를 부모로
     'html', 'bsCORS', // html 입력
     'width', 300, // 스타일 지정
     'click', bsCORS // 이벤트 등록
 );
     
 bs.Dom( '<div></div>' ).S( 
-    '<', 'body', // body를 부모로
+    '<', '#btnArea', // body를 부모로
     'html', 'directCORS', // html 입력
     'width', 300, // 스타일 지정
     'click', directCORS // 이벤트 등록
