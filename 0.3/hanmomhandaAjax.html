@@ -27,22 +27,26 @@ bs.Dom( '<div></div>' ).S(
     'click', directCORS // 이벤트 등록
 );
 function end(data) {
-    console.log(data);
+//    console.log(data);
+    bs.Dom( '<div></div>').S(
+        '<', 'body',
+        'html', data
+    );
 }
 
 function bsCORS() {
 //    console.log(document.forms[0].elements[0].value);
 //    console.log(document.forms[0].action);
 
-//    bs.post(end, 'http://hanmomhanda-apex-mint/bsCORS/bsCORS.php', 
-//            'url', document.forms[0].action, 
-//            'p1', document.forms[0].elements[0].value,
-//            'p2', document.forms[0].elements[1].value);
+    bs.post(end, 'http://hanmomhanda-apex-mint/bsCORS/bsCORS.php', 
+            'url', document.forms[0].action, 
+            'p1', document.forms[0].elements[0].value,
+            'p2', document.forms[0].elements[1].value);
 //    var xhr = getXHR();
-    xhr.onreadystatechanged = handleStateChange;
-    xhr.open("POST", 'http://api.bsplugin.com/corsproxy/test/bsCORS.php', true);
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-    xhr.send('p1=' + document.forms[0].elements[0].value + '&p2=' + document.forms[0].elements[1].value);
+//    xhr.onreadystatechanged = handleStateChange;
+//    xhr.open("POST", 'http://api.bsplugin.com/corsproxy/test/bsCORS.php', true);
+//    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+//    xhr.send('p1=' + document.forms[0].elements[0].value + '&p2=' + document.forms[0].elements[1].value);
 }
 
 function directCORS() {
