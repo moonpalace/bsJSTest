@@ -14,11 +14,16 @@
 </head>
 <body>
 <div id="stage">창을 리사이즈하면 메시지가 콘솔로 떠야함 초기한번만 뜨고있음 0.4버전에서</div>
+<div id="result"></div>
+<div id="test"></div>
 <script src="../../bsJS/bsjs.0.4.js"></script>
+<script src="../bsTest.js"></script>
+<script src="../0.3/printer.js"></script>
 <script>
+bs.debug(1);
 bs( function(){
 	bs.WIN.sizer(function(){
-        console.log('변경될때마다 나와야되!')
+		bsTest( '변경시마다 체크', function(){return 1;}, 1 );
     })
 } );
 </script>
