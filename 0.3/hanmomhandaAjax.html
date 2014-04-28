@@ -4,7 +4,7 @@
 <meta charset='utf-8'> 
 </head>
 <body>
-<form method='post' action='http://hanmomhanda-apex-mint/bsCORS/mockTarget.php'>
+<form method='post' action='http://api.bsplugin.com/corsproxy/test/mockTarget.php'>
 <input type='text' id='keyword1'>
 <br/>
 <input type='text' id='keyword2'>
@@ -40,7 +40,7 @@ function bsCORS() {
 //            'p2', document.forms[0].elements[1].value);
 //    var xhr = getXHR();
     xhr.onreadystatechanged = handleStateChange;
-    xhr.open("POST", 'http://hanmomhanda-apex-mint/bsCORS/bsCORS.php', true);
+    xhr.open("POST", 'http://api.bsplugin.com/corsproxy/test/bsCORS.php', true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     xhr.send('p1=' + document.forms[0].elements[0].value + '&p2=' + document.forms[0].elements[1].value);
 }
