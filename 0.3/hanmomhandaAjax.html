@@ -9,6 +9,8 @@
 <br/>
 <input type='text' id='keyword2'>
 </form>
+<hr>
+<span id='result'></span>
 <script src="http://projectbs.github.io/bsJS/bsjs.0.3.js"></script>
 <script>
 bs( function(){
@@ -27,11 +29,13 @@ bs.Dom( '<div></div>' ).S(
     'click', directCORS // 이벤트 등록
 );
 function end(data) {
+    var r = document.getElementById('result');
+    r.innerHTML(data);
 //    console.log(data);
-    bs.Dom( '<div></div>').S(
-        '<', 'body',
-        'html', data
-    );
+//    bs.Dom( '<div></div>').S(
+//        '<', 'body',
+//        'html', data
+//    );
 }
 
 function bsCORS() {
