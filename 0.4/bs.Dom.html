@@ -17,6 +17,7 @@
 <div class="clsStage" style="display:none;">test stage</div>
 <div class="clsStage" style="display:none;">test stage</div>
 <div id="stageHika"></div>
+<div id="stageHtml"></div>
 <div id="result"></div>
 <div id="test"></div>
 <script src="../../bsJS/bsjs.0.4.js"></script>
@@ -24,13 +25,18 @@
 <script src="../0.3/printer.js"></script>
 <script>
 bs.debug(1);
-bs( function(){
+bs( function(){ 
 	bsTest.tear( '스타일설정', function(){
 		bs.Css( '#stage' ).S( 'border', '1px solid #f00', 'margin-top', 30, 'width', '50:%', 'padding', 10 );
 		bs.Css( '#stage' ).S( 'width', 100 );
 		bs.Dom( '#stage' ).S( 'background-color', '#eee' );
 		bs.Dom( '#stage' ).S( 'class', 'cls1' );
 	} );
+	bsTest( 'html',
+		function(){
+			return bs.Dom('#stageHtml').S( 'html', '{test}' );
+		}, '{test}'
+	),
 	bsTest( 'dom selector',
 		"bs.Dom( '#stage' ).S('_margin-top' )", '30px', bs.Dom( '#stage' ).S('_margin-top' ),
 		"bs.Dom( document.getElementById('stage') ).S('_margin-top' )", '30px', bs.Dom( document.getElementById('stage') ).S('_margin-top' ),
