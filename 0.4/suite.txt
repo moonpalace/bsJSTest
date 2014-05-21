@@ -4,3 +4,5 @@ bs.sizer.html
 bs.formEvent.html
 bs.Dom.html
 bs.Css.html
+bs.ajax.html
+bs.detect.html
