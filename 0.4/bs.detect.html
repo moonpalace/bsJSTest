@@ -16,14 +16,12 @@
 <script src="../../bsJS/bsjs.0.4.js"></script>
 <script src="../../bsJSTest/bsTest.js"></script>
 <script src="../../bsJSTest/0.3/printer.js"></script>
-<script src="../../bsDetect/detect.0.4.js"></script>
 <script src="shallaa/jquery-1.11.0.js"></script>
 <script src="shallaa/jquery.browser.js"></script>
 <script>
 var W = window;
 bs( function(){
-    var detect = bs.detectWindow( W ), jb = $.browser, k, arg = ['DETECT List'];
-    detect = bs.detectDOM( W, detect );
+    var detect = bs.DETECT, jb = $.browser, k, arg = ['DETECT List'];
     bsTest.tear( navigator.userAgent + '::' + navigator.platform + '::' + navigator.appVersion,
     function() {
 /* navigator.userAgent :: navigator.platform :: navigator.appVersion */
