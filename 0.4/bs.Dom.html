@@ -37,6 +37,13 @@ bs( function(){
 			return bs.Dom('#stageHtml').S( 'html', '{test}' );
 		}, '{test}'
 	),
+	bsTest( 'delete',
+		function(){
+			bs.Dom('#stageHtml').S( 'html', '<div id="deleteTest"></div>' );
+			bs.Dom('#deleteTest').S(null);
+			return bs.Dom('#stageHtml').S( 'html' );
+		}, ''
+	),
 	bsTest( 'dom selector',
 		"bs.Dom( '#stage' ).S('_margin-top' )", '30px', bs.Dom( '#stage' ).S('_margin-top' ),
 		"bs.Dom( document.getElementById('stage') ).S('_margin-top' )", '30px', bs.Dom( document.getElementById('stage') ).S('_margin-top' ),
