@@ -18,6 +18,7 @@
 <div class="clsStage" style="display:none;">test stage</div>
 <div id="stageHika"></div>
 <div id="stageHtml"></div>
+<div id="stageSelected"></div>
 <div id="result"></div>
 <div id="test"></div>
 <script src="../../bsJS/bsjs.0.4.js"></script>
@@ -32,6 +33,32 @@ bs( function(){
 		bs.Dom( '#stage' ).S( 'background-color', '#eee' );
 		bs.Dom( '#stage' ).S( 'class', 'cls1' );
 	} );
+	(function(){
+		var arg = ['create'], tags, mk, i, j;
+		tags = [
+			'<label>aaa</label>',
+			'<select class="position"><option value="POSITION">POSITION</option><option value="static">static</option><option value="relative">relative</option><option value="absolute">absolute</option><option value="fixed">fixed</option></select>',
+			'<button class="add-box">+</button>'
+		];
+		mk = function(tag){
+			return function(){
+				return bs.Dom(tag)[0].outerHTML;
+			};
+		};
+		for( i = 0, j = tags.length ; i < j ; i++ ) arg.push( mk(tags[i]), tags[i] );
+		bsTest.apply( null, arg );
+	})();
+	bsTest( 'selected', function(){
+		bs.Dom('#stageSelected').S( 'html', 
+			'<select id="selectedTest">'+
+			'<option value="1">1</option>'+
+			'<option value="2">2</option>'+
+			'<option value="3">3</option>'+
+			'</select>'
+		);
+		bs.Dom('#selectedTest option:nth-child(2)').S( '@selected', true );
+		return bs.Dom('#selectedTest').S('@value');
+	}, '2' ),
 	bsTest( 'html',
 		function(){
 			return bs.Dom('#stageHtml').S( 'html', '{test}' );
