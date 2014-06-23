@@ -45,6 +45,10 @@ bs( function(){
 			function(){
 				var t0 = {a:3,b:5};
 				return JSON.parse(bs.post( null, 'http://www.bsidesoft.com/bs/bsJStest/0.4/bs.ajax.php', 'data', JSON.stringify(t0) )).b;
+			}, 5,
+			function(){
+				var t0 = {a:3,b:5};
+				return JSON.parse(bs.post( null, 'http://www.bsidesoft.com/bs/bsJStest/0.4/bs.ajax.php', 'data', t0 )).b;
 			}, 5
 		);
 	}
