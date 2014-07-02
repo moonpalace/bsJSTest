@@ -22,7 +22,7 @@
 <script src="../0.5/printer.js"></script>
 <script>
 bs.debug(1);
-bs.plugin( 'save', null, 'markdown', null );
+bs.plugin( 'save', null, 'markdown', null, 'underscore', null );
 bs( function(){
 	var markdown0, markdown1;
 	bsTest( 'save',
@@ -56,6 +56,12 @@ bs( function(){
 		], i = 0, j = t0.length ; i < j ; i++ ) arg.push( mk(t0[i]), t0[i].replace( r,'&lt;') );
 		bsTest.apply( null, arg );
 	})();
+	bsTest( 'underscore',
+		function(){
+			var _ = bs.required('underscore')._;
+			return _.map({a:1,b:2}, _.identity)[1];
+		}, 2
+	);
 } );
 </script>
 </body>
