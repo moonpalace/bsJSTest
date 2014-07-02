@@ -60,7 +60,8 @@ bs( function(){
 			//set and dataset
 			var d = bs.Dom('#data');
 			d.S( '*test-123', 'kkk' );
-			return d[0].dataset['test123'];
+			console.log(d[0].outerHTML,d[0].dataset );
+			return d[0].dataset['test-123'];
 		}, 'kkk',
 		function(){
 			//get
@@ -117,7 +118,6 @@ bs( function(){
 	);
 	bsTest( 'dom method',
 		"bs.Dom( '&lt;div&gt;test&lt;/div&gt;' ).S( 'html' )", 'test', bs.Dom( '<div>test</div>' ).S( 'html' ),
-		"bs.Dom( '&lt;div&gt;test&lt;/div&gt;' ).S( 'text' )", 'test', bs.Dom( '<div>test</div>' ).S( 'text' ),
 		"bs.Dom( '&lt;tr&gt;&lt;td&gt;test&lt;/td&gt;&lt;/tr&gt;' ).S( 'html' )", '<td>test</td>', bs.Dom( '<tr><td>test</td></tr>' ).S( 'html' ).toLowerCase(),
 		"bs.Dom( '#stage' ).S( 'class' )", 'cls1', bs.Dom( '#stage' ).S( 'class' ),
 		"bs.Dom( '#stage' ).S( 'class+', 'cls2' )", 'cls2 cls1', bs.Dom( '#stage' ).S( 'class+', 'cls2' ),
@@ -126,9 +126,6 @@ bs( function(){
 		"bs.Dom( '#stage' ).S( 'class-', 'cls2' )", 'cls cls1', bs.Dom( '#stage' ).S( 'class-', 'cls2' ),
 		"bs.Dom( '#stage' ).S( 'class-', 'cls' )", 'cls1', bs.Dom( '#stage' ).S( 'class-', 'cls' ),
 		"bs.Dom( '#stage' ).S( 'class', null )", null, bs.Dom( '#stage' ).S( 'class', null ),
-		//
-		"bs.Dom( '&lt;div&gt;test&lt;/div&gt;' ).S( 'html' )", 'test', bs.Dom( '<div>test</div>' ).S( 'html' ),
-		"bs.Dom( '&lt;div&gt;test&lt;/div&gt;' ).S( 'text' )", 'test', bs.Dom( '<div>test</div>' ).S( 'text' ),
 		"bs.Dom( '&lt;tr&gt;&lt;td&gt;test&lt;/td&gt;&lt;/tr&gt;' ).S( 'html', 123 )", "123", bs.Dom( '<tr><td>test</td></tr>' ).S( 'html', 123 )
 	);
 	bsTest( 'dom attribute',
