@@ -14,6 +14,7 @@
 </head>
 <body>
 <div id="stage"></div>
+<div id="stagemarkdown"></div>
 <div id="result"></div>
 <div id="test"></div>
 <script src="../../bsJS/bsjs.0.5.js"></script>
@@ -21,14 +22,40 @@
 <script src="../0.5/printer.js"></script>
 <script>
 bs.debug(1);
-bs.plugin('save');
+bs.plugin( 'save', null, 'markdown', null );
 bs( function(){
+	var markdown0, markdown1;
 	bsTest( 'save',
 		function(){
 			bs.save( 'aaa', 'test123' );
 			return bs.save('aaa');
 		}, 'test123'
 	);
+	bsTest.tear( 'markdown', function(){
+		bs.Dom('#stagemarkdown').S( 'html', markdown1 = bs.markdown( markdown0 = bs.get( null, 'bs.markdown.html' ) ), 
+		'background', '#eee', 'border', '1px solid #999', 'overflow', 'hidden', 'cursor', 'pointer', 'height', 100,
+		'click', function(){
+			bs.Dom('#stagemarkdown').S( 'height', bs.Dom('#stagemarkdown').S('height') == 100 ? null : 100 );
+		} );
+		console.log(markdown0);
+		console.log(markdown1);
+	});
+	(function(){
+		var arg = ['markdown'], mk = function(v){
+			return function(){
+				return markdown1.indexOf(v) == -1 ? 0 : v.replace( r,'&lt;');
+			};
+		}, r = /[<]/g, t0, i, j;
+		for( t0 = [
+			'<h1>He a der  </h1>',
+			'<h2><em>He a der  </em></h2>',
+			'<h3><em>He a der  </em></h3>',
+			'<h4><strong>He a der  </strong></h4>',
+			'<h5>He a der  </h5>',
+			'<h6>He a der  </h6>'
+		], i = 0, j = t0.length ; i < j ; i++ ) arg.push( mk(t0[i]), t0[i].replace( r,'&lt;') );
+		bsTest.apply( null, arg );
+	})();
 } );
 </script>
 </body>
