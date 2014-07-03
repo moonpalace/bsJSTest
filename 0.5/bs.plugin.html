@@ -37,7 +37,7 @@ bs( function(){
 	);
 	bsTest( 'underscore',
 		function(){
-			var _ = bs.required('underscore')._;
+			var _ = bs.require('underscore')._;
 			return _.map({a:1,b:2}, _.identity)[1];
 		}, 2
 	);
