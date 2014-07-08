@@ -22,7 +22,6 @@
 <script>
 bs.debug(1);
 bs( function(){
-
 	bsTest.tear( 'register Workers', function(){
 		bs.networker( 'net0', function(a){return a * ( a + 1 ) / 2;} );
 		bs.networker( 'net1', function(a){return {v:a * ( a + 1 ) / 2};} );
