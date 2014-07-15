@@ -78,28 +78,42 @@
         var roster = bs.Person.createRoster();
         console.log(roster.length);
         for(var i=0; i<roster.length; i++){
-            // properties test
+            // properties, method test
             bs.Dom('<div></div>').S(
                     '<', 'body',
                     'html', '-----------start---------<br><span>'+roster[i].name + '</span><br>' +
-                            '<span>'+roster[i].age + '</span><br>'+
+                            '<span>'+roster[i].getAge() + '</span><br>'+
                             '<span>'+roster[i].gender + '</span><br>'+
                             '<span>'+roster[i].emailAddress + '</span><br>'+
-                            '<span>'+roster[i].birthday + '</span><br>----------end------------'
+                            '<span>'+roster[i].birthday + '</span><br>----------end------------<br>'
             )
         }
 
-//        console.log( bs.Myclass( 'test' ) )
-//        bs.Myclass( 'test' ).firstPrototype()
-//        bs.Myclass.staticProperty()
-//        console.log( bs.Myclass( 'test' ).ID )
-//        var a = bs.Myclass( 'bs_a' )
-//        var b = bs.Myclass( 'bs_a' )
-//        console.log( a==b )
-//        a.destroy()
-//        console.log( a )
-//        console.log( a!=bs.Myclass( 'bs_a' ) )
-//        console.log(bs.Myclass('@bs_b')==bs.Myclass('@bs_b'))
+        // destroy method test
+        roster[0].destroy();
+        bs.Dom('<div></div>').S(
+                '<', 'body',
+                'html', "after destroyed roster[0] : " + roster[0] + "<br>"
+        )
+
+        roster[0] = bs.Person("oopchoi1");
+        bs.Dom('<div></div>').S(
+                '<', 'body',
+                'html', '-----------new start---------<br><span>'+roster[i].name + '</span><br>' +
+                        '<span>'+roster[i].getAge() + '</span><br>'+
+                        '<span>'+roster[i].gender + '</span><br>'+
+                        '<span>'+roster[i].emailAddress + '</span><br>'+
+                        '<span>'+roster[i].birthday + '</span><br>----------new end------------<br>'
+        )
+
+        // non-cache create object
+        var oopchoi1 = bs.Person("@oopchoi");
+        var oopchoi2 = bs.Person("@oopchoi");
+        bs.Dom('<div></div>').S(
+                '<', 'body',
+                'html', "bs.Person('@oopchoi')==bs.Person('@oopchoi') : " + (oopchoi1==oopchoi2)
+        )
+
     })
 </script>
 
