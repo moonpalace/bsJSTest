@@ -96,14 +96,11 @@
                 'html', "after destroyed roster[0] : " + roster[0] + "<br>"
         )
 
-        roster[0] = bs.Person("oopchoi1");
+        var new_oopchoi = bs.Person("oopchoi1");
         bs.Dom('<div></div>').S(
                 '<', 'body',
-                'html', '-----------new start---------<br><span>'+roster[i].name + '</span><br>' +
-                        '<span>'+roster[i].getAge() + '</span><br>'+
-                        '<span>'+roster[i].gender + '</span><br>'+
-                        '<span>'+roster[i].emailAddress + '</span><br>'+
-                        '<span>'+roster[i].birthday + '</span><br>----------new end------------<br>'
+                'html', 'new_oopchoi == roster[0]<br>' +
+                        '<span>' + new_oopchoi == roster[0] + '</span><br>'
         )
 
         // non-cache create object
