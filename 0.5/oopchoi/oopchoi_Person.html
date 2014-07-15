@@ -41,6 +41,7 @@
            fn.getAge = function(){
                return this.age;
            }
+            // setter 메서드
             fn.setAge = function(value){
                 this.age = value;
             }
@@ -79,7 +80,11 @@
             // properties test
             bs.Dom('<div></div>').S(
                     '<', 'body',
-                    'html', '<span>'+roster[i].name + '</span>'
+                    'html', '<span>'+roster[i].name + '</span><br>' +
+                            '<span>'+roster[i].age + '</span><br>'+
+                            '<span>'+roster[i].gender + '</span><br>'+
+                            '<span>'+roster[i].emailAddress + '</span><br>'+
+                            '<span>'+roster[i].birthday + '</span><br>'
             )
         }
 
