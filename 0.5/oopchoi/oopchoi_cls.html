@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script>
+    bs.debug(0), bs.repository('./');
+    bs(function(){
+// 클래스정의
+        bs.cls('Myclass', function(fn, clsfn, bs){
+//TODO 객체를 정의해나갈부분
+            fn.NEW=function(key){
+                this.ID = Math.floor(Math.random()*10)
+            }
+            fn.destroy = function(){ this.END() }
+            fn.firstPrototype = function(){console.log('유후')}
+            clsfn.staticProperty = function(){console.log('스타틱유후')}
+        })
+// 클래스 테스트
+        console.log( bs.Myclass( 'test' ) )
+        bs.Myclass( 'test' ).firstPrototype()
+        bs.Myclass.staticProperty()
+        console.log( bs.Myclass( 'test' ).ID )
+        var a = bs.Myclass( 'bs_a' )
+        var b = bs.Myclass( 'bs_a' )
+        console.log( a==b )
+        a.destroy()
+        console.log( a )
+        console.log( a!=bs.Myclass( 'bs_a' ) )
+        console.log(bs.Myclass('@bs_b')==bs.Myclass('@bs_b'))
+    })
+</script>
+
+</body>
+</html>
