@@ -20,6 +20,8 @@
 <div id="stageHtml"></div>
 <div id="stageSelected"></div>
 <div id="data"></div>
+<div id="before"></div>
+<div id="after"></div>
 <div id="result"></div>
 <div id="test"></div>
 <script src="../../bsJS/bsjs.0.5.js"></script>
@@ -48,7 +50,43 @@ bs( function(){
 		};
 		for( i = 0, j = tags.length ; i < j ; i++ ) arg.push( mk(tags[i]), tags[i] );
 		bsTest.apply( null, arg );
-	})();
+	})(),
+	
+	bsTest( 'before',
+		function(){
+			bs.Dom('#before').S( '>', '<div id="before0"></div>', '>', '<div id="before1"></div>' );
+			return bs.Dom('#before1').S( 'before' ).id;
+		}, 'before0',
+		function(){
+			bs.Dom('#before1').S( 'before', '<div id="before10"></div>' );
+			return bs.Dom('#before1').S( 'before' ).id;
+		}, 'before10',
+		function(){
+			return bs.Dom('#before10').S( 'before' ).id;
+		}, 'before0',
+		function(){
+			bs.Dom('#before1').S( 'before', null );
+			return bs.Dom('#before1').S( 'before' ).id;
+		}, 'before0'
+	),
+	bsTest( 'after',
+		function(){
+			bs.Dom('#after').S( '>', '<div id="after0"></div>', '>', '<div id="after1"></div>' );
+			return bs.Dom('#after0').S( 'after' ).id;
+		}, 'after1',
+		function(){
+			bs.Dom('#after0').S( 'after', '<div id="after10"></div>' );
+			return bs.Dom('#after0').S( 'after' ).id;
+		}, 'after10',
+		function(){
+			return bs.Dom('#after10').S( 'after' ).id;
+		}, 'after1',
+		function(){
+			bs.Dom('#after0').S( 'after', null );
+			return bs.Dom('#after0').S( 'after' ).id;
+		}, 'after1'
+	),
+	
 	bsTest( 'data-*',
 		function(){
 			//set and getAttribute
