@@ -2,31 +2,36 @@
 <html lang="ko">
 <head>
     <title>bsJS Person class</title>
-    <meta name="keywords" content="bs5" />
-    <meta name="description" content="bs5 Test suite" />
+    <meta name="keywords" content="bs5"/>
+    <meta name="description" content="bs5 Test suite"/>
     <meta charset="utf-8"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="viewport"
+          content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi"/>
     <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
 </head>
 <body>
-<a href="https://github.com/projectBS/bsJS"><img style="position: fixed; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
-<div id="result"></div><div id="test"></div>
+<a href="https://github.com/projectBS/bsJS"><img style="position: fixed; top: 0; right: 0; border: 0;"
+                                                 src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+                                                 alt="Fork me on GitHub"></a>
+
+<div id="result"></div>
+<div id="test"></div>
 <script src="../../../bsJS/bsjs.0.5.js"></script>
 <script>
     bs.debug(0), bs.repository('./');
-    bs(function(){
+    bs(function () {
 
         // Person 클래스
-        bs.cls('Person', function(fn, clsfn, bs){
+        bs.cls('Person', function (fn, clsfn, bs) {
 
             // Constructor
-            fn.NEW=function(key){
+            fn.NEW = function (key) {
                 // 캐쉬 키 생성
-                this.ID = Math.floor(Math.random()*10);
+                this.ID = Math.floor(Math.random() * 10);
                 // 속성
                 this.age;
                 this.name;
@@ -35,18 +40,20 @@
                 this.birthday;
             }
             // 파괴자 메서드
-            fn.destroy = function(){ this.END() }
+            fn.destroy = function () {
+                this.END()
+            }
 
             // getter 메서드
-           fn.getAge = function(){
-               return this.age;
-           }
+            fn.getAge = function () {
+                return this.age;
+            }
             // setter 메서드
-            fn.setAge = function(value){
+            fn.setAge = function (value) {
                 this.age = value;
             }
             // 정적 메서드
-            clsfn.createRoster = function(){
+            clsfn.createRoster = function () {
                 var roster = [];
                 roster.push(bs.Person('oopchoi1'));
                 roster.push(bs.Person('oopchoi2'));
@@ -77,15 +84,15 @@
         // static method test
         var roster = bs.Person.createRoster();
         console.log(roster.length);
-        for(var i=0; i<roster.length; i++){
+        for (var i = 0; i < roster.length; i++) {
             // properties, method test
             bs.Dom('<div></div>').S(
                     '<', 'body',
-                    'html', '-----------start---------<br><span>'+roster[i].name + '</span><br>' +
-                            '<span>'+roster[i].getAge() + '</span><br>'+
-                            '<span>'+roster[i].gender + '</span><br>'+
-                            '<span>'+roster[i].emailAddress + '</span><br>'+
-                            '<span>'+roster[i].birthday + '</span><br>----------end------------<br>'
+                    'html', '-----------start---------<br><span>' + roster[i].name + '</span><br>' +
+                            '<span>' + roster[i].getAge() + '</span><br>' +
+                            '<span>' + roster[i].gender + '</span><br>' +
+                            '<span>' + roster[i].emailAddress + '</span><br>' +
+                            '<span>' + roster[i].birthday + '</span><br>----------end------------<br>'
             )
         }
 
@@ -107,7 +114,7 @@
         var oopchoi2 = bs.Person("@oopchoi");
         bs.Dom('<div></div>').S(
                 '<', 'body',
-                'html', "bs.Person('@oopchoi')==bs.Person('@oopchoi') : " + (oopchoi1==oopchoi2)
+                'html', "bs.Person('@oopchoi')==bs.Person('@oopchoi') : " + (oopchoi1 == oopchoi2)
         )
 
     })
