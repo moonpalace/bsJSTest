@@ -14,8 +14,8 @@
 </head>
 <body>
 <div id="stage" data-id="stageId" data-id2="stageId2">test stage</div>
-<div class="clsStage" style="display:none;">test stage</div>
-<div class="clsStage" style="display:none;">test stage</div>
+<div class="clsStage" style="display:none;">test stage1</div>
+<div class="clsStage" style="display:none;">test stage2</div>
 <div id="stageHika"></div>
 <div id="stageHtml"></div>
 <div id="stageSelected"></div>
@@ -98,8 +98,7 @@ bs( function(){
 			//set and dataset
 			var d = bs.Dom('#data');
 			d.S( '*test-123', 'kkk' );
-			console.log(d[0].outerHTML,d[0].dataset );
-			return d[0].dataset['test-123'];
+			return d[0].getAttribute('data-test-123');
 		}, 'kkk',
 		function(){
 			//get
@@ -116,8 +115,8 @@ bs( function(){
 			//remove and dataset
 			var d = bs.Dom('#data');
 			d.S( '*test-cde', null );
-			return d[0].dataset['testCde'];
-		}, undefined
+			return d[0].getAttribute( 'data-testCde' );
+		}, bsTest.IN( null, undefined )
 	),
 	
 	bsTest( 'selected', function(){
@@ -147,12 +146,12 @@ bs( function(){
 		"bs.Dom( '#stage' ).S('_margin-top' )", '30px', bs.Dom( '#stage' ).S('_margin-top' ),
 		"bs.Dom( document.getElementById('stage') ).S('_margin-top' )", '30px', bs.Dom( document.getElementById('stage') ).S('_margin-top' ),
 		"bs.Dom( bs.Dom('#stage') ).S('_margin-top' )", '30px', bs.Dom( bs.Dom('#stage') ).S('_margin-top' ),
-		"bs.Dom( '.clsStage' ).length", 2, bs.Dom( '.clsStage' ).length,
-
+		function(){
+			return bs.Dom( '.clsStage' ).length;
+		}, 2,
 		"bs.Dom( '#stage' ).S( 'background-color' )", '#eee', bs.Dom( '#stage' ).S( 'background-color' ),
 		"bs.Dom( document.getElementById('stage') ).S( 'background-color' )", '#eee', bs.Dom( document.getElementById('stage') ).S( 'background-color' ),
-		"bs.Dom( bs.Dom('#stage') ).S( 'background-color' )", '#eee', bs.Dom( bs.Dom('#stage') ).S( 'background-color' ),
-		"bs.Dom( '.clsStage' ).length", 2, bs.Dom( '.clsStage' ).length
+		"bs.Dom( bs.Dom('#stage') ).S( 'background-color' )", '#eee', bs.Dom( bs.Dom('#stage') ).S( 'background-color' )
 	);
 	bsTest( 'dom method',
 		"bs.Dom( '&lt;div&gt;test&lt;/div&gt;' ).S( 'html' )", 'test', bs.Dom( '<div>test</div>' ).S( 'html' ),
