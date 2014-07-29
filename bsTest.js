@@ -101,7 +101,7 @@ var bsTest = (function(){
 			);
 			if( ( t0 = window.top ) != window.self && t0.bsTest && t0.bsTest.suite.urls && fail ) t0.bsTest.suiteResult(location.pathname);
 			if( result ) result( '<hr><div style="font-weight:bold;font-size:30px;padding:10px;color:#' + ( isOK ? '0a0">OK' : 'a00">FAIL'  ) + '</div>' );
-			js( id, title, fail );
+			//js( id, title, fail );
 		}
 	},
 	test.on = function(dom){dom.style.display = 'none', document.getElementById('bsTestOff'+dom.id.substr(8)).style.display = 'block';},
