@@ -2,6 +2,7 @@ var file, virtual, args, method;
 exports.controller = {
 	index:function( v0, v1 ){
 		bs.log( '/a/b/c.js :: index', v0, v1 );
+		bsTest.tear( '/a/b/c.js :: index', function(){});
 		file = bs.router('file'),
 		virtual = bs.router('virtual'),
 		args = bs.router('arguments'),
@@ -24,6 +25,7 @@ exports.controller = {
 	},
 	d:function( v0, v1 ){
 		bs.log( '/a/b/c.js :: d', v0, v1 );
+		bsTest.tear( '/a/b/c.js :: d', function(){});
 		file = bs.router('file'),
 		virtual = bs.router('virtual'),
 		args = bs.router('arguments'),

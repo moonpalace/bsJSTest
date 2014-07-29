@@ -31,6 +31,21 @@
 bs.debug(1);
 bs( function(){ 
 	bs.router( 'path', 'controller/path.json', 'start' );
+	var uri = [
+		'./bs.router.html#/',
+		'./bs.router.html#/test',
+		'./bs.router.html#/a/b/',
+		'./bs.router.html#!/a/b/test',
+		'./bs.router.html#!/a/b/c'
+	],
+	i = 0,
+	check = function(){
+		if( i < uri.length ){
+			location.href = uri[i++];
+			setTimeout(check, 100);
+		}
+	};
+	setTimeout(check, 100);
 } );
 </script>
 </body>
