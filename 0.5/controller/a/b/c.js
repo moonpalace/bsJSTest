@@ -1,7 +1,7 @@
 var file, virtual, args, method;
 exports.controller = {
 	index:function( v0, v1 ){
-		bs.log( '/a/b/c.js :: index', v0, v1 );
+//		bs.log( '/a/b/c.js :: index', v0, v1 );
 		bsTest.tear( '/a/b/c.js :: index', function(){});
 		file = bs.router('file'),
 		virtual = bs.router('virtual'),
@@ -12,7 +12,7 @@ exports.controller = {
 		}, 'controller/a/b/c.js' );
 		bsTest( 'virtual', function(){
 			return virtual;
-		}, '/a/b/' );
+		}, 'a/b/c' );
 		bsTest( 'args1', function(){
 			return args[0];
 		}, v0 );
@@ -24,7 +24,7 @@ exports.controller = {
 		}, 'index' );
 	},
 	d:function( v0, v1 ){
-		bs.log( '/a/b/c.js :: d', v0, v1 );
+//		bs.log( '/a/b/c.js :: d', v0, v1 );
 		bsTest.tear( '/a/b/c.js :: d', function(){});
 		file = bs.router('file'),
 		virtual = bs.router('virtual'),
@@ -35,7 +35,7 @@ exports.controller = {
 		}, 'controller/a/b/c.js' );
 		bsTest( 'virtual', function(){
 			return virtual;
-		}, '/a/b/' );
+		}, 'a/b/c/d' );
 		bsTest( 'args1', function(){
 			return args[0];
 		}, v0 );

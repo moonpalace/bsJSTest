@@ -29,9 +29,34 @@
 <script src="../0.5/printer.js"></script>
 <script>
 bs.debug(1);
-bs( function(){ 
+bs( function(){
+	bs.router( '/b/c/d', function(v0, v1){
+		bsTest.tear( 'b/c/d :: table', function(){
+			console.log('b/c/d :: table');
+		});
+		file = bs.router('file'),
+		virtual = bs.router('virtual'),
+		args = bs.router('arguments'),
+		method = bs.router('method');
+		bsTest( 'file', function(){
+			return file;
+		}, null );
+		bsTest( 'virtual', function(){
+			return virtual;
+		}, 'b/c/d/a' );
+		bsTest( 'args1', function(){
+			return args[0];
+		}, undefined );
+		bsTest( 'args2', function(){
+			return args[1];
+		}, undefined );
+		bsTest( 'method', function(){
+			return method;
+		}, 'd' );
+	}, 'start' );
 	bs.router( 'path', 'controller/path.json', 'start' );
 	var uri = [
+		'./bs.router.html#/b/c/d/a',
 		'./bs.router.html#/',
 		'./bs.router.html#/test',
 		'./bs.router.html#/a/b/',
