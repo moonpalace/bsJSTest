@@ -29,23 +29,30 @@
 <script src="../0.5/printer.js"></script>
 <script>
 bs.debug(1);
-bs( function(){ 
-	bs.router( 'path', 'controller/path.json', 'start' );
-	var uri = [
-		'./bs.router.html#/'/*,
-		'./bs.router.html#/test',
-		'./bs.router.html#/a/b/',
-		'./bs.router.html#!/a/b/test',
-		'./bs.router.html#!/a/b/c'*/
-	],
-	i = 0,
+bs( function(){
+	var uri = 'bs.router.html#', end, i = 0, 
+	uris = '/b/c/d,/,/k/v,/test,/test/k/v,/a/b/,/a/b/k/v/,/a/b/test/,!/a/b/test/k/v,!/a/b/c,a/b/c/k/v,/a/b/c/d,/a/b/c/d/e/f/,a/b/c/test,a/b/c/test/k/v'.split(','),
 	check = function(){
-		if( i < uri.length ){
-			location.href = uri[i++];
-			setTimeout(check, 100);
+		if( i < uris.length ){
+			location.href = uri + uris[i++];
+			setTimeout( check, 100 );
 		}
 	};
-	setTimeout(check, 100);
+	bs.router( '/b/c/d', end = function(v0, v1){
+		bsTest.tear( 'b/c/d :: table', function(){});
+		bsTest( 'file', function(){
+			return bs.router('file');
+		}, null );
+		bsTest( 'virtual', function(){
+			return bs.router('virtual');
+		}, 'b/c/d' );
+		bsTest( 'args', function(){
+			return bs.router('arguments');
+		}, null );
+		bsTest( 'method', function(){
+			return bs.router('method');
+		}, end );
+	}, 'path', 'controller/path.json', 'start', check );
 } );
 </script>
 </body>

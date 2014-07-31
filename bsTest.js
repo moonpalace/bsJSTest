@@ -39,6 +39,7 @@ var bsTest = (function(){
 		};
 		return function( t, o ){
 			switch( t.bsTestType ){
+			case'reg':return t0[0] = 'regEx(' + t[0].toString() + ')', t0[1] = t[0].test(o) ? 1 : 0, t0;
 			case'in':return t0[0] = 'of [' + t.join(',') +']', t0[1] = t.indexOf(o) > -1 ? 1 : 0, t0;
 			case'not':return t0[0] = '!= ' + t[0], t0[1] = o !== t[0] ? 1 : 0, t0;
 			case'item':return t0[0] = '== ' + t, t0[1] = deepCompare( t, o ), t0;
@@ -95,7 +96,7 @@ var bsTest = (function(){
 			for( i = 0, j = r.length ; i < j ; i++) console.log(r[i]);
 			console.log(t0);
 		}else{
-			printer( r = r + '</ol><div id="bsTestStat'+id+'">Loading...</div></div>'+
+			printer( r = r + '</ol></div>'+
 				'<div id="bsTestResult'+id+'" style="padding:5px;float:right;border:1px dashed #999;text-align:center"><b style="font-size:30px;color:#' + ( fail ? 'a00">FAIL' : '0a0">OK' ) + '</b><br>ok:<b style="color:#0a0">' + ok + '</b> fail:<b style="color:#a00">' + fail + '</b></div><br clear="both"></div>'+
 				'<div id="bsTestOff'+id+'" style="display:block;cursor:pointer" onclick="bsTest.off(this)"><b>'+title+'</b> : <b style="color:#' + ( fail ? 'a00">FAIL' : '0a0">OK' ) + '</b></div></div>'
 			);
@@ -143,6 +144,7 @@ var bsTest = (function(){
 		var t0 = [a, b];
 		return t0.bsTestType = 'range', t0;
 	},
+	test.REG = function( a ){return arguments.bsTestType = 'reg', arguments;},
 	//tear
 	test.tear = function( title, func ){
 		id++, func();
