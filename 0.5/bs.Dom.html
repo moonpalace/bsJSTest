@@ -13,6 +13,7 @@
 <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
 </head>
 <body>
+<form id="dispatch"><input id="dispatchText" type="text" value="reset"/><input id="dispatchReset" type="reset" value="reset"></form>
 <div id="stage" data-id="stageId" data-id2="stageId2">test stage</div>
 <div class="clsStage" style="display:none;">test stage1</div>
 <div class="clsStage" style="display:none;">test stage2</div>
@@ -36,6 +37,35 @@ bs( function(){
 		bs.Dom( '#stage' ).S( 'background-color', '#eee' );
 		bs.Dom( '#stage' ).S( 'class', 'cls1' );
 	} );
+	bsTest( 'dom selector',
+		"bs.Dom( '#stage' ).S('_margin-top' )", '30px', bs.Dom( '#stage' ).S('_margin-top' ),
+		"bs.Dom( document.getElementById('stage') ).S('_margin-top' )", '30px', bs.Dom( document.getElementById('stage') ).S('_margin-top' ),
+		"bs.Dom( bs.Dom('#stage') ).S('_margin-top' )", '30px', bs.Dom( bs.Dom('#stage') ).S('_margin-top' ),
+		function(){
+			return bs.Dom( '.clsStage' ).length;
+		}, 2,
+		"bs.Dom( '#stage' ).S( 'background-color' )", '#eee', bs.Dom( '#stage' ).S( 'background-color' ),
+		"bs.Dom( document.getElementById('stage') ).S( 'background-color' )", '#eee', bs.Dom( document.getElementById('stage') ).S( 'background-color' ),
+		"bs.Dom( bs.Dom('#stage') ).S( 'background-color' )", '#eee', bs.Dom( bs.Dom('#stage') ).S( 'background-color' )
+	);
+	(function(){
+		bs.Dom('#dispatchText').S( '@value', '124j5d' );
+		bsTest( 'dispatch1',
+			function(){
+				return bs.Dom('#dispatchText').S('@value');
+			}, '124j5d'
+		);
+		bs.Dom('#dispatch').S( 'reset', function(e){
+			setTimeout( function(){
+				bsTest( 'dispatch2',
+					function(){
+						return bs.Dom('#dispatchText').S('@value');
+					}, 'reset'
+				);
+			}, 1 );
+		} );
+		bs.Dom('#dispatchReset').S( 'dispatch', 'click' );
+	})(),
 	(function(){
 		var arg = ['create'], tags, mk, i, j;
 		tags = [
@@ -51,7 +81,6 @@ bs( function(){
 		for( i = 0, j = tags.length ; i < j ; i++ ) arg.push( mk(tags[i]), tags[i] );
 		bsTest.apply( null, arg );
 	})(),
-	
 	bsTest( 'before',
 		function(){
 			bs.Dom('#before').S( '>', '<div id="before0"></div>', '>', '<div id="before1"></div>' );
@@ -142,17 +171,6 @@ bs( function(){
 			return bs.Dom('#stageHtml').S( 'html' );
 		}, ''
 	),
-	bsTest( 'dom selector',
-		"bs.Dom( '#stage' ).S('_margin-top' )", '30px', bs.Dom( '#stage' ).S('_margin-top' ),
-		"bs.Dom( document.getElementById('stage') ).S('_margin-top' )", '30px', bs.Dom( document.getElementById('stage') ).S('_margin-top' ),
-		"bs.Dom( bs.Dom('#stage') ).S('_margin-top' )", '30px', bs.Dom( bs.Dom('#stage') ).S('_margin-top' ),
-		function(){
-			return bs.Dom( '.clsStage' ).length;
-		}, 2,
-		"bs.Dom( '#stage' ).S( 'background-color' )", '#eee', bs.Dom( '#stage' ).S( 'background-color' ),
-		"bs.Dom( document.getElementById('stage') ).S( 'background-color' )", '#eee', bs.Dom( document.getElementById('stage') ).S( 'background-color' ),
-		"bs.Dom( bs.Dom('#stage') ).S( 'background-color' )", '#eee', bs.Dom( bs.Dom('#stage') ).S( 'background-color' )
-	);
 	bsTest( 'dom method',
 		"bs.Dom( '&lt;div&gt;test&lt;/div&gt;' ).S( 'html' )", 'test', bs.Dom( '<div>test</div>' ).S( 'html' ),
 		"bs.Dom( '&lt;tr&gt;&lt;td&gt;test&lt;/td&gt;&lt;/tr&gt;' ).S( 'html' )", '<td>test</td>', bs.Dom( '<tr><td>test</td></tr>' ).S( 'html' ).toLowerCase(),
