@@ -39,7 +39,7 @@ bs( function(){
 			if( bs.Dom('#up').S('*check') == '1' ) return;
 			bs.ANI.style( bs.Dom('#up').S( 'display', 'block', 'opacity', 0, 'left', e.cx - 50, 'top', e.cy - 50, '*check', '1', 'this' ),
 				'opacity', .7, 'ease', 'rollIn', 'time', .7, 'end', function(t){
-					t.S( '*check', '0' );
+					t.S( 'display', 'none', '*check', '0' );
 				}
 			);
 		}
