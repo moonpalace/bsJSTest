@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+    <script>
+
+            var P, p;
+            P = function(){
+                this.lastName = 'choi';
+                console.log('1:' + (this.constructor==P));  // true
+                console.log('2:' + (this.constructor==P.prototype.constructor));  // true
+            };
+            p = new P();
+            console.log( '3:' + (P.constructor==P) ); // false
+            console.log( '4:' + (P.constructor==P.prototype.constructor) ); // false
+            console.log( '5:' + (p.constructor==P) );    // true
+            console.log( '6:' + (p.constructor==P.constructor) );    // false
+            console.log( '7:' + (p.constructor==P.prototype.constructor) );  // true
+
+            var C, c;
+            C = function(){
+                this.firstName = "bryan";
+                this.constructor.call(this);
+                console.log('8:' + (this.constructor==C));  // false
+                console.log('9:' + (this.constructor==C.prototype.constructor));  // true
+                console.log('10:' + (this.constructor==P));  // true
+                console.log('11:' + (this.constructor==P.prototype.constructor));  // true
+            }
+            C.prototype = new P();
+            c = new C();
+            console.log( '12:' + (C.constructor==C) ); // false
+            console.log( '13:' + (C.constructor==C.prototype.constructor) ); // false
+            console.log( '14:' + (C.constructor==P) ); // false
+            console.log( '15:' + (C.constructor==P.prototype.constructor) ); // false
+            console.log( '16:' + (c.constructor==C) ); // false
+            console.log( '17:' + (c.constructor==C.prototype.constructor) ); // true
+            console.log( '18:' + (c.constructor==P) ); // true
+            console.log( '19:' + (c.constructor==P.prototype.constructor) ); // true
+
+    </script>
+
+</body>
+</html>
