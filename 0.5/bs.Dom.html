@@ -145,7 +145,19 @@ bs( function(){
 			var d = bs.Dom('#data');
 			d.S( '*test-cde', null );
 			return d[0].getAttribute( 'data-testCde' );
-		}, bsTest.IN( null, undefined )
+		}, bsTest.IN( null, undefined ),
+		function(){
+			//set get object
+			var d = bs.Dom('#data');
+			d.S( '*test-object', {a:30} );
+			return d.S( '*test-object' ).a
+		}, 30,
+		function(){
+			//remove object
+			var d = bs.Dom('#data');
+			d.S( '*test-object', null );
+			return d.S( '*test-object' );
+		}, undefined
 	),
 	
 	bsTest( 'selected', function(){
