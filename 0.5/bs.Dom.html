@@ -80,6 +80,28 @@ bs( function(){
 		};
 		for( i = 0, j = tags.length ; i < j ; i++ ) arg.push( mk(tags[i]), tags[i] );
 		bsTest.apply( null, arg );
+		bsTest( 'table create',
+			function(){
+				bs.Dom('<table id="testTable"></table>').S('<','#stage');
+				return bs.Dom('#testTable')[0].tagName.toLowerCase();
+			}, 'table',
+			function(){
+				bs.Dom('#testTable').S( '>', bs.Dom('<tr id="testTr"></tr>') );
+				return bs.Dom('#testTr')[0].tagName.toLowerCase();
+			}, 'tr',
+			function(){
+				bs.Dom('#testTr').S( '>', bs.Dom('<td id="testTd">tableTest</tr>') );
+				return bs.Dom('#testTd')[0].tagName.toLowerCase();
+			}, 'td',
+			function(){
+				bs.Dom('#testTable').S( '>', '<tr id="testTr2"></tr>' );
+				return bs.Dom('#testTr2')[0].tagName.toLowerCase();
+			}, 'tr',
+			function(){
+				bs.Dom('#testTr2').S( '>', '<td id="testTd2">tableTest2</tr>' );
+				return bs.Dom('#testTd2')[0].tagName.toLowerCase();
+			}, 'td'
+		);
 	})(),
 	bsTest( 'before',
 		function(){
