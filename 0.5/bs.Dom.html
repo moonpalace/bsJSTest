@@ -37,6 +37,24 @@ bs( function(){
 		bs.Dom( '#stage' ).S( 'background-color', '#eee' );
 		bs.Dom( '#stage' ).S( 'class', 'cls1' );
 	} );
+	bsTest( '이미 있는 스타일인식',
+		function(){
+			bs.Dom('#stage').S( '>', '<div id="styleTest0" style="width:100px;height:10px;background:#ff0;font-size:2em;margin:2%;display:block"></div>' );
+			return bs.Dom('#styleTest0').S('width');
+		}, 100,
+		function(){
+			return bs.Dom('#styleTest0').S('display');
+		}, 'block',
+		function(){
+			return bs.Dom('#styleTest0').S('background-color');
+		}, bsTest.IN( '#ff0', '#ffff00', 'rgb(255, 255, 0)' ),
+		function(){
+			return bs.Dom('#styleTest0').S('margin-top');
+		}, 2,
+		function(){
+			return bs.Dom('#styleTest0').S('font-size');
+		}, 2
+	);
 	bsTest( 'dom selector',
 		"bs.Dom( '#stage' ).S('_margin-top' )", '30px', bs.Dom( '#stage' ).S('_margin-top' ),
 		"bs.Dom( document.getElementById('stage') ).S('_margin-top' )", '30px', bs.Dom( document.getElementById('stage') ).S('_margin-top' ),
