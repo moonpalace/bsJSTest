@@ -197,6 +197,18 @@ bs( function(){
 			var d = bs.Dom('#data');
 			d.S( '*test-object', null );
 			return d.S( '*test-object' );
+		}, undefined,
+		function(){
+			//set get object
+			var d = bs.Dom('#data');
+			d.S( '@data-test-object', "abc" );
+			return d.S( '*test-object' )
+		}, "abc",
+		function(){
+			//remove object
+			var d = bs.Dom('#data');
+			d.S( '*test-object', null );
+			return d.S( '*test-object' );
 		}, undefined
 	),
 	
