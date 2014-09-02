@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>bs6 Test suite</title>
+    <meta name="keywords" content="bs5" />
+    <meta name="description" content="bs5 Test suite" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+    <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<script src="../bsjs.0.6.js"></script>
+<script>
+    bs(function(){
+        var cls = function( key, v ){
+            var t0 = key.replace( trim, '' ).toLowerCase(), t1, t2, cls, fn, k, f;
+            t0 = t0.charAt(0).toUpperCase() + t0.substr(1), ( !arguments[2] && t0 != key ) ? err( 1003, key ) : bs[t0] ? err( 2003, t0 ) : (
+                    ( fn = ( cls = function(arg){return this.__bsKey = arg[0], this.NEW.apply( this, arg );} ).prototype ).NEW = none,
+                            v( t1 = {}, t2 = {}, bs ), f = bs[t0] = function(key){
+                        var t0;
+                        if( typeof key == 'string' && key ){
+                            if( ( t0 = key.charAt(0) ) == '@' ) return cls[arguments[0] = key.substr(1)] = new cls(arguments);
+                            else if( t0 != '<' ) return cls[key] || ( cls[key] = new cls(arguments) );
+                        }
+                        return new cls(arguments);
+                    }
+                    );
+            for( k in t1 ) if( t1.hasOwnProperty(k) ) fn[k] = t1[k];
+            for( k in t2 ) if( t2.hasOwnProperty(k) ) f[k] = t2[k];
+            fn.END = function(){delete cls[this.__bsKey];}, fn.instanceOf = f;
+        };
+
+    });
+</script>
+</body>
+</html>
