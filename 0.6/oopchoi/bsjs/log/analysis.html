@@ -1,7 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>bs6 Test suite</title>
+    <meta name="keywords" content="bs5" />
+    <meta name="description" content="bs5 Test suite" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+    <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <script src="../bsjs.0.6.js"></script>
@@ -9,17 +18,17 @@
     bs(function(){
         var log = (function(){
             var t0 = [], // 임시 배열
-                    mode = 1, // 모드
-                    base, // 현재시간
-                    prev, // 과거시간
+                    mode = 1, // 로그뷰 접었다 폈다 하기 위한 플래그 변수
+                    base, // 처음 로그 함수 실행 시간
+                    prev, // 바로 전 로그 함수 실행 시간
                     mobile = 0; // 모바일이면 1, 아니면 0
             return function(){
-                var i, // 인덱스
-                        j, // 길이
-                        k, // 시간 차이
-                        l; // 반환 값
+                var i, // arguments 접근 인덱스
+                        j,// arguments.length
+                        k,// 처음에는 현재 로그 함수 실행 시간, for 바디에서는 arguments[i] 참조
+                        l; // k(현재) - base(처음)
 
-                // BSCSE div가 없으면 생성
+                // layout.html 참고
                 if( !document.getElementById('BSCSE') ){
                     prev = base = Date.now();
                     bs.Css('.BSCSE0').S( 'border-bottom', '1px solid #ddd', 'padding', '10px 0' ),
@@ -29,14 +38,15 @@
                             bs.Css('#BSCC').S( 'font-size', mobile ? 10 : 11, 'font-family', 'DotumChe,Courier', 'overflow-y', 'scroll', 'height', mobile ? 180 : 280 ),
                             bs.Dom('<div id="BSCSE"></div>').S(
                                     'height', mobile ? 200 : 300, '<','body',
-                                    '>', bs.Dom('<div style="width:100%;background:#ccc;cursor:pointer;height:20px"></div>').S( 'down', function(e){
-                                        mode?(mode=0,bs.ANI.style(bs.Dom('#BSCSE'),'height',20,'time',.4)):
-                                                (mode=1,bs.ANI.style(bs.Dom('#BSCSE'),'height',mobile?200:300,'time',.4));
-                                    }, 'this' ),
+                                    '>', bs.Dom('<div style="width:100%;background:#ccc;cursor:pointer;height:20px"></div>').S(
+                                            // 브라우저면 마우스, 모바일이면 터치
+                                            'down', function(e){
+                                                mode?(mode=0,bs.ANI.style(bs.Dom('#BSCSE'),'height',20,'time',.4)):
+                                                        (mode=1,bs.ANI.style(bs.Dom('#BSCSE'),'height',mobile?200:300,'time',.4));
+                                            }, 'this' ),
                                     '>', '<div id="BSCC"></div>'
                             );
                 }
-                // 있으면
                 for( i = 0, j = arguments.length, t0.length = 0, t0[0] = '<div class="BSCSE1">' + ( l = ( k = Date.now() ) - base ) + ' : ' + ( k - prev ) + '</div>', prev = k ; i < j ; i++ )
                     k = arguments[i], t0[t0.length] = '<div class="BSCSE2">' + (typeof k == 'object' ? JSON.stringify(k) : k + '' ) + '</div>';
                 bs.Dom('#BSCC').S( '>', '<div class="BSCSE0">' + t0.join('') + '<br clear="both"></div>' );
@@ -58,6 +68,13 @@
             ;
         }
         log(t0(9999));
+
+        // 클로저를 사용해서 log 함수를 만든다.
+        // 처음에 호출하면 if( !document.getElementById('BSCSE') ) 로 div가 없으면 생성하고 초기화 작업을 한다.
+        // 초기화 : CSS, Dom, Event 모두 초기화하고 필요한 타임 변수들도 초기화한다.
+        // 실제로 arguments를 받아서 for 루프문에서 Dom을 생성하고 값을 표현한다.
+        // object 타입이면 JSON.stringigy 함수를 사용하여 표현한다.
+        // 화면 구성만 보려면 layout.html 참고
 
     });
 </script>
