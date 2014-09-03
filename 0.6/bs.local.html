@@ -44,12 +44,6 @@ bs( function(){
 			console.log( 'compressed', str.length );
 			return bs.decompress(str);
 		}, '안녕하세요#before!@#$ㄲㄹ'
-	),
-	bsTest( 'bs.model',
-		function(){
-			bs.model( 'test', '안녕하세요#before!@#$ㄲㄹ' );
-			return bs.model('test');
-		}, '안녕하세요#before!@#$ㄲㄹ'
 	);
 } );
 </script>
