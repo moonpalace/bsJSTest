@@ -14,6 +14,7 @@
 <body>
 <script src="//projectbs.github.io/bsJS/bsjs.0.6.js"></script>
 <script>
+"use strict"
 bs( function(){
 	bs.cls( 'Audio', function( fn, clsFn, bs ){
 		var ext = bs.DETECT.audioMp3 ? '.mp3' : '.ogg';
@@ -58,7 +59,7 @@ bs( function(){
 		fn.resume = function(){if( this.isPause && !this.isPlay ) this.isPlay = 1, this.isPause = 0, this.audio.play();},
 		fn.toggle = function(){this.isPause ? this.resume() : this.pause();},
 		fn.S = function(){
-			var t0, i = 0, j = arguments.length;
+			var t0, i = 0, j = arguments.length, k, v;
 			while( i < j ){
 				switch(k = arguments[i++]){
 					case'src':case'currentTime':case'duration':t0 = this.audio; break;
