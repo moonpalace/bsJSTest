@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>bsMedia</title>
+<meta charset="UTF-8">
+<meta name="keywords" content="bsMedia" />
+<meta name="description" content="bsMedia" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+</head>
+<body>
+<script src="//projectbs.github.io/bsJS/bsjs.0.6.js"></script>
+<script>
+bs( function(){
+	bs.cls( 'Audio', function( fn, clsFn, bs ){
+		var ext = bs.DETECT.audioMp3 ? '.mp3' : '.ogg';
+		fn.NEW = function( id, src ){
+			this.audio = new Audio(), this.S( 'src', src );
+			bs.ANI.ani(this);
+		},
+		fn.loop = 1, fn._seek = 0, fn.loopCnt = 0,
+		fn.play = function(seek){
+			return this.isPause || this.isPlay ? 0 : ( this.stop(), this.isPlay = 1, this._seek = seek || 0, this.audio.play(), 1 );
+		},
+		fn.stop = function(){
+			var a;
+			if( this.isPlay ){
+				if( this.isLoaded ){
+					( a = this.audio ).pause(), a.currentTime = 0;
+					if( this.progress ) this.progress( this, 0, a.duration );
+				}
+				return this.loopCnt = this.isPause = this.isPlay = 0, 1;
+			}
+		},
+		fn.ANI = function(){
+			var a = this.audio;
+			if( !this.isLoaded ){
+				if( a.readyState > 2 ) this.isLoaded = 1, this.load && this.load( this, a.currentTime, a.duration );
+			}else if( this.isPlay ){
+				if( this._seek ){
+					if( this._seek >= a.duration ) this.stop();
+					else a.currentTime = this._seek, this._seek = 0;
+				}
+				if( a.duration && a.currentTime > a.duration - .05 ){
+					if( ++this.loopCnt == this.loop ) this.stop(), this.end && this.end(this);
+					else a.pause(), a.currentTime = 0, a.play();
+				}else if( this.progress ) this.progress( this, a.currentTime, a.duration );
+			}
+		},
+		fn.seek = function(seek){
+			if( this.isLoaded ) this.stop(), this.play(seek);
+			else this.play(seek);
+		},
+		fn.pause = function(){if( !this.isPause && this.isPlay ) this.isPlay = 0, this.isPause = 1, this.pauseTime = this.audio.currentTime, this.audio.pause();},
+		fn.resume = function(){if( this.isPause && !this.isPlay ) this.isPlay = 1, this.isPause = 0, this.audio.play();},
+		fn.toggle = function(){this.isPause ? this.resume() : this.pause();},
+		fn.S = function(){
+			var t0, i = 0, j = arguments.length;
+			while( i < j ){
+				switch(k = arguments[i++]){
+					case'src':case'currentTime':case'duration':t0 = this.audio; break;
+					default:t0 = this;
+				}
+				if( i == j ) return t0[k];
+				if( ( v = arguments[i++] ) === null ) delete t0[k];
+				else switch(k){
+					case'src':t0.src = ( v += ext ), this.isLoaded = 0; break;
+					default:t0[k] = v;
+				}
+			}
+			return v;
+		};
+	} );
+	var isDown, track = 0, tracks = ['mp3/1', 'mp3/2', 'mp3/3'], next;
+	bs.Audio( 'a0', 'mp3/test' ).S(
+		'load', function( e, s, d ){
+			bs.Dom('#curr').S('html', '0:0' );
+			bs.Dom('#end').S('html', parseInt(d/60)+':'+parseInt(d%60) );
+		},
+		'end', function(e){bs.log('ended');},
+		'progress', function( e, c, d ){
+			if( !isDown ){
+				bs.Dom('#time').S('@value', parseInt( 1000 * c / d ) );
+				bs.Dom('#curr').S('html',parseInt(c/60)+':'+parseInt(c%60) );
+			}
+		}
+	),
+	bs.Css('.btn').S( 'style', 'cursor:pointer;text-align:center;color:#fff;width:70;font-size:12px;padding:10px 0;background:#f00;float:left;margin:5' ),
+	bs.Dom('body').S(
+		'>', '<h2>bsAudio</h2>',
+		'>', bs.Dom('<div class="btn">Play</div>').S( '<', 'body', 'down', function(){
+				if( !bs.Audio('a0').play() ) bs.log( 'not loaded or played of paused' );
+			}, 'this' ),
+		'>', bs.Dom('<div class="btn">Stop</div>').S( 'background', '#888', '<', 'body', 'down', function(){
+				bs.Audio('a0').stop();
+			}, 'this' ),
+		'>', bs.Dom('<div class="btn">Pause</div>').S( 'background', '#878', '<', 'body', 'down', function(){
+				bs.Audio('a0').pause();
+			}, 'this' ),
+		'>', bs.Dom('<div class="btn">Resume</div>').S( 'background', '#688', '<', 'body', 'down', function(){
+				bs.Audio('a0').resume();
+			}, 'this' ),
+		'>', bs.Dom('<div class="btn">Toggle</div>').S( 'background', '#883', '<', 'body', 'down', function(){
+				bs.Audio('a0').toggle();
+			}, 'this' ),
+		'>', '<br clear="both"/>',
+		'>', bs.Dom('<div></div>').S( '<','body',
+				'>', '<div id="curr" style="float:left"></div>',
+				'>', bs.Dom('<input id="time" type="range" min="0" max="1000" value="0">').S('style','float:left',
+					'change',function(e){
+						var t0 = bs.Dom('#end').S('html').split(':');
+						bs.Audio('a0').seek( ( t0[0] * 60 + t0[1] * 1 ) * e.value / 1000 );
+					},
+					'down',function(e){isDown = 1;},
+					'up',function(e){isDown = 0;}, 'this'),
+				'>', '<div id="end" style="float:left"></div>',
+			'this'),
+		'>', '<br clear="both"/>',
+		'>', '<h2>Play List</p2>',
+		'>', '<ol><li>1.mp3</li><li>2.mp3</li><li>3.mp3</li></ol>',
+		'>', bs.Dom('<div class="btn">Prev</div>').S( 'background', '#878', '<', 'body', 'down', function(){
+				if( track > 1 ) bs.Audio('a1').stop(), bs.Audio('a1').S('src',tracks[--track]), bs.Audio('a1').play();
+			}, 'this' ),
+		'>', bs.Dom('<div class="btn">Play</div>').S( '<', 'body', 'down', function(){
+				bs.Audio('a1').S('src',tracks[track]), bs.Audio('a1').play();
+			}, 'this' ),
+		'>', bs.Dom('<div class="btn">Stop</div>').S( 'background', '#888', '<', 'body', 'down', function(){
+				bs.Audio('a1').stop();
+			}, 'this' ),
+		'>', bs.Dom('<div class="btn">Next</div>').S( 'background', '#688', '<', 'body', 'down', next = function(){
+			console.log('next');
+				bs.Audio('a1').stop(), bs.Audio('a1').S('src',tracks[track < tracks.length - 1 ? ++track : (track = 0 )]), bs.Audio('a1').play();
+			}, 'this' )
+	);
+	bs.Audio( 'a1' ).S( 'end', next );
+});
+</script>
+</body>
+</html>
