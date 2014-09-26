@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>bs5 Test suite</title>
+<title>bs6 Test suite</title>
 <meta name="keywords" content="bs5" />
 <meta name="description" content="bs5 Test suite" />
 <meta charset="utf-8"/>
@@ -46,8 +46,18 @@ bs( function(){
 		function(){
 			bs.Dom('#fc00').S('{>.a}', 'color', '#ff0');
 			return bs.Dom('#fcd0').S('color') + bs.Dom('#fcd1').S('color');
-		}, '#f00#ff0'
+		}, '#f00#ff0',
+		function(){
+			//마지막자식
+			return bs.Dom('#fc00').S('{>$}')[0].id;
+		}, 'fcs1'
 	);
+	bsTest( '마지막자식얻기',
+		function(){
+			//마지막자식
+			return bs.Dom('#fc00').S('>$')[0].id;
+		}, 'fcs1'
+	),
 	bsTest( '이미 있는 스타일인식',
 		function(){
 			bs.Dom('#stage').S( '>', '<div id="styleTest0" style="width:100px;height:10px;background:#ff0;font-size:2em;margin:2%;display:block"></div>' );
