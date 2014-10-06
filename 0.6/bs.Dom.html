@@ -13,6 +13,8 @@
 <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
 </head>
 <body>
+<div id="stageStyle"></div>
+<br clear="both">
 <form id="dispatch"><input id="dispatchText" type="text" value="reset"/><input id="dispatchReset" type="reset" value="reset"></form>
 <div id="stage" data-id="stageId" data-id2="stageId2">test stage</div>
 <div class="clsStage" style="display:none;">test stage1</div>
@@ -31,12 +33,23 @@
 <script>
 bs.debug(1);
 bs( function(){ 
+	bsTest( 'style테스트',
+		function(){
+			return bs.Dom('<div></div>').S( '<', '#stageStyle', 'float', 'left', 'width', 200, 'height', 200, 'background', 'url(img/0.png)', '@style' ).backgroundImage.indexOf('img/0.png') > -1;
+		}, true,
+		function(){
+			bs.Dom('<div class="backgroundStyle"></div>').S( '<', '#stageStyle', 'float', 'left',  'width', 200, 'height', 200 );
+			bs.Css('.backgroundStyle').S( 'background', 'url(img/1.png)' );
+			return '';
+		}, ''
+	);
 	bsTest.tear( '스타일설정', function(){
 		bs.Css( '#stage' ).S( 'border', '1px solid #f00', 'margin-top', 30, 'width', '50:%', 'padding', 10 );
 		bs.Css( '#stage' ).S( 'width', 100 );
 		bs.Dom( '#stage' ).S( 'background-color', '#eee' );
 		bs.Dom( '#stage' ).S( 'class', 'cls1' );
 	} );
+	
 	bsTest( '첫번째인자기능',
 		function(){
 			bs.Dom('#stage').S('>', '<div id="fc00"><div id="fcd0">d0</div><div id="fcd1" class="a">a0</div><div id="fcd2" class="a">a1</div><span id="fcs0">s0</span><span id="fcs1">s1</span></div>');
