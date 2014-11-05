@@ -77,6 +77,17 @@ bs( function(){
 	
 	], i = tester.length;
 	while( i-- ) mk( tester[i] );
+	bsTest( '존재하지 않는 요소',
+		function(){
+			return bs.Dom( '#notExist' ).length;
+		}, 0,
+		function(){
+			return bs.Dom( '.notExist' ).length;
+		}, 0,
+		function(){
+			return bs.Dom( 'notExist' ).length;
+		}, 0
+	);
 } );
 </script>
 </body>
