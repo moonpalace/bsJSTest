@@ -58,22 +58,58 @@ bs( function(){
 		fn.pause = function(){if( !this.isPause && this.isPlay ) this.isPlay = 0, this.isPause = 1, this.pauseTime = this.audio.currentTime, this.audio.pause();},
 		fn.resume = function(){if( this.isPause && !this.isPlay ) this.isPlay = 1, this.isPause = 0, this.audio.play();},
 		fn.toggle = function(){this.isPause ? this.resume() : this.pause();},
-		fn.S = function(){
-			var t0, i = 0, j = arguments.length, k, v;
-			while( i < j ){
-				switch(k = arguments[i++]){
-					case'src':case'currentTime':case'duration':t0 = this.audio; break;
-					default:t0 = this;
+		fn.S = (function(){
+			var blur = (function(){
+				var init = function(){
+					var unactive = function(type){ 
+						if( isUnactive ) return;
+						isUnactive = 1;
+						if( callback ) callback(type);
+					}, t0, time = Date.now(), prevTime = 0, isUnactive = 0;
+					bs.ANI.ani({
+						ANI:function(t){isUnactive = 0, time = t;}
+					});
+					setInterval( function(){
+						if( isUnactive ) return;
+						if( time == prevTime ) unactive('setInterval');
+						else prevTime = time;
+					}, 500 );
+					bs.WIN.on( 'blur', function(){if(isUnactive) return; unactive('blur');} );
+					bs.WIN.on( 'unload', function(){if(isUnactive) return; unactive('unload');} );
+					t0 = 0;
+					if( typeof document.hidden != 'undefined' ) t0 = 'visibilitychange';
+					else if( typeof document.mozHidden != 'undefined' ) t0 = 'mozvisibilitychange';
+					else if( typeof document.msHidden != 'undefined' ) t0 = 'msvisibilitychange';
+					else if( typeof document.webkitHidden != 'undefined' ) t0 = 'webkitvisibilitychange';
+					t0 && document.addEventListener( t0, function(){
+						if( isUnactive ) return;
+						if( document.visibilityState != 'visible' ) unactive('visibilitychange');
+					});				
+				}, callback = 0;
+				return function( func ){
+					if( typeof func != 'function') return;
+					if( !callback ) init();
+					callback = func;
+				};					
+			})();			
+			return function(){
+				var t0, i = 0, j = arguments.length, k, v;
+				while( i < j ){
+					switch(k = arguments[i++]){
+						case'src':case'currentTime':case'duration':t0 = this.audio; break;
+						default:t0 = this;
+					}
+					if( i == j ) return t0[k];
+					if( ( v = arguments[i++] ) === null ) delete t0[k];
+					else switch(k){
+						case'src':t0.src = ( v += ext ), this.isLoaded = 0; break;
+						case'blur':blur(v);
+						default:t0[k] = v;
+					}
 				}
-				if( i == j ) return t0[k];
-				if( ( v = arguments[i++] ) === null ) delete t0[k];
-				else switch(k){
-					case'src':t0.src = ( v += ext ), this.isLoaded = 0; break;
-					default:t0[k] = v;
-				}
-			}
-			return v;
-		};
+				return v;
+			};
+		})();
 	} );
 	var isDown, track = 0, tracks = ['mp3/1', 'mp3/2', 'mp3/3'], next;
 	bs.Audio( 'a0', 'mp3/test' ).S(
@@ -87,6 +123,9 @@ bs( function(){
 				bs.Dom('#time').S('@value', parseInt( 1000 * c / d ) );
 				bs.Dom('#curr').S('html',parseInt(c/60)+':'+parseInt(c%60) );
 			}
+		},
+		'blur', function(){
+			bs.log('blur');
 		}
 	),
 	bs.Css('.btn').S( 'style', 'cursor:pointer;text-align:center;color:#fff;width:70;font-size:12px;padding:10px 0;background:#f00;float:left;margin:5' ),
