@@ -124,8 +124,8 @@ bs( function(){
 				bs.Dom('#curr').S('html',parseInt(c/60)+':'+parseInt(c%60) );
 			}
 		},
-		'blur', function(){
-			bs.log('blur');
+		'blur', function(type){
+			bs.log( 'blur type=' + type );
 		}
 	),
 	bs.Css('.btn').S( 'style', 'cursor:pointer;text-align:center;color:#fff;width:70;font-size:12px;padding:10px 0;background:#f00;float:left;margin:5' ),
