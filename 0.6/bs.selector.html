@@ -77,6 +77,20 @@ bs( function(){
 	
 	], i = tester.length;
 	while( i-- ) mk( tester[i] );
+	bsTest( '결과내 검색',
+		function(){
+			return bs.Dom('#dd5', bs.Dom('[id]')).length;
+		}, 1,
+		function(){
+			return bs.Dom('[class]', bs.Dom('[id]')).length;
+		}, 5,
+		function(){
+			return bs.Dom('.ka', bs.Dom('[class]')).length;
+		}, 5,
+		function(){
+			return bs.Dom('a', bs.Dom('[target]')).length;
+		}, 2
+	);
 	bsTest( '존재하지 않는 요소',
 		function(){
 			return bs.Dom( '#notExist' ).length;
@@ -86,6 +100,12 @@ bs( function(){
 		}, 0,
 		function(){
 			return bs.Dom( 'notExist' ).length;
+		}, 0,
+		function(){
+			return bs.Dom('.example', bs.Dom('[class]')).length;
+		}, 0,
+		function(){
+			return bs.Dom('@li', bs.Dom('@[pekuid]')).length;
 		}, 0
 	);
 } );
