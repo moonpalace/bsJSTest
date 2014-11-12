@@ -189,7 +189,7 @@
             fn( 'obj', function( key, v ){var t0 = key.replace( trim, '' ).toUpperCase();( !arguments[2] && t0 != key ) ? err( 1002, key ) : bs[t0] ? err( 2002, t0 ) : bs[t0] = v;} ),
                 fn( 'cls', (function(){
                     var S = function(){
-                        var i = 0, j = arguments.length;
+                        var i = 0, j = arguments.length, k, v;
                         while( i < j ){k = arguments[i++];if( i == j ) return this[k];( ( v = arguments[i++] ) === null ) ? delete this[k] : ( this[k] = v );}
                         return v;
                     };
@@ -1018,6 +1018,7 @@
                             },
                             t0 = {keys:keys, key:key, rn:rn, rno:rno, rne:rne, nopx:nopx, trim:trim, ss:ss},
                             fn.g = comp( mk, {r:( t1 = ( function(){
+                                var v;
                                 this[k] === undefined ?
                                     ( v = s[k] ) ?
                                         rn.test(v) ?
