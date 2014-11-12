@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>bs 0.7 cross Test suit</title>
+<meta charset="utf-8"/>
+<meta name="keywords" content="bsjs 0.7" />
+<meta name="description" content="bsjs 0.7 Test suite" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+</head>
+<body>
+<div id="naver"></div>
+<div id="daum"></div>
+<div id="google"></div>
+<script src="../../bsJS/bsjs.0.7.js"></script>
+<script>
+bs( function(){
+	bs.css( 'body{padding:0;margin:0}div{border:1px solid #000;padding:5px;float:left;width:30%;margin:0 5px;overflow:hidden' );
+	bs.get( function(data){bs.Dom('#naver')[0].innerText=data;},'http://www.naver.com' );
+	bs.get( function(data){bs.Dom('#daum')[0].innerText=data;},'http://www.daum.net' );
+	bs.get( function(data){bs.Dom('#google')[0].innerText=data;},'http://www.google.co.kr' );
+}); 
+</script>
+</body>
+</html>
