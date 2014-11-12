@@ -7,4 +7,4 @@
  */
 bs(function(){
     console.log("loaded!")
-})();
+});
