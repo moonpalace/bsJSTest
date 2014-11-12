@@ -1,0 +1,102 @@
+<style>
+#article{position:relative;width:300%}
+.article{width:33.3333333%;float:left;overflow:hidden}
+/*breadcrumb*/
+#breadcrumb{position:fixed;left:0px;top:75px;width:100%;height:18px;padding-top:7px;background-color:#fff;color:#000;font-size:12px;line-height:100%} 
+#breadcrumb img{width:12px;height:11px;margin-bottom:-1px}
+#breadcrumb span{color:#000;text-decoration:none}
+.a1{margin:5px 0px 0px 15px} /*타임라인 및 오피니언 마킹*/
+/*제목*/
+.a2{color:#000;font-size:16px;margin:9px 15px 10px 15px}
+.a3{color:#696868;font-size:12px;margin:5px 15px 7px 15px}
+/*날짜 및 글자크기조절*/
+.a4{position:relative;height:25px;margin:0 7px 5px 7px}
+.a40{position:absolute;font-size:12px;color:#000;bottom:0;left:5px}
+.a41{position:absolute;top:0;right:0}
+.a410{width:40px;height:25px;margin-right:5px;cursor:pointer}
+.a411{width:79px;height:25px;cursor:pointer}
+/*기사본문*/
+.a5{font-size:13px;color:#393939;margin:5px 7px 5px 7px}
+.news_bm img{max-width:100%;}
+.news_bm iframe{width:100%}
+.news_bm table{width:100% !important; text-align:center; table-layout:fixed; float:none !important; border:0px !important;}
+.news_bm table td {text-align:center}
+.news_bm p{margin:0 !important}
+.gija_mail{padding-top:20px;}
+.bm_cc{padding-top:15px;}
+#body_relnews{width:96%; font-size:13px; border:#999 1px solid; margin:15px 0 15px 0; padding-left:10px; background: url("../../../img.asiatoday.co.kr/asiatoday/images/rel_ul.gif") left no-repeat; float:left}
+#body_relnews li{white-space:nowrap; text-overflow:ellipsis; overflow:hidden; margin:6px 0}
+#body_relnews li a{text-decoration:none}
+.video-container{position:relative; padding-bottom:56.25%; height:0; overflow:hidden}
+.video-container iframe,.video-container object,.video-container embed{position:absolute; top:0; left:0; width:100%; height:100%}
+.news_bm .photo_Lsize{margin-bottom:12px}
+/*기사하단*/
+.a6{text-align:center;height:33px;margin-top:16px}
+.a6 img{width:33px;height:33px;cursor:pointer;margin:0 2.5px 0 2.5px}
+.a7{text-align:center;margin:11px 7px 18px 7px}
+.a10{text-align:center;margin:15px 7px 12px 7px}
+.a7 img, .a10 img{width:100%;max-width:345px}
+.a11{text-align:left;margin:11px 7px 18px 7px}
+.a11 ul{margin:0; padding:0}
+.a11 p{margin:0 0 5px 0; padding:0}
+.a11 li{white-space:nowrap; text-overflow:ellipsis; overflow:hidden; width:100%; margin-bottom:2px}
+.a11 a{text-decoration:none; color:#393939; font-size:15px}
+.a11 li img{margin-right:4px; vertical-align:middle}
+/*타임라인*/
+.a8{margin:5px 7px 11px 7px}
+.a80{font-size:14px;color:#95201b;margin:0 0 5px 2px}
+.a80 img{width:6px;height:13px;bottom:0px}
+.a81{position:relative;height:33px;line-height:33px;background-color:#fcd9db;text-align:center;color:#95201b;font-size:14px;margin:5px 0px 0px 0px}
+.a810{position:absolute;top:5px;right:8px;line-height:100%;background-color:#e2332c;font-size:11px;color:#fff;padding:6px 5px 6px 5px;cursor:pointer} /*전체보기*/
+.a82{position:relative;height:192px;overflow:hidden}/*타임라인이동영역*/
+.a820{position:absolute;width:100%;height:3px;background-color:#c8c8c8;top:41px}/*타임라인가로선*/
+.a821{position:absolute;width:30px;top:25px;left:0;cursor:pointer}/*좌측이동버튼*/
+.a822{position:absolute;width:30px;top:25px;right:0;cursor:pointer}/*우측이동버튼*/
+.a823{position:absolute;width:100%;height:2px;background-color:#ef414a;opacity:.5;bottom:0px} /*아래선*/
+.a824{position:absolute;width:100%;height:100%;top:0px} /*타임라인요소 컨테이너(이걸이동)*/
+.a8240{position:absolute;width:105px}/*타임라인요소*/
+.a82400{position:absolute;width:100%;top:14px;text-align:center;color:#555;font-size:12px}/*날짜*/
+.a82401{position:absolute;width:2px;height:80px;background-color:#dedede;top:44px;left:51px}/*세로선*/
+.a82401s{background-color:#dd322b}
+.a82402{position:absolute;width:19px;top:33px;left:43px}/*선택원*/
+.a82403{position:absolute;width:14px;left:45px}/*박스화살표*/
+.a82403t{top:56px}/*화살표상단위치*/
+.a82403b{top:118px}/*화살표하단위치*/
+.a82404{position:absolute;width:77px;background-color:#f5f5f5;border:1px solid #ded3d3;border-radius:5px;font-size:12px;line-height:14px;color:#555;text-align:center;padding:10px 13px 10px 13px}/*제목*/
+.a82404 p{overflow:hidden;max-height:28px;margin:0}/*타임라인요소제목*/
+.a82404s{background-color:#ffebec;border:1px solid #ef414a;color:#a72a30}/*타임라인요소선택*/
+.a82404t{top:64px}/*타임라인제목상단위치*/
+.a82404b{top:126px}/*타임라인제목하단위치*/
+/*타임라인 연관기사*/
+.a9{background-color:#f5f5f5;border:1px solid #dedede;border-radius:5px;margin:5px 7px 20px 7px}
+.a90{font-size:14px;color:#000;margin:10px 0px 7px 10px} /*제목*/
+.a91{height:28px;line-height:28px;background-color:#afafaf;border-radius:5px;text-align:center;color:#fff;font-size:14px;margin:0px 5px 7px 5px} /*연관기사제목*/
+.a92{margin:7px 10px 10px 10px} /*연관기사요소 컨테이너*/
+.a920{color:#555;font-size:13px;line-height:18px;cursor:pointer} /*연관기사요소*/
+/*많이본기사*/
+.n0{margin:0px 0px 20px 0px}
+.n01{font-size:14px;color:#95201b;margin:0 0 5px 10px}
+.n01 img{width:6px;height:13px;bottom:0px}
+.n02{width:100%;height:76px;clear:both;padding-top:5px;padding-bottom:10px} /*기사리스트요소*/
+.n020{color:#696969;font-size:12px;line-height:15px;min-height:30px;max-height:30px;margin:5px 12px 5px 12px;overflow:hidden}
+.n02 img{float:left;width:102px;height:68px;padding:3px;margin:0 5px 0 6px;border:2px solid #D9D9D9}
+.n02 h2{margin:5px 10px 5px 12px;min-height:33px;max-height:33px;line-height:17px;font-size:14px;color:#000;overflow:hidden}
+/*아는여자*/
+.g0{margin:5px 7px 11px 7px;overflow:hidden}
+.g00{font-size:14px;color:#95201b;margin:0 0 5px 2px}
+.g00 img{width:6px;height:13px;bottom:0px}
+.g01{position:relative;height:116px;border:1px solid #d9d9d9}
+.g010{position:absolute;left:-1px;width:25px;border-left: 1px solid #d9d9d9}
+.g011{position:absolute;right:0;width:25px}
+.g012{position:absolute;left:25px;right:25px;top:0;bottom:0;overflow:hidden} /*이미지영역*/
+.g012 img{position:absolute;width:94px;height:111px;margin:3px 2px 3px 2px}
+/*로딩*/
+.loading{display:none;position:absolute;width:65px;height:72px;left:50%;bottom:50%;margin:-32.5px 0 0 -36px}
+.loading img{width:64.5px;height:71px}
+</style>
+<div id="breadcrumb" data-id="breadcrumb">&nbsp;&nbsp;<img src="i/32.html"/> 〉 <span data-id="breadcrumb0"></span></div>
+<div id="article" data-id="article">
+	<div class="article"></div>
+	<div class="article"></div>
+	<div class="article"></div>
+</div>

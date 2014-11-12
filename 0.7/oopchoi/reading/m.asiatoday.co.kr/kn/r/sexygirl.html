@@ -1,0 +1,97 @@
+<style>
+/*제목*/
+.b0{margin:8px;color:#000;font-size:16px;font-weight:normal}
+/*썸네일*/
+.b1{position:relative;margin:0px 8px;text-align:center;height:74px;overflow:hidden;border:1px solid #DFDFDF}
+.b10{position:absolute;margin:0;padding:0}
+.b10 img{position:absolute;width:63px;height:70px;margin:0;padding:0;border:2px solid #fff}
+.b11,.b12{position:absolute;top:-1px;width:15px;height:76px;cursor:pointer}
+.b11{left:-1px}
+.b12{right:-1px;}
+/*포토*/
+.b2{position:relative;margin:13px 0;width:100%;min-height:50px;background-color:#E5E5E5;border:1px solid #dedbde}
+.b20{position:absolute;top:10px;bottom:10px;left:42px;right:42px;overflow:hidden}
+.b200{position:relative;top:0px;left:0px}
+.b200 img{float:left}
+.b21,.b22{position:absolute;width:42px;height:100%;text-align:center;cursor:pointer}
+.b21 img, .b22 img{position:relative;width:30px;height:35px;top:50%;margin-top:-17px}
+.b21{left:0px}
+.b22{right:0px}
+.b23{position:absolute;left:47px;bottom:14px;width:79px;height:25px;cursor:pointer}
+/*구경가기*/
+.b3{margin:8px;color:#880D0B;font-size:14px;line-height:14px;font-weight:bold}
+.b3 img{width:6px;height:14px;margin-right:5px}
+.b4{margin:4px 0px;padding:0 20px 30px 30px;font-size:14px;line-height:20px;font-weight:normal}
+.b4 li{cursor:pointer}
+/*기사보기*/
+.a0{display:none;position:absolute;top:0;left:0;width:100%;height:100%;z-index:100001;background-color:#fff}
+.a00{position:fixed;top:0;left:0;border-top:5px solid #000;width:100%;height:40px;z-index:100001;background-color:#dd322b}
+.a000{position:absolute;top:8px;width:100%;height:25px;line-height:25px;color: #fff;font-size:20px;font-weight:bold;text-align:center}
+.a001{position:absolute;cursor:pointer;width:40px;height:40px;right:0}
+.a01{position:absolute;top:45px;background-color:#fff}
+.a010 {color:#000;font-size:16px;margin:10px 10px}
+.a011 {position:relative;height:25px;margin:0 10px 5px 10px}
+.a0110 {position:absolute;font-size:12px;color:#000;bottom:0;left:5px}
+.a0111 {position:absolute;top:0;right:0;}
+.a01110{width:40px;height:25px;margin-right:5px;cursor:pointer}
+.a012 {font-size:13px;color:#393939;margin:15px 10px}
+.a013 {text-align:center;height:33px;margin-top:22px;margin-bottom:20px}
+.a013 img{width:33px;height:33px;cursor:pointer;margin:0 2.5px 0 2.5px}
+/*확대보기*/
+.z0{display:none;position:absolute;top:0;left:0;width:100%;height:100%;z-index:100001;background-color:#fff}
+.z00{position:fixed;top:0;left:0;border-top:5px solid #000;width:100%;height:40px;z-index:100001;background-color:#dd322b}
+.z000{position:absolute;top:8px;width:100%;height:25px;line-height:25px;color: #fff;font-size:20px;font-weight:bold;text-align:center}
+.z001{position:absolute;cursor:pointer;width:40px;height:40px;right:0}
+.z01{position:absolute;top: 45px;overflow:hidden;width:100%;bottom:0}
+</style>
+<!--본문-->
+<h2 class="b0" data-id="subject"></h2>
+<div class="b1">
+	<div class="b10" data-id="thumbs"></div>
+	<img class="b11" data-id="thumbL" data-move="thumbs" src="i/43.html"/>
+	<img class="b12" data-id="thumbR" data-move="thumbs" src="i/44.html"/>
+</div>
+<div class="b2" data-id="photoView" data-move="photos">
+	<div class="b20" data-move="photos">
+    	<div class="b200" data-id="photos"></div>
+    </div>
+    <div class="b21" data-id="photoL" data-move="photos"><img src="i/22.html"/></div>
+    <div class="b22" data-id="photoR" data-move="photos"><img src="i/24.html"/></div>
+    <img class="b23" data-id="articleOpen" data-move="photos" src="i/45.html"/>
+</div>
+<h3 class="b3"><img src="i/20.html"><span>다른 "아는 여자" 구경하기</span></h3>
+<ul class="b4" data-id="anothers"></ul>
+<!--기사-->
+<div class="a0" data-id="article" >
+	<div class="a00">
+    	<div class="a000">아는 여자</div>
+        <img class="a001" src="i/gnb9.html" data-id="articleClose"/>
+    </div>
+	<div class="a01" data-id="sgl051">
+    	<h1 class="a010" data-id="articleTitle"></h1>
+        <div class="a011">
+        	<div class="a0110" data-id="articleDate"></div>
+            <div class="a0111">
+            	<img class="a01110" data-id="articleFont" data-src0="i/08.png" data-src1="i/09.png" data-src2="i/10.png"/>
+            </div>
+       	</div>
+        <div class="a012" data-id="articleBody"></div>
+        <div class="a013">
+        	<img data-id="articleShare_kakaotalk" data-service="kakaotalk" src="i/13.html"/>
+            <img data-id="articleShare_twitter" data-service="twitter" src="i/14.html"/>
+            <img data-id="articleShare_facebook" data-service="facebook" src="i/15.html"/>
+            <img data-id="articleShare_band" data-service="band" src="i/16.html"/>
+            <img data-id="articleShare_line" data-service="line" src="i/17.html"/>
+        </div>
+    </div>
+</div>
+<!--이미지확대-->
+<div class="z0" data-id="zoom">
+	<div class="z00" data-id="zoomTitle">
+    	<div class="z000">확대 보기</div>
+        <img class="z001" src="i/gnb9.html" data-id="zoomClose"/>
+	</div>
+	<div class="z01" data-id="zoomContent"></div>
+</div>
+
+

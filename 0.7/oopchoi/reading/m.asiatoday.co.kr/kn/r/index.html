@@ -1,0 +1,91 @@
+<style>
+#mainView{position:relative;left:0;right:0;background-color:#e1e1e1;padding:7px}
+.main{position:relative;background-color:#fff;padding:10px}
+
+#top{position:relative;margin-bottom:2px}
+#top h2{position:absolute;margin:0 12px 0px 12px;min-height:35px;max-height:35px;font-size:14px;line-height:18px;color:#fff;overflow:hidden;bottom:12px}
+.top0{position:absolute;width:100%;height:50px;background-color:#000;opacity:0.5;bottom:4px}
+/*.top1{position:absolute;display:none;left:0px;right:0px;bottom:4px;top:0px;background-color:#000;opacity:0.5}*/
+
+#issue{position:relative;margin-bottom:5px;overflow:hidden}
+.issue0{position:absolute}
+.issue00{position:absolute}
+.issue00 h2{position:absolute;margin:0 12px 0px 12px;min-height:35px;max-height:35px;font-size:14px;line-height:18px;color:#000;overflow:hidden;bottom:12px}
+.issue000{position:absolute;width:100%;height:50px;background-color:#fff;opacity:0.7;bottom:4px}
+.issue001{position:absolute;width:60px;height:60px;top:} 
+.issue1{position:absolute;right:5px;top:5px}
+.issue1 img{width:13px;height:13px;margin-left:5px;}
+
+#mid{position:relative;margin-bottom:5px;overflow:hidden}
+.mid0{position:absolute}
+.mid0 h2{position:absolute;margin:0 7px 0px 7px;min-height:27px;max-height:27px;font-size:12px;line-height:14px;color:#000;overflow:hidden;bottom:5px}
+
+#slide{position:relative;background-color:#fff;}   
+.slide{position:relative;margin-bottom:5px;overflow:hidden;background-color:#fff}
+.slide:last-child{margin-bottom:0}
+
+.slide0{position:absolute;left:33px;top:0}
+.slide00{position:absolute}
+.slide00 h2{position:absolute;margin:0 7px 0px 7px;min-height:27px;max-height:27px;font-size:12px;line-height:14px;color:#fff;overflow:hidden;bottom:8px}
+.slide000{position:absolute;width:100%;height:35px;background-color:#000;opacity:0.7;bottom:4px} 
+
+.slide1{position:relative;display:table-cell;vertical-align:middle;width:33px;height:100%;text-align:center;background-color:#ef414a;font-size:14px;color:#fff}
+
+#tileView{margin:7px 5px 0 5px}
+.tile{margin-bottom:5px}
+.tile h2{font-size:14px; color:#5c5c5c; overflow:hidden; line-height:17px;}
+.tile0{width:50%;float:left}
+
+.tile1{margin:0 2.5px;border:1px solid #ccc}
+.tile1 img{width:100%;display:block}
+.tile1 h2{margin:5px}
+
+.tile2{margin:0 2.5px;background:#ccc;padding:10px 10px;color:#6e6e6e;font-size:12px}
+.tile2 h2{margin:0 0 10px 0}
+
+.swipe_arrow_left{position:absolute; top:0; left:40px; bottom:0; margin:auto; width:8%; display:none}
+.swipe_arrow_right{position:absolute; top:0; right:0; bottom:0; margin:auto; width:8%}
+/*광고*/
+#samsung_ad{text-align:center; margin:10px 0 5px 0; display:none;}
+</style>
+<div id="mainView" data-id="main">
+	<div class="main">
+		<div id="top" data-id="top"></div>
+		<div id="mid" data-id="mid"></div>
+	</div>
+	<div id="slide">
+		<div class="slide" data-name="slide" data-id="why">
+			<div class="slide0" data-name="body"></div>
+			<div class="slide1" data-name="title">W<br>H<br>Y<br><br>와<br>이</div>
+			<img src="i/85.html" class="swipe_arrow_left"/>
+			<img src="i/84.html" class="swipe_arrow_right"/>
+		</div>
+		<div class="slide" data-name="slide" data-id="alife">
+			<div class="slide0" data-name="body"></div>
+			<div class="slide1" data-name="title" style="background-color:#d0252e">A<br>기<br>자<br>라<br>이<br>프</div>
+			<img src="i/85.html" class="swipe_arrow_left"/>
+			<img src="i/84.html" class="swipe_arrow_right"/>
+		</div>
+		<div class="slide" data-name="slide" data-id="photonews">
+			<div class="slide0" data-name="body"></div>
+			<div class="slide1" data-name="title" style="background-color:#a00f16">월<br>드<br>투<br>데<br>이</div>
+			<img src="i/85.html" class="swipe_arrow_left"/>
+			<img src="i/84.html" class="swipe_arrow_right"/>
+		</div>	
+	</div>
+	<div class="main">
+		<div id="issue" data-id="issue">
+			<div class="issue0" data-id="issueBody"></div>
+			<div class="issue1" data-id="issueIdx"></div>
+		</div>
+	</div>
+</div>
+<!--광고-->
+<div id="samsung_ad" >
+	<a href="http://www.youtube.com/samsungtomorrow" target="_blank"><img src="../../../img.asiatoday.co.kr/adver/banner/samsung_20130513_250x90.jpg" border=0 alt="삼성전자"></a>
+</div>
+<!--광고 끝-->
+<div id="tileView" data-id="tile"
+	><div class="tile0" data-id="tileL"></div
+	><div class="tile0" data-id="tileR"></div
+></div>

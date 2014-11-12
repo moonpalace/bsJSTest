@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!-- Mirrored from m.asiatoday.co.kr/kn/timeline.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+<title>아시아투데이::타임라인</title>
+<meta name="keywords" content="아시아투데이" />
+<meta name="description" content="아시아투데이,타임라인" />
+<meta name="share"/>
+<link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico" />
+<script src="r/bsjs.0.6.js"></script>
+<script src="r/main36b3.js?2013101411"></script>
+<script>
+'use strict'
+U.start( 'r/timeline.html', function(){
+	var cst = {
+		catH:56, catTime:.35, catEase:'quadraticOut' //카테고리 열기/닫기 
+	},
+	state = {
+		loading:1, hold:0, timeId:0,
+		catOpened:0, catMaxH:0, //카테고리 열기/닫기 
+		selected:0, 
+	},
+	ev = {
+		__timeout:function(){
+			state.hold = 0, state.timeId = 0;
+		},
+		//카테고리 열기/닫기 
+		catOpenDown:function(e){
+			if( state.hold || state.loading ) return;
+			if( state.catOpened ) return ev.catClose();
+			state.hold = 1, 
+			state.timeId = setTimeout( ev.__timeout, 200 );
+		},
+		catOpenUp:function(e){
+			if( !state.timeId ) return;
+			var i;
+			clearInterval( state.timeId ), state.timeId = 0;
+			if( -7 > ( i = e.dy ) || i > 7 ) return state.hold = 0;
+			U.bodyFix(1),
+			d.catH0.S( 'background-color', '#e9e9e9' ), d.catH1.S( 'background-color', '#e9e9e9' ),	d.catH1Img.S( '@src', 'i/menu110.png' );
+			d.catB.S( 'display', 'block' ),
+			d.catCover.S( 'display', 'block', 'this' ),
+			bs.ANI.style( d.catB.S( 'top', U.gnbH - state.catMaxH - 7, 'this' ), 'top', U.gnbH - 7, 'time', cst.catTime, 'ease', cst.catEase, 'end', ev.catOpened );
+		},
+		catOpened:function(){
+			state.hold = 0, state.catOpened = 1;
+		},
+		catClose:function(e){
+			if( state.hold ) return;
+			state.hold = 1, U.bodyFix(0), 
+			d.catH0.S( 'background-color', '#fff' ), d.catH1.S( 'background-color', '#fff' ), d.catH1Img.S( '@src', 'i/menu111.png' ),
+			d.catCover.S( 'display', 'none' ), 
+			bs.ANI.style( d.catB, 'top', U.gnbH - state.catMaxH - 7, 'time', cst.catTime, 'ease', cst.catEase, 'end', ev.catClosed );	
+			if( e ) e.prevent();
+		},
+		catClosed:function(){
+			d.catB.S( 'display', 'none' ),
+			state.hold = 0, state.catOpened = 0;
+		},
+		//카테코리 선택 
+		catBDown:function(e){
+			if( state.hold || state.timeId ) return;
+			var t0, t1 = ( t0 = bs.Dom(e.domPoint()) ).S('*seq') || ( t0 = bs.Dom(t0.S('<')) ).S('*seq');
+			if( t1 && t1.length > 0 ){}else return;
+			state.selected = t0, 
+			state.timeId = setTimeout( ev.__timeout, 200 );
+		},
+		catBUp:function(e){
+			if( !state.timeId ) return;
+			var t0, t1;
+			clearInterval(state.timeId), state.timeId = 0,
+			t0 = state.selected, state.selected = 0;
+			if( -7 > ( t1 = e.dy ) || t1 > 7 ) return state.hold = 0;
+			U.downCover( t0, '#' + t0.S('*seq'));
+		},
+		//articles list 
+		listDown:function(e){
+			if( state.hold || state.timeId ) return;
+			var t0, t1 = ( t0 = bs.Dom(e.domPoint()) ).S('*newskey2') || ( t0 = bs.Dom(t0.S('<')) ).S('*newskey2') || ( t0 = bs.Dom(t0.S('<')) ).S('*newskey2');
+			if( t1 && t1.length > 0 ){}else return;
+			state.selected = t0, state.timeId = setTimeout( ev.__timeout, 200 );
+		},
+		listUp:function(e){
+			if( !state.timeId ) return;
+			var t0, t1;
+			clearInterval(state.timeId), state.timeId = 0,
+			t0 = state.selected, state.selected = 0;
+			if( -7 > ( t1 = e.dy ) || t1 > 7 ) return;
+			U.downCover( t0, 'view9389.html?r=articles/' + t0.S('*newskey2') + '/timeline' ),
+			bs.local( location.href, bs.WIN.scroll('t') );
+		}, 
+		//share timeline
+		shareDown:function(e){
+			console.log('shareDown');
+			if( state.hold || state.timeId ) return;
+			var t0, t1 = ( t0 = bs.Dom(e.domPoint()) ).S('*service') || ( t0 = bs.Dom(t0.S('<')) ).S('*service');
+			if( t1 && t1.length > 0 ){}else return;
+			state.selected = t0,  state.timeId = setTimeout( ev.__timeout, 200 );
+		},
+		shareUp:function(e){
+			if( !state.timeId ) return;
+			var t0, t1;
+			clearInterval(state.timeId), state.timeId = 0,
+			t0 = state.selected, state.selected = 0;
+			if( -7 > ( t1 = e.dy ) || t1 > 7 ) return;
+			U.downCover(t0), U.share( t0.S('*service'), '#asiatoday #timeline ' + d.catH0.S('html'), 'timeline/' + seq );
+		},
+	}, 
+	d = {
+		catH:bs.Dom('[data-id=catH]').S( 'down', ev.catOpenDown, 'up', ev.catOpenUp, 'this' ),
+		catHL:bs.Dom('[data-id=catHL]'),
+		catH0:bs.Dom('[data-id=catH0]'),
+		catH1:bs.Dom('[data-id=catH1]'),
+		catH1Img:bs.Dom( bs.Dom('[data-id=catH1]').S( '>0' ) ),
+		catB:bs.Dom('[data-id=catB]').S( 'top', 0, 'this' ),
+		catB0:bs.Dom('[data-id=catB0]').S( 'down', ev.catBDown, 'up', ev.catBUp, 'this' ),
+		catCover:bs.Dom('[data-id=catCover]').S( '<', 'body', 'isCapture', 1, 'down', ev.catClose, 'this' ),
+		list:bs.Dom('[data-id=list]').S( 'down', ev.listDown, 'up', ev.listUp, 'this' ),
+		period:bs.Dom('[data-id=period]'),
+		lastYear:bs.Dom('[data-id=lastYear]'),
+		contents:bs.Dom('[data-id=contents]'),
+		share:bs.Dom('[data-id=share]').S( 'down', ev.shareDown, 'up', ev.shareUp, 'this' ),
+	}, 
+	load = (function(){
+		var loaded = function( data ){
+			var prevYear, t0, t1, t2, i, j;
+			U.loading(0), state.loading = 0;
+			if( U.none( data ) ) return;
+			d.contents.S( 'display', 'block' );
+			//타임라인 리스트 
+			t0 = data.body[1].newslist;
+			if( ( j = t0.length ) == 0 ) d.period.S( 'html', '없음' ), d.lastYear.S( 'display', 'none' );
+			else for( d.period.S( 'html', ( j == 1 ? '' : t0[j - 1].date + '~' ) + t0[0].date ), d.lastYear.S( 'display', 'block', 'html', t0[0].date.substr( 0, 4 ) ), prevYear = '', i = 0 ; i < j ; i++, prevYear = t2 )
+				t1 = t0[i], t2 = t1.date.substr( 0, 4 ), 
+				bs.Dom('<div class="list0"></div>').S( '<', d.list, '*newskey', t1.newskey, 
+					'>', t2 != prevYear && i > 0 ? '<div class="list00">' + t2 + '</div>' : 0,  
+					'>', '<div class="list01">' + t1.date.substr(5) + '</div>',
+					'>', '<div class="list02' + ( i + 1 == j ? ' list020' : '' ) + '"></div>',
+					'>', '<img class="list03" src="i/27.png"/>',
+					'>', bs.Dom('<div class="list05"></div>').S(
+						'*newskey2', t1.newskey, 
+						'border', '1px solid #dedede', 'background-color', '#f5f5f5', 
+						'*border', '1px solid #dedede', '*background-color', '#f5f5f5',
+						'>', t1.img_name ? U.thumb(t1.img_name) : 0,
+						'>', '<div class="list051"><div class="list0510">' + t1.title + '</div></div>', 
+						'>', '<img class="list050" data-id="arrow" src="i/70.png"/>',						
+						'this' )
+				);
+			//카테고리 리스트 	
+			t0 = data.body[0].category;
+			if( ( j = t0.length ) == 0 ) d.catH0.S( 'html', '없음' ), d.catB.S( 'display', 'none', 'down', null );
+			else {
+				d.catH0.S( 'html', '선택되지 않음' );
+				for( i = 0 ; i < j ; i++ ){
+					t1 = t0[i],
+					bs.Dom('<div class="catB00"></div>').S( '<', d.catB0,
+						'background-color', ( t1.seq == seq ? '#bababa' : '#e9e9e9' ), 'color', ( t1.seq == seq ? '#fff' : '#000'), '*seq', t1.seq,
+						'>', '<span class="catB000">' + t1.category_name + '</span>'
+					);
+					if( t1.seq == seq ) d.catH0.S( 'html', t1.category_name );
+					d.catB.S( 'top', U.gnbH - 7 ), state.catMaxH = 31 * j + 2;
+				}
+			}
+			if( t0 = bs.local(location.href) ) bs.WIN.scroll( 0, t0 ), bs.local(location.href, null );
+		};
+		return function(s){
+			seq = s, U.title( '타임라인', 0, 0 ), ev.catClose(), 
+			d.contents.S( 'display', 'none' ),
+			d.catB0.S( 'html', '' ), d.list.S( 'html', '' ), 
+			U.loading( 1, 1 ), bs.WIN.scroll( 0, 0 ), U.menuChange(),
+			state.loading = 1, U.data( 'timeline_sub', loaded, 'seq', seq );
+			U.ga();
+		};
+	})(), seq;
+	bs.router( '*', load, 'start', function(){
+		load.apply( null, window.__PATH ? window.__PATH : location.hash.substr(1).split('http://m.asiatoday.co.kr/') );
+	} );
+	U.gnbAdd( cst.catH, d.catH, d.catHL, d.catB );
+});
+</script>
+</body>
+
+<!-- Mirrored from m.asiatoday.co.kr/kn/timeline.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:34 GMT -->
+</html>

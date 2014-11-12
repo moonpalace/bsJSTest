@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!-- Mirrored from m.asiatoday.co.kr/kn/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:36:00 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+<title>아시아투데이</title>
+<meta name="keywords" content="아시아투데이" />
+<meta name="description" content="아시아투데이" />
+<meta name="share"/>
+<link rel="apple-touch-icon-precomposed" href="../../img.asiatoday.co.kr/apple/iphone.png" />
+<link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico" />
+<script src="r/bsjs.0.6.js"></script>
+<script src="r/main0c9b.js?2013110420"></script>
+<script>
+'use strict';
+U.start( 'r/index.html', function(){
+	var state = {
+		w:U.w, isScroll:0,
+		loadId:0, loading: 0, loadEnded:0,
+		topTid:0, 
+		issueHold:0, issueMove:0, issueIdx:0, issueLength:0, issueSelected:0, issueTid:0, 
+		midLength:0, midRollingTid:0, midIdx0:0, midIdx1:1, midTid:0, midSelected:0,
+		slideKey:0, slideHold:0, slideMove:0, slideIdxs:{ why:0, alife:0, photonews:0 }, slideSelected:0, slideTid:0, slideImgW:0, slideBodyW:0,
+		tileTid:0, tileSelected:0,
+	},
+	cst = {
+		time:.15, ease:'quadraticOut', swipeLimit:30,
+		mainPadding:34, bigImgRatio:.46,
+		issueGap:5,
+		midRatio:.48, midImgRatio:.725, midGap:5, 
+		slidePadding:14, slideTitleW:33, slideItemRadio:.6, slideRatio:0.43, slideGap:2,
+	},
+	ev = {
+		topDown:function(e){
+			if( state.topTid || state.loading ) return;
+			state.topTid = setTimeout( ev.topTimeout, 200 );
+		},
+		topTimeout:function(){
+			state.topTid = 0;
+		},
+		topUp:function(e){
+			if( !state.topTid ) return;
+			var t;
+			clearInterval( state.topTid ), state.topTid = 0;
+			if( -7 > ( t = e.dy ) || t > 7 ) return;
+			unload(), unload = function(){};
+			U.downCover( d.top, 'view9389.html?r=articles/' + d.top.S('*newskey') );
+		},
+		issueDown:function(e){
+			if( state.issueHold || state.issueMove || state.loading ) return;		
+			var t0, t1 = ( t0 = bs.Dom(e.domPoint()) ).S('*newskey') || ( t0 = bs.Dom(t0.S('<')) ).S('*newskey');
+			if( t1 && t1.length > 0 ){}else return; 
+			state.issueSelected = t0, state.issueTid = setTimeout( ev.issueTimeout, 200 );
+			state.issueMove = 1, state.isScroll = 1;
+		},
+		issueMove:function(e){
+			if( state.issueHold || !state.issueMove ) return;
+			var t0 = e.dy, t1 = e.dx;
+			if( state.isScroll && ( -15 > t1 || t1 > 15 ) ) state.isScroll = 0;
+			if( !state.isScroll && e ) e.prevent();
+			if( state.isScroll && ( -15 > t0 || t0 > 15 ) ) state.issueMove = 0, t1 = 0;
+			d.issueBody.S( 'left', issuePos(t1) );
+		},
+		issueTimeout:function(){
+			state.issueTid = 0, state.issueSelected = 0;
+		},
+		issueUp:function(e){
+			if( state.issueHold || !state.issueMove ) return;
+			var t0;
+			d.issueIdxs[state.issueIdx].S( '@src', 'i/04.gif' );
+			if( -cst.swipeLimit > ( t0 = e.dx ) || t0 > cst.swipeLimit )
+				state.issueIdx = ( t0 = state.issueIdx + ( e.dx < 0 ? 1 : -1 ) ) < 0 ? 0 : ( t0 < state.issueLength ? t0 : state.issueLength - 1 );
+			state.issueMove = 0, state.issueHold = 1,
+			bs.ANI.style( d.issueBody, 'left', issuePos(), 'time', cst.time, 'ease', cst.ease, 'end', ev.issueEnd );
+			d.issueIdxs[state.issueIdx].S( '@src', 'i/05.gif' );
+			if( e ) e.prevent();
+			
+			if( !state.issueTid ) return;
+			clearInterval( state.issueTid ), state.issueTid = 0;
+			if( -7 > ( t0 = e.dy ) || t0 > 7 || -7 > ( t0 = e.dx ) || t0 > 7 ) return state.issueSelected = 0;
+			unload(), unload = function(){};
+			U.downCover( state.issueSelected, 'view9389.html?r=articles/' + state.issueSelected.S('*newskey') );
+		},
+		issueEnd:function(e){
+			state.issueHold = 0;
+		},
+		midDown:function(e){
+			if( state.midTid || state.loading ) return;
+			var t0, t1 = ( t0 = bs.Dom(e.domPoint()) ).S('*newskey') || ( t0 = bs.Dom(t0.S('<')) ).S('*newskey');
+			if( t1 && t1.length > 0 ){}else return;
+			state.midSelected = t0, state.midTid = setTimeout( ev.midTimeout, 200 );
+		},
+		midTimeout:function(){
+			state.midTid = 0, state.midSelected = 0;
+		},
+		midUp:function(e){
+			if( !state.midTid ) return;
+			var t;
+			clearInterval(state.midTid), state.midTid = 0;
+			if( -7 > ( t = e.dy ) || t > 7 ) return state.midSelected = 0;
+			unload(), unload = function(){};
+			U.downCover( state.midSelected, 'view9389.html?r=articles/' + state.midSelected.S('*newskey') );
+		},
+		slideDown:function(e){
+			if( state.slideHold || state.slideMove || state.loading ) return;
+			var t0, t1 = ( t0 = bs.Dom(e.domPoint()) ).S('*newskey') || ( t0 = bs.Dom(t0.S('<')) ).S('*newskey'), t2;
+			if( t1 && t1.length > 0 ){}else return;
+			state.slideKey = ( t2 = t0.S('*id') ).substr( t2.indexOf('_') + 1 );
+			state.slideSelected = t0, state.slideTid = setTimeout( ev.slideTimeout, 200 );
+			state.slideMove = 1, state.isScroll = 1;
+		},
+		slideMove:function(e){
+			if( state.slideHold || !state.slideMove ) return;
+			var t0 = e.dy, t1 = e.dx;
+			if( state.isScroll && ( -15 > t1 || t1 > 15 ) ) state.isScroll = 0;
+			if( !state.isScroll && e ) e.prevent();
+			if( state.isScroll && ( -15 > t0 || t0 > 15 ) ) state.slideMove = 0, t1 = 0;
+			d.slideBodys[state.slideKey].S( 'left', slidePos( state.slideKey, t1 ) );
+		},
+		slideTimeout:function(){
+			state.slideTid = 0, state.slideSelected = 0;
+		},
+		slideUp:function(e){
+			if( state.slideHold || !state.slideMove ) return;
+			
+			var t0, t1, t2, t3, t4;
+			if( -cst.swipeLimit > ( t0 = e.dx ) || t0 > cst.swipeLimit )
+				t1 = state.slideIdxs[state.slideKey], t2 = d.slideItems[state.slideKey].length,
+				state.slideIdxs[state.slideKey] = ( t0 = t1 + ( e.dx < 0 ? 1 : -1 ) ) < 0 ? 0 : ( t0 < t2 ? t0 : t2 - 1 );
+
+			t3 = bs.Dom('[data-id='+state.slideKey+'] .swipe_arrow_left');
+			t4 = bs.Dom('[data-id='+state.slideKey+'] .swipe_arrow_right');
+			if(state.slideMove == 1 && state.slideIdxs[state.slideKey] == 0) t4.S("display","block"), t3.S("display","none");
+			else if(state.slideMove == 1 && (state.slideIdxs[state.slideKey]+1) == t2) t3.S("display","block"), t4.S("display","none");
+			else t3.S("display","block"), t4.S("display","block");
+			
+			state.slideMove = 0, state.slideHold = 1,
+			bs.ANI.style( d.slideBodys[state.slideKey], 'left', slidePos(state.slideKey), 'time', cst.time, 'ease', cst.ease, 'end', ev.slideEnd );
+			if( e ) e.prevent();
+			
+			state.slideKey = 0;
+			if( !state.slideTid ) return;
+			clearInterval( state.slideTid ), state.slideTid = 0;
+			if( -7 > ( t0 = e.dy ) || t0 > 7 || -7 > ( t0 = e.dx ) || t0 > 7 ) return state.slideSelected = 0;
+			unload(), unload = function(){};
+			U.downCover( state.slideSelected, 'view9389.html?r=articles/' + state.slideSelected.S('*newskey') );
+		},
+		slideEnd:function(){
+			state.slideHold = 0;
+		},
+		tileDown:function(e){
+			if( state.tileTid || state.loading ) return;
+			var t0, t1 = ( t0 = bs.Dom(e.domPoint()) ).S('*newskey') || ( t0 = bs.Dom(t0.S('<')) ).S('*newskey') || ( t0 = bs.Dom(t0.S('<')) ).S('*newskey');
+			if( t1 && t1.length > 1 ){}else return;
+			state.tileSelected = t0,
+			state.tileTid = setTimeout( ev.tileTimeout, 200 );
+		},
+		tileTimeout:function(){
+			state.tileTid = 0, state.tileSelected = 0;
+		},
+		tileUp:function(e){
+			if( !state.tileTid ) return;
+			var t0, t1;
+			clearInterval( state.tileTid ), state.tileTid = 0,
+			t0 = state.tileSelected, state.tileSelected = 0;
+			if( -7 > ( t1 = e.dy ) || t1 > 7 ) return;
+			unload(), unload = function(){};
+			U.downCover( t0, 'view9389.html?r=articles/' + t0.S('*newskey') );
+		}
+	}, 
+	d = {
+		main:bs.Dom('[data-id=main]'),
+		top:bs.Dom('[data-id=top]').S( 'down', ev.topDown, 'up', ev.topUp, 'this' ),
+		issue:bs.Dom('[data-id=issue]').S( 'down', ev.issueDown, 'move', ev.issueMove, 'up', ev.issueUp, 'this' ),
+		issueBody:bs.Dom('[data-id=issueBody]').S( 'left', 0, 'this' ),
+		issueIdx:bs.Dom('[data-id=issueIdx]'),
+		issueIdxs:[],
+		mid:bs.Dom('[data-id=mid]').S( 'down', ev.midDown, 'up', ev.midUp, 'this' ),
+		mids:[],
+		slide:bs.Dom('[data-name=slide]'),
+		slideBodys:{
+			why:bs.Dom('[data-id=why] [data-name=body]').S( 'down', ev.slideDown, 'move', ev.slideMove, 'up', ev.slideUp, 'this' ), 
+			alife:bs.Dom('[data-id=alife] [data-name=body]').S( 'down', ev.slideDown, 'move', ev.slideMove, 'up', ev.slideUp, 'this' ), 
+			photonews:bs.Dom('[data-id=photonews] [data-name=body]').S( 'down', ev.slideDown, 'move', ev.slideMove, 'up', ev.slideUp, 'this' )
+		},
+		slideItems:{ why:[], alife:[], photonews:[] },
+		tile:bs.Dom('[data-id=tile]').S( 'down', ev.tileDown, 'up', ev.tileUp, 'this' ),
+		tileL:bs.Dom('[data-id=tileL]'),
+		tileR:bs.Dom('[data-id=tileR]'),
+	},
+	
+	loadNews = (function(){
+		var loaded = function(data){
+			var t0, i, j, l, r;
+			U.loading(0);
+			if( !data ) return;
+			for( l = d.tileL.S('h'), r = d.tileR.S('h'), data = data.body[0]['newslist'], i = 0, j = data.length, (state.loadEnded = j == 0 ? 1 : 0) ; i < j ; i++ ){
+				t0 = data[i], t0.img_name ? bs.Dom('<div class="tile"></div>').S( '<', l > r ? ( r += 190, d.tileR ) : ( l += 190, d.tileL ), 
+					'*newskey', t0.newskey, '*selectcolor', '#acacac',
+					'>', bs.Dom('<div class="tile1"></div>').S(
+						'>', U.thumb(t0.img_name),
+						'>', '<h2>' + bs.trim(t0.newstitle) + '</h2>',
+						'this')
+				) : bs.Dom('<div class="tile"></div>').S( '<', l > r ? ( r += 180, d.tileR ) : ( l += 180, d.tileL ), 
+					'*newskey', t0.newskey, '*selectcolor', '#acacac',
+					'>', bs.Dom('<div class="tile2"></div>').S(
+						'>', '<h2>' + bs.trim(t0.newstitle) + '</h2>',
+						'>', '<div>' + bs.trim(t0.text) + '</div>',
+						'this' )
+				);
+			}
+			state.loading = 0, U.splashOff();
+			if( data.length > 0 ) page = data[data.length-1].confirmdate;
+		},
+		cacheLoaded = 0,
+		cache = function(){
+			var t1, t2, t3;
+			if( !cacheLoaded ){
+				cacheLoaded = 1, state.loading = 0,
+				t1 = U.docCacheGet( '[tileR]' + location.href );
+				t2 = U.docCacheGet( '[tileL]' + location.href );
+				if( t1 && t2 ){
+					d.tileR.S( 'html', U.bsSignRemove(t1.html) ), d.tileL.S( 'html', U.bsSignRemove(t2.html) );
+					bs.Dom('#tileView img').S( 'load', function(){bs.WIN.scroll( 0, t1.scrollTop );} );
+					page = t2.page,	U.splashOff();
+					return 1;
+				}
+				return 0;
+			}else return 0;
+		};
+		return function(){
+			if( state.loadId != -1 ) clearTimeout(state.loadId), state.loadId = -1;
+			if( !cache() ){
+				state.loading = 1, U.loading( page ? 1 : 0, 0 );
+				state.loadId = setTimeout( function(){
+					U.data( 'main_news', loaded, 'page', page == 0 ? '' : page )
+				}, page == 0 ? 1 : 300 );
+			}
+		};
+	})(),
+	resize = function(){
+		var t0, t1, t2, t3, i, j, k;
+		//top, issue
+		t0 = state.w - cst.mainPadding, t1 = t0 * cst.bigImgRatio,
+		d.issue.S( 'width', t0, 'height', t1 ), 
+		bs.Dom('[data-id=main] img[data-id^=bigImg]').S( 'width', t0, 'height', t1 );
+		for( t2 = bs.Dom('[data-id=main] [data-id=issueItem]'), i = 0, j = t2.length ; i < j ; i++ ){
+			t3 = bs.Dom(t2[i]), t3.S( 'left', i * ( t0 + cst.issueGap ) );
+			bs.Dom(t3.S('>0')).S( 'left', ( t0 - 60 ) * 0.5, 'top', ( t1 - 60 - 50 ) * 0.5 );
+		}
+		d.issueBody.S( 'left', issuePos() );
+		//midtop
+		if( d.mids.length > 1 ) midRoll(1);
+		//slide(why,alife,photonews)
+		t0 = state.w - cst.slidePadding, t1 = t0 * cst.slideRatio,
+		d.slide.S( 'width', t0, 'height', t1 ),
+		t0 = ( state.slideBodyW = t0 - cst.slideTitleW ) * cst.slideItemRadio, state.slideImgW = t0,
+		bs.Dom('[data-id=main] img[data-id^=slideImg]').S( 'width', t0, 'height', t1 );
+		bs.Dom('[data-name=slide] [data-name=title]').S( 'height', t1 );
+		for( k in d.slideItems ) for( t2 = d.slideItems[k], i = 0, j = t2.length ; i < j ; i++ ) 
+			t2[i].S( 'left', i * ( t0 + cst.slideGap ) );
+		for( k in d.slideBodys ) d.slideBodys[k].S( 'left', slidePos( k, 0 ) );
+	},
+	midRoll = function(resize){
+		var t0, t1, i, j;
+		if( state.midTid ) return;
+		if( !resize ) state.midIdx0+=2, state.midIdx1+=2;
+		if( state.midIdx0 >= d.mids.length ) state.midIdx0 = 0;
+		if( state.midIdx1 >= d.mids.length ) state.midIdx1 = 1;
+		d.mid.S( 'width', t0 = state.w - cst.mainPadding, 'height', t1 = t0 * cst.midRatio );
+		for( t0 = ( state.w - cst.midGap - cst.mainPadding ) * 0.5, i = 0, j = d.mids.length ; i < j ; i++ )
+			d.mids[i].S( 'width', t0, 'height', t1, 'display', 'none' );
+		bs.Dom('[data-id=main] img[data-id=midImg]').S( 'width', t0, 'height', t0 * cst.midImgRatio );
+		d.mids[state.midIdx0].S( 'left', 0, 'display', 'block' );
+		if( state.midIdx0 != state.midIdx1 ) d.mids[state.midIdx1].S( 'left', t0 + cst.midGap, 'display', 'block' );
+	},
+	issuePos = function(dx){
+		return ( state.w - cst.mainPadding + cst.issueGap ) * state.issueIdx * -1 + ( dx ? dx : 0 );
+	},
+	slidePos = function( key, dx ){
+		var t0 = state.slideIdxs[key], t1 = d.slideItems[key].length, t2 = 0;
+		if( t0 == t1 - 1 ) t2 = state.slideBodyW - state.slideImgW; 
+		return ( state.slideImgW + cst.slideGap ) * t0 * -1 + cst.slideTitleW + ( dx ? dx : 0 ) + t2;
+	}, 
+	unload = function(e){
+		U.docCacheSet( '[tileR]' + location.href, bs.WIN.scroll('t'), d.tileR.S('html'), page );
+		U.docCacheSet( '[tileL]' + location.href, bs.WIN.scroll('t'), d.tileL.S('html'), page );
+	},
+	page = 0;
+	(function(){
+		var loaded = function(data){
+			var t0, t1, t2, i, j, k;
+			U.loading(0),
+			//top
+			data.body.top && ( t0 = data.body.top[0] ) ? 
+			d.top.S( '*newskey', t0.newskey,
+				'>', t0.img_name ? U.thumb( t0.img_name, 0, 'bigImg1' ) : 0, 
+				'>', '<div class="top0"></div>', 
+				'>', '<h2>' + t0.newstitle + '</h2>'
+				//'>', '<div class="top1"></div>'
+			) : d.top.S( 'display', 'none' );
+			//issue
+			if( t0 = data.body.issueview ) for( i = 0, j = t0.length, state.issueLength = j ; i < j ; i++ ) 
+				t1 = t0[i], bs.Dom('<div class="issue00"></div>').S( '<', d.issueBody,
+					'*newskey', t1.newskey, '*id', 'issueItem',
+					'>', '<img class="issue001" src="i/74.png"/>',
+					'>', t1.img_name ? U.thumb( t1.img_name, 0, 'bigImg2' ) : 0, 
+					'>', '<div class="issue000"></div>', 
+					'>', '<h2>' + t1.newstitle + '</h2>'
+				), d.issueIdxs.push( bs.Dom('<img/>').S( '<', d.issueIdx, '@src', state.issueIdx == i ? 'i/05.gif' : 'i/04.gif' , 'this' ) );
+			//midtop
+			if( t0 = data.body.midtop ) for( i = 0, j = t0.length, state.midLength = j ; i < j ; i++ )
+				t1 = t0[i], d.mids.push( bs.Dom('<div class="mid0"></div>').S( '<', d.mid,
+					'*newskey', t1.newskey, '*id', 'midItem',
+					'>', t1.img_name ? U.thumb( t1.img_name, 0, 'midImg' ) : 0, 
+					'>', '<h2>' + t1.newstitle + '</h2>', 'this') );
+			if( state.midLength > 1 ) state.midRollingTid = setInterval( midRoll, 5000 );
+			//why, alife, photonews
+			for( k in d.slideItems ) if( t0 = data.body[k] ) for( i = 0, j = t0.length ; i < j; i++ )
+				t1 = t0[i], d.slideItems[k].push( bs.Dom('<div class="slide00"></div>').S( '<', d.slideBodys[k],
+					'*newskey', t1.newskey, '*id', 'slideItem_' + k,
+					'>', t1.img_name ? U.thumb( t1.img_name, 0, 'slideImg' ) : 0, 
+					'>', '<div class="slide000"></div>', 
+					'>', '<h2>' + t1.newstitle + '</h2>',
+					'this' ) );
+			d.main.S( 'display', 'block' ), resize(), loadNews();
+			
+			/*광고*/
+			!U.isApp() && bs.Dom('#samsung_ad').S( 'display', 'block' );
+		};
+		U.title( '<img src="i/index0.png"/>', 1 ), 
+		U.loading( 1, 1 ), d.main.S( 'display', 'none' ), U.menuChange(), 
+		U.data( 'main_top', loaded );
+		state.issueLength = 0, d.issueIdxs.length = 0,
+		state.midIdx0 = 0, state.midIdx1 = 1, state.midLength = 0, d.mids.length = 0;
+		if( state.midRollingTid ) clearInterval( state.midRollingTid ), state.midRollingTid = 0;
+	})(),
+	bs.WIN.on( 'scroll', function(e){
+		if( !state.ended && !state.loading && bs.WIN.scroll('h') - U.h <= bs.WIN.scroll('t') + 100 && !U.menuOpened() ) return loadNews();
+	} ), 
+	U.sizer(function( w, h ){
+		if( state.w == w ) return;
+		state.w = w, resize();
+	});
+	bs.WIN.on( 'unload', unload );
+	U.ga();
+} );
+</script>
+</head><body></body>
+<!-- Mirrored from m.asiatoday.co.kr/kn/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:36:00 GMT -->
+</html>

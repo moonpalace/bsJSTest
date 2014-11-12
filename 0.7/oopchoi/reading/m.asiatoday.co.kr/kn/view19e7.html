@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!-- Mirrored from m.asiatoday.co.kr/kn/view.php?r=articles%2F by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:32 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+<title>아시아투데이::뉴스</title>
+<meta name="robots" content="all" />
+<script>window.__PATH=[''];</script>	
+<meta name="keywords" content="" />	
+<meta property="title" content="" />
+<meta name="description" content="" />	
+<meta property="fb:app_id" content="297461340449057"/>
+<meta property="og:site_name" content="젊은 파워, 모바일 넘버원 아시아투데이"/>
+<meta property="og:title" content=""/>
+<meta property="og:description" content=""/>
+<meta property="og:type" content="article" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="" />
+<meta name="twitter:site" content="젊은 파워, 모바일 넘버원 아시아투데이" />
+<meta name="twitter:creator" content="아시아투데이" />
+<meta name="twitter:description" content="" />
+
+<link rel="apple-touch-icon-precomposed" href="../../img.asiatoday.co.kr/apple/iphone.png" />
+<link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico" />
+<script type="text/javascript">var newskey = window.location.hash.substr(1).split("http://m.asiatoday.co.kr/"); if(newskey != ""){location.href = "view19e7.html?r=articles%2F"+newskey;}</script>
+<script src="r/bsjs.0.6.js"></script>
+<script src="r/main8099.js?2013110517"></script>
+<script src="common_js/ada513.js?20131106"></script>
+<script>
+if( !U.isApp() ){
+	var googletag = googletag || {};
+	googletag.cmd = googletag.cmd || [];
+	(function() {
+	var gads = document.createElement('script');
+	gads.async = true;
+	gads.type = 'text/javascript';
+	var useSSL = 'https:' == document.location.protocol;
+	gads.src = (useSSL ? 'https:' : 'http:') +
+	'//www.googletagservices.com/tag/js/gpt.js';
+	var node = document.getElementsByTagName('script')[0];
+	node.parentNode.insertBefore(gads, node);
+	})();
+	
+	googletag.cmd.push(function() {
+	googletag.defineSlot('/28389335/MobileBottom_300x250', [300, 250], 'div-gpt-ad-1375949358186-0').addService(googletag.pubads());
+	googletag.defineSlot('/28389335/MobileTop_320x50', [320, 50], 'div-gpt-ad-1375949358186-1').addService(googletag.pubads());
+	googletag.enableServices();
+	});
+	var media_code = 'asia_today';
+}
+
+U.start( 'r/articles.html', function(){
+	'use strict';
+	var t,
+	cst = {
+		//docName:location.pathname.indexOf('articles.html') == -1 ? 'articles.html' : 'articles0.html', docSwipe:0,
+		docName:'view.php', docSwipe:0,
+		icons:{'timeline':['i/68.png',63,18], 'edit':['i/52.gif',47,18], 'colm':['i/53.gif',47,18], 'rain':['i/51.gif',71,18]}, //아이콘경로, width, height
+		swipeLimit:70, scrollLimit:15, 
+		time:.1, ease:'quadraticOut',
+		fontSize:[13,16,18],
+		tDW:100, tItemHW:52.5, tPadding:14, tTime:.1, tEase:'linear',
+		gImgW:98, gLeft:25, gPadding:60, gTime:.1, gEase:'linear',
+	},
+	state = {
+		newskey:0, bnewskey:0, fnewskey:0, //newskey, forward newskey, backward newskey
+		loading:0, swipeType:0, category:0,
+		w:U.w, timeId:0, ani:0, downed:0, left:0, wRatio:0, isScroll:0, selected:0, moveSelected:0,
+		//fontSizeIdx: ( t = +bs.local('fontSizeIdx'), typeof t == 'number' && !isNaN(t) ) ? t : 0,
+		fontSizeIdx:U.fontSizeIdx(), 
+		ttsAutoPlay:0, ttsAudio:0, ttsSelected:0,
+		tW:U.w - cst.tPadding, tIdxs:{}, 
+		gIdx:0,
+	},
+	run = {
+		fontSize:function( selected, bs ){ //폰트크기조절
+			bs.Dom('@[data-name=newsBody]').S( 'font-size', cst.fontSize[state.fontSizeIdx = state.fontSizeIdx + 1 == cst.fontSize.length ? 0 : state.fontSizeIdx + 1] ),
+			bs.Dom('@[data-name=fontSize]').S( '@src', selected.S( '*src' + state.fontSizeIdx ) ), 
+			//selected.S( '@src', selected.S( '*src' + state.fontSizeIdx ) ),
+			//bs.local( 'fontSizeIdx', state.fontSizeIdx + '' ),
+			U.fontSizeIdx(state.fontSizeIdx), 
+			U.downCover( selected );
+		},
+		tts:(function(){
+			var end = function(){  //TTS 재생이 완료될때 호출 
+				state.ttsSelected.S( '@src', state.ttsSelected.S('*src0') ), state.ttsSelected = 0;
+			},
+			stop = function(){
+				state.ttsSelected && state.ttsSelected.S( '@src', state.ttsSelected.S('*src0') ),
+				state.ttsAudio && state.ttsAudio.isPlay && state.ttsAudio.stop(), 
+				state.ttsSelected = 0;
+			};
+			return function( selected, bs ){ //TTS 재생 및 중지 
+				var t0 = state.ttsSelected;
+				stop();
+				if( selected && ( !t0 || selected.S('*newskey') != t0.S('*newskey') ) ){
+					state.ttsSelected = selected, selected.S( '@src', selected.S('*src1') ), 
+					state.ttsAudio || ( state.ttsAudio = U.Audio('@audio'), state.ttsAudio.S( 'end', end ) ),  
+					state.ttsAudio.S( 'src', selected.S('*tts') ), state.ttsAudio.play(); 
+				}else state.ttsSelected = 0;
+				selected && U.downCover( selected );
+			};
+		})(),
+		tAll:function( selected ){location.href = 'timeline.html#' + selected.S('*seq'), U.downCover( selected );}, //타임라인 전체보기 
+		tLeft:function( selected, bs ){ //타임라인 좌측보기 
+			var t0, t1, t2, t3;
+			t1 = state.tIdxs[ t0 = selected.S('*newskey') ], t1 = state.tIdxs[t0] = t1 - 1 < 0 ? 0 : t1 - 1,
+			bs.ANI.style( t3 = bs.Dom('@[data-id=tMove' + t0 + ']'), 'left', posTimeline(t1), 'time', cst.tTime, 'ease', cst.tEase ), t3.END(), U.downCover( selected );
+		},
+		tRight:function( selected, bs ){ //타임라인 우측보기 
+			var t0, t1, t2, t3;
+			t1 = state.tIdxs[ t0 = selected.S('*newskey') ], t1 = state.tIdxs[t0] = t1 + 1 > ( t2 = map.news[t0].timeline_graph.length - 1 ) ? t2 : t1 + 1,
+			bs.ANI.style( t3 = bs.Dom('@[data-id=tMove' + t0 + ']'), 'left', posTimeline(t1), 'time', cst.tTime, 'ease', cst.tEase ), t3.END(), U.downCover( selected );
+		},
+		tItem:function( selected, bs ){ //타임라인 내 뉴스 선택 
+			U.downCover( selected, cst.docName + '?r=articles/' + selected.S('*newskey') + '/timeline' )
+		},
+		tRel:function( selected, bs ){ //타임라인 연관기사
+			U.downCover( selected, cst.docName + '?r=articles/' + selected.S('*newskey') )
+		},
+		newsStand:function( selected ){U.downCover( selected, U.cst.newsStand );}, //뉴스스텐드 
+		androidAppLink:function( selected ){U.downCover( selected, U.cst.androidAppLink );}, //안드로이드앱 다운링크
+		share:function( selected ){ //공유 
+			var t0 = selected.S('*service'), t1 = map.news[state.newskey];
+			//U.downCover( selected );
+			U.share( t0, t1.hash_tags + ' '+ t1.short_news_body, 'articles/' + state.newskey + '/' + state.category );
+		},
+		scrap:function( selected, bs ){ //스크랩 
+			var insert = function(data){
+				var t0;
+				state.loading = 0, U.loading( 0 );
+				if( !data || !data.body || data.body == 'fail' ) return U.toast('스크랩에 추가하지 못했습니다.');
+				else if( ( t0 = data.body ) == 'session lost' ) bs.local( 'session', null ), loginCheck();
+				else if( t0 == 'already regist' ) return state.loading = 1, U.loading( 1, 1 ), U.data( 'myatoo_del', del, 'newskeys', state.newskey );
+				U.toast('스크랩 되었습니다.');
+			}, 
+			del = function(data){
+				state.loading = 0, U.loading( 0 );
+				if( !data || !data.body || data.body == 'fail' ) return U.toast('스크랩을 취소하지 못했습니다.');
+				else if( data.body == 'session lost' ) return U.toast('로그인후 이용이 가능합니다.'), bs.local( 'session', null );
+				U.toast('스크랩이 취소되었습니다.');			
+			}, 
+			loginCheck = function(){
+				if( confirm('기사 스크랩은 로그인 후 이용할 수 있습니다. 로그인 하시겠습니까?') ){
+					location.href = 'login.html#' + encodeURIComponent(location.href);
+				}else U.toast('로그인후 이용이 가능합니다.');
+			};
+			if( !bs.local('session') ) return loginCheck();
+			state.loading = 1, U.loading( 1, 1 );
+			U.data( 'myatoo_ins', insert, 'newskey', state.newskey );
+			U.downCover( selected );
+		},
+		ranknews:function( selected ){ //많이본 기사 
+			U.downCover( selected, cst.docName + '?r=articles/' + selected.S( '*newskey' ) );
+		},
+		gItem:function( selected, bs ){ //아는여자 사진 
+			U.downCover( selected, 'sexygirl.html#' + selected.S('*seq') );
+		},
+		gLeft:function( selected, bs ){ //아는여자 왼쪽버튼 
+			var t0, t1;
+			t0 = state.gIdx, t0 = state.gIdx = t0 - 1 < 0 ? 0 : t0 - 1,
+			bs.ANI.style( t1 = bs.Dom('@[data-id=gMove' + selected.S('*newskey') + ']'), 'left', posGirl(t0), 'time', cst.gTime, 'ease', cst.gEase ), t1.END(), U.downCover( selected );
+		},
+		gRight:function( selected, bs ){ //아는여자 오른쪽 버튼 
+			var t0, t1, t2;
+			t0 = state.gIdx, t0 = state.gIdx = t0 + 1 > ( t1 = map.girls ? map.girls.length - 1 : 0 ) ? t1 : t0 + 1,
+			bs.ANI.style( t2 = bs.Dom('@[data-id=gMove' + selected.S('*newskey') + ']'), 'left', posGirl(t0), 'time', cst.gTime, 'ease', cst.gEase ), t2.END(), U.downCover( selected );
+		}
+	},
+	ev = {
+		down:function(e){
+			var t0, t1;
+			if( state.ani || state.downed ) return;
+			state.downed = 1, state.isScroll = 1,
+			t0 = bs.Dom(e.domPoint()), 
+			( state.moveSelected = ( t1 = t0.S('*move') ) ? bs.Dom('@[data-id=' + t1 + ']') : ( state.left = d.article.S('left'), 0 ) ) && ( state.left = state.moveSelected.S( 'left' ), state.moveSelected.END() ), 
+			t1 = t0.S('*name') || ( t0 = bs.Dom(t0.S('<')) ).S('*name');
+			if( run[t1] ) state.selected = t0;
+			state.timeId = setTimeout( ev.timeout, 200 );
+			
+			t0 = bs.WIN.scroll('t');
+			d.article.S( '{>0}', 'margin-top', t0 ), 
+			d.article.S( '{>$}', 'margin-top', t0 );
+		},
+		timeout:function(){
+			state.timeId = 0, state.selected = 0;
+		},
+		move:function(e){
+			if( state.ani || !state.downed ) return;
+			var t0 = e.dy, t1 = e.dx, t2;
+			if( state.isScroll ){
+				if( -cst.scrollLimit > t1 || t1 > cst.scrollLimit ) state.isScroll = 0;
+				if( -cst.scrollLimit > t0 || t0 > cst.scrollLimit ) state.downed = 0, state.selected = 0, state.moveSelected = 0, t1 = 0, d.article.S( '{>0}', 'margin-top', 0 ), d.article.S('{>$}', 'margin-top', 0 );
+			}
+			if( !state.isScroll && e ) e.prevent();
+			if( state.moveSelected ){
+				if( ( t2 = state.moveSelected.S( '*id' ).charAt(0) ) == 't' || t2 == 'g' ) state.moveSelected.S( 'left', state.left + t1 ); //타임라인, 아는여자
+			}else if( !state.isScroll ) d.article.S( 'left', state.left + t1 * state.wRatio );
+		},
+		up:function(e){
+			var t0, t1, t2;
+			if( state.ani || !state.downed ) return;
+			state.downed = 0, state.ani = 1;
+			state.timeId && ( clearInterval(state.timeId), state.timeId = 0 );
+			if( !state.moveSelected && e.dx > cst.swipeLimit ) //Left ->
+				if( state.loading || state.fnewskey == 0 ) ev.aEnd();
+				else bs.ANI.style( d.article, 'left', 0, 'time', cst.time, 'ease', cst.ease, 'end', ev.aLeftEnd );
+			else if( !state.moveSelected && e.dx < -cst.swipeLimit ) //Right <-
+				if( state.loading || state.bnewskey == 0 ) ev.aEnd();
+				else bs.ANI.style( d.article, 'left', -200, 'time', cst.time, 'ease', cst.ease, 'end', ev.aRightEnd );
+			else {
+				if( -7 < ( t0 = e.dy ) && t0 < 7 && -7 < ( t0 = e.dx ) && t0 < 7 ){
+					t0 = ( t1 = state.selected ) ? t1.S('*name') : 0, 
+					run[t0] && run[t0]( t1, bs );
+				}else if( state.moveSelected ){
+					t0 = state.moveSelected.S('*id').charAt(0);
+					if( t0 == 't' ){ //타임라인
+						state.tIdxs[t2 = state.moveSelected.S('*newskey')] = t1 = idxTimeline( +state.moveSelected.S('left'), t2 ),
+						bs.ANI.style( state.moveSelected, 'left', posTimeline(t1), 'time', cst.tTime, 'ease', cst.tEase );
+					}else if( t0 == 'g' ){ //아는여자 
+						state.gIdx = t1 = idxGirl( +state.moveSelected.S('left') );
+						bs.ANI.style( state.moveSelected, 'left', posGirl(t1), 'time', cst.tTime, 'ease', cst.tEase );
+					}
+				}
+				ev.aEnd();
+			}
+		},
+		aLeftEnd:function(){ 
+			var t0;
+			bs.Dom( t0 = d.article.S('>$') ).S( '*newskey', '', 'html', '</br>' ), 
+			d.article.S( '{>0}', 'before', t0 ), ev.aEnd(), run.tts( 0, bs ),
+			t0 = state.fnewskey + ( state.category ? '/' + state.category : '' );
+			if( cst.docSwipe ){
+				if( location.href.indexOf('http://m.asiatoday.co.kr/s.php') == -1 ) location.href = '#@' + t0;
+				else location.href = 'view9389.html?r=articles/' + t0;
+			}else location.href = cst.docName + '?r=articles/' + t0;
+			bs.WIN.scroll( 0, 0 );
+		},
+		aRightEnd:function(){ 
+			var t0;
+			bs.Dom( t0 = d.article.S('>0') ).S( '*newskey', '', 'html', '<br/>' ),
+			d.article.S( '{>$}', 'after', t0 ), ev.aEnd(), run.tts( 0, bs ),
+			t0 = state.bnewskey + ( state.category ? '/' + state.category : '' );
+			if( cst.docSwipe ){
+				if( location.href.indexOf('http://m.asiatoday.co.kr/s.php') == -1 ) location.href = '#@' + t0;
+				else location.href = 'view9389.html?r=articles/' + t0;
+			}else location.href = cst.docName + '?r=articles/' + t0; 
+			bs.WIN.scroll( 0, 0 );
+		},
+		aEnd:function(){
+			var t0 = U.h - U.gnbH; 
+			d.article.S( '{>1}', 'margin-top', 0, 'height', null );
+			d.article.S( '{>0}', 'margin-top', 0, 'height', t0 ), 
+			d.article.S( '{>$}', 'margin-top', 0, 'height', t0 );
+			state.ani = 0, state.selected = 0, state.moveSelected = 0, d.article.S( 'left', -100 ); 
+		},
+	},
+	d = {
+		breadcrumb:bs.Dom('[data-id=breadcrumb]'),
+		breadcrumb0:bs.Dom('[data-id=breadcrumb0]'),
+		body:bs.Dom('[data-id=body]').S( 'down', ev.down, 'move', ev.move, 'up', ev.up, 'this' ),
+		article:bs.Dom('[data-id=article]').S( 'left', '-100:%', 'this' ),
+	},
+	posTimeline = function( idx ){ //타임라인 idx -> 위치 
+		return state.tW * 0.5 - cst.tItemHW - cst.tDW * idx; 
+	},
+	idxTimeline = function( pos, newskey ){ //타임라인 위치 -> idx 
+		var t0 = Math.round( ( state.tW * 0.5 - cst.tItemHW - pos ) / cst.tDW ), t1 = map.news[newskey].timeline_graph.length;
+		return t0 < 0 ? 0 : t0 >= t1 ? t1 - 1 : t0; 
+	},
+	posGirl = function( idx ){
+		var t0 = cst.gLeft -cst.gImgW * idx, t1 = map.girls.length * cst.gImgW;
+		if( state.gW > t0 + t1 )  t0 = ( t1 - state.gW ) * -1 + cst.gLeft - 8;
+		return t0;
+	},
+	idxGirl = function( pos ){
+		var t0 = Math.round( ( cst.gLeft - pos ) / cst.gImgW ), t1 = map.girls ? map.girls.length : 0;
+		return t0 < 0 ? 0 : t0 >= t1 ? t1 - 1 : t0;
+	},
+	resize = function(){
+		var t0, t1, t2, i, j;
+		state.tW = U.w - cst.tPadding, state.wRatio = 100 / bs.WIN.scroll('w');
+		//타임라인 위치 재조정 
+		for( t0 = bs.Dom('@[data-id^=tMove]'), i = 0, j = t0.length ; i < j ; i++ )
+			t1 = bs.Dom(t0[i]), t2 = state.tIdxs[t1.S('*newskey')], t1.S( 'left', posTimeline(t2) );
+		t0.END();
+		//아는여자 위치 재조정 
+		state.gW = U.w - cst.gPadding;
+		t0 = bs.Dom('@[data-id^=gMove]').S( 'left', posGirl(state.gIdx), 'this' ), t0.END();
+		//아티클...
+		if( state.ani || state.downed ) return;
+		t0 = U.h - U.gnbH; 
+		d.article.S( '{>1}', 'margin-top', 0, 'height', null );
+		d.article.S( '{>0}', 'margin-top', 0, 'height', t0 ), 
+		d.article.S( '{>$}', 'margin-top', 0, 'height', t0 );
+	},
+	breadcrumb = function(){
+		var t0 = map.news[state.newskey];
+		if( !t0 || !( t0 = t0.category2 ) ) return U.gnbHide();
+		t0 = t0.split('>'), U.gnbShow(),
+		d.breadcrumb0.S( 'html', '<span>' + t0[0] + '</span>' + ( t0.length > 1 ? ' 〉 <span style="color:#9c2622">' + t0[1] + '</span>' : '' ) );	
+	},
+	init = (function(){
+		var newskey, bnewskey, fnewskey, m, swipeType = 0,
+		loadedContent = function(data){
+			var t0 = data ? ( m[newskey] = data.body ) : map.news[newskey], t1;
+			if( U.none( t0 && typeof t0 == 'object' && !(t0 instanceof Array) ) ) return;
+			if( t0.backwardSeq && t0.backwardSeq.length > 0 ) t1 = ['view_content', loadedBackward, 'newskey', bnewskey = t0.backwardSeq, 'category', state.category && state.category.indexOf('timeline') == -1 && state.category.indexOf('myatoo') == -1 ? state.category : '', 'app', U.isApp() ? 'Y' : 'N'], swipeType > 0 && t1.push( 'swipeType', swipeType ), U.data.apply( null, t1 ); 
+			else loadedBackward(0);
+		}, 
+		loadedBackward = function(data){
+			var t0 = m[newskey] || map.news[newskey], t1;
+			if( data && data.body && data.body.newskey ) m[bnewskey] = data.body;
+			else bnewskey = 0;
+			if( t0.forwardSeq && t0.forwardSeq.length > 0 ) t1 = ['view_content', loadedForward, 'newskey', fnewskey = t0.forwardSeq, 'category', state.category && state.category.indexOf('timeline') == -1 && state.category.indexOf('myatoo') == -1 ? state.category : '',  'app', U.isApp() ? 'Y' : 'N'], swipeType > 0 && t1.push( 'swipeType', swipeType ), U.data.apply( null, t1 );
+			else loadedForward(0)
+		},
+		loadedForward = function(data){
+			var t0;
+			if( data && data.body && data.body.newskey ) m[fnewskey] = data.body;
+			else fnewskey = 0;
+			for( t0 in m ) map.news[t0] = m[t0];
+			state.newskey = newskey, state.bnewskey = bnewskey, state.fnewskey = fnewskey;
+			if( !map.ranknews ) U.data( 'view_ranknews', loadedRanknews );
+			else loadedRanknews(0);
+		},
+		loadedRanknews = function(data){
+			if( data ) map.ranknews = data.body[0].newslist;
+			if( !map.girls ) U.data( 'view_girl', loadedGirl );
+			else loadedGirl(0);
+		},
+		loadedGirl = function(data){
+			if( data ) map.girls = data.body[0].newslist;
+			U.loading( 0 ), state.loading = 0;
+			render();
+		},
+		render = function(){
+			var t0, t1, t2, t3, t4, t5, t6, t7, t8, t9, i, j, k, l;
+			for( t0 = [state.fnewskey, state.newskey, state.bnewskey], i = 0, j = t0.length ; i < j ; i++ ){
+				t1 = t0[i]; 
+				if( t1 && i == 1) {
+					t2 = map.news[t1];
+					if( i == 1 ) U.btmTopMode( t2['video'] == 'Y' ? 1 : 0 );
+					if( d.article.S( '{>' + i + '}', '*newskey' ) == t1 ) continue;					
+					if( t2.timeline_yn == 'Y' ){
+						//타임라인뉴스 
+						t3 = bs.Dom('<div class="a824"></div>').S( 'left', 0, '*id', 'tMove' + t1, '*move', 'tMove' + t1, '*seq', ( t9 = t2.timeline_title[0].seq ), '*newskey', t1, 'this' ), t6 = 0;
+						for( t4 = t2.timeline_graph, k = 0, l = t4.length ; k < l ; k++ ){
+							t5 = t4[k], t7 = k % 2, t8 = 0;
+							if( t5.newskey == t1 ) t6 = t5, t8 = t5;
+							bs.Dom('<div class="a8240" data-move="tMove' + t1 + '"></div>').S( '<', t3,
+								'*newskey', t5.newskey, 'left', k * cst.tDW,
+								'>', '<div class="a82400" data-move="tMove' + t1 + '">' + t5.confirmdate + '</div>', //날짜
+								'>', t7 ? '<div class="a82401 ' + ( t8 ? 'a82401s' : '' )+ '" data-move="tMove' + t1 + '"></div>' : 0, //세로선
+								'>', '<img class="a82402" src="' + ( t8 ? 'i/26.png' : 'i/27.png' ) + '" data-move="tMove' + t1 + '"\>', //선택원
+								'>', '<div class="a82404' + ( t8 ? ' a82404s' : '' ) + ( t7 ? ' a82404b' : ' a82404t' ) + '" data-name="tItem" data-seq="' + t9 + '" data-newskey="' + t5.newskey + '" data-move="tMove' + t1 + '"><p data-move="tMove' + t1 + '">' + t5.title + '</p></div>', //제목박스영역
+								'>', '<img class="a82403' + ( t7 ? ' a82403b' : ' a82403t' ) + '" src="' + ( t8 ? 'i/71.png' : 'i/72.png' ) + '" data-move="tMove' + t1 + '"\>'); //박스화살표
+							if( t8 ) state.tIdxs[t1] = k;
+						}
+						t3 = bs.Dom('<div class="a82" data-move="tMove' + t1 + '"></div>').S(
+							'>', '<div class="a820" data-move="tMove' + t1 + '"></div>', //가로선
+							'>', t3,
+							'>', '<img class="a821" data-move="tMove' + t1 + '" data-name="tLeft" data-seq="' + t9 + '" data-newskey="' + t1 + '" src="i/22.gif"/>', //좌측이동버튼
+							'>', '<img class="a822" data-move="tMove' + t1 + '" data-name="tRight" data-seq="' + t9 + '" data-newskey="' + t1 + '" src="i/24.gif"/>', //우측이동버튼
+							'>', '<div class="a823"></div>', //아래선
+							'this');
+						t3 = bs.Dom('<div class="a8"></div>').S(
+							'>', '<h2 class="a80"><img src="i/20.png"> 타임라인 뉴스</h2>',
+							'>', '<div class="a81">\"' + t2.timeline_title[0].title + '\"<span class="a810" data-name="tAll" data-seq="' + t9 + '">전체보기</span></div>',
+							'>', t3,
+							'this' );
+						//타임라인연관기사 
+						if( t6 ){
+							t5 = bs.Dom('<div class="a92"></div>');
+							for( t7 = t2.timeline_rel, k = 0, l = t7.length ; k < l ; k++ )
+								t8 = t7[k], t5.S( '>', '<div class="a920" data-name="tRel" data-newskey="' + t8.newskey + '"> - ' + ( t8.confirmdate && t8.confirmdate.length > 0 ? '<b>' + t8.confirmdate + '</b> ' : '') + t8.title + '</div>' );
+							t4 = bs.Dom('<div class="a9"></div>').S(
+								'>', '<h2 class="a90">타임라인 연관기사</h2>',
+								'>', '<div class="a91">' + t6.title + '</div>',
+								'>', t5,
+							'this');
+						}else t4 = 0;
+					}else t3 = 0, t4 = 0;
+					//많이 본 기사 
+					t6 = map.ranknews;
+					if( t6 && t6.length > 0 ){
+						t5 = bs.Dom('<div class="n0"></div>').S( '>', '<h2 class="n01"><img src="i/20.png"> 많이 본 기사</h2>', 'this');
+						for( k = 0, l = t6.length ; k < l ; k++ ){
+							t7 = t6[k], 
+							bs.Dom('<div class="n02" data-name="ranknews"></div>').S( '<', t5, '*newskey', t7.newskey, '*selectcolor', '#acacac', 
+								'>', t7.img_name ? U.thumb(t7.img_name) : 0, 
+								'>', '<h2>' + bs.trim(t7.newstitle) + '</h2>', 
+								'>', '<div class="n020">' + bs.trim(t7.text) + '</div>'
+								);
+						}
+					}else t5 = 0;
+					//아는여자 
+					t7 = map.girls;
+					if( t7 && t7.length > 0 ){
+						t9 = bs.Dom('<div class="g012" data-id="gMove' + t1 + '" data-move="gMove' + t1 + '"></div>'); /*아는여자 이미지영역*/
+						for( k = 0, l = t7.length ; k < l ; k++ )
+							t8 = t7[k], t9.S( '>', U.thumb( t8.img_name ).S( 'left', k * cst.gImgW, '*move', 'gMove' + t1, '*seq', t8.seq, '*name', 'gItem', 'this') );
+						t8 = bs.Dom('<div class="g01" data-move="gMove' + t1 + '"></div>').S(
+							'>', t9,
+							'>', '<img class="g010" src="i/28.gif" data-name="gLeft" data-newskey="' + t1 + '" data-move="gMove' + t1 + '"/>', //좌측이동
+							'>', '<img class="g011"src="i/30.gif" data-name="gRight" data-newskey="' + t1 + '" data-move="gMove' + t1 + '"/>', //우측이동 
+						'this'),
+						t6 = bs.Dom('<div class="g0"></div>').S(
+							'>', '<h2 class="g00"><img src="i/20.png"> 아는여자</h2>',
+							'>', t8,
+						'this');
+					}else t6 = 0;
+					t9 = U.isApp() || i != 1;
+					//기사뷰 전체 
+					d.article.S( '{>' + i + '}', '*newskey', t1, 'html', '',
+						'>', t2.timeline_yn == 'Y' ? '<img class="a1" src="' + ( t8 = cst.icons['timeline'] )[0] + '" style="width:' + t8[1]+ 'px;height:' + t8[2]+ 'px"/>' : 0, 
+						'>', t2.type && ( t8 = cst.icons[t2.type] ) ? '<img class="a1" src="' + t8[0] + '" style="width:' + t8[1]+ 'px;height:' + t8[2]+ 'px"/>' : 0, 
+						'>', t9 ? 0 :'<div style="text-align:center; margin-bottom:15px; margin-left:-6px;"><iframe id="ti_center_ad" title="광고" src="http://www.ti-center.co.kr/dhs_asiaetd_m.html" align="center" width="340" height="44" frameborder="0" scrolling="no" topmargin="0" leftmargin="0" marginwidth="0" marginheight="0"></iframe></div>',  //상단광고
+						'>', !U.isApp() && bs.DETECT.browser != 'iphone' && bs.DETECT.device != 'pc' ? '<div class="a10"><img data-name="androidAppLink" src="i/80.png?141016"/></div>' : 0, //안드로이드앱 다운
+						'>', '<h1 class="a2">' + t2.newstitle + '</h1>',  //기사제목
+						'>', t2.subtitle.length > 0 ? '<div class="a3">' + t2.subtitle + '</div>' : 0 , //기사부제목
+						'>', bs.Dom('<div class="a4"></div>').S( 
+								'>', '<div class="a40">' + t2.confirmdate + '</div>',
+								'>', bs.Dom('<div class="a41">').S( //기사글자크기조절 및 기사듣기 
+										'>', '<img class="a410" data-name="fontSize" src="' + ( state.fontSizeIdx == 0 ? 'i/08.png' : state.fontSizeIdx == 1 ? 'i/09.png' : 'i/10.png' ) + '" data-src0="i/08.png" data-src1="i/09.png" data-src2="i/10.png"/>',
+										'>', t2.tts && t2.tts.length > 0 ? '<img class="a411" data-id="tts' + t1 + '" data-name="tts" data-tts="' + t2.tts + '" data-newskey="' + t1 + '" src="i/11.png" data-src0="i/11.png" data-src1="i/12.png"/>' : 0,
+									'this'),
+							'this'),
+						'>', '<div class="a6"><img data-name="share" data-service="kakaotalk" src="i/13.png"/><img data-name="share" data-service="twitter" src="i/14.png"/><img data-name="share" data-service="facebook" src="i/15.png"/><img data-name="share" data-service="band" src="i/16.png"/><img data-name="share" data-service="line" src="i/17.png"/><img data-name="scrap" src="i/18.png"/></div>', //공유 
+						'>', '<div class="a5" data-name="newsBody" style="font-size:' + cst.fontSize[state.fontSizeIdx] + 'px">' + t2.news_body + '</div>', //기사본문
+						'>', t9 ? 0 : '<div style="height:56px; text-align:center"><iframe title="광고" src="http://longkeyone.co.kr/asiatoday_d.html" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe></div>',
+						'>', '<div class="a6"><img data-name="share" data-service="kakaotalk" src="i/13.png"/><img data-name="share" data-service="twitter" src="i/14.png"/><img data-name="share" data-service="facebook" src="i/15.png"/><img data-name="share" data-service="band" src="i/16.png"/><img data-name="share" data-service="line" src="i/17.png"/><img data-name="scrap" src="i/18.png"/></div>', //공유 
+						'>', '<div class="a7"><img data-name="newsStand" src="i/19.png"/></div>', //뉴스스텐드 
+						'>', '<div class="a11">' + t2.relnews2 + '</div>', //관련기사
+						'>', t3, '>', t4, 
+						'>', t9 ? 0 :'<div style="padding-left:3px;margin-bottom:0px;"><iframe title="광고" src="http://a1.dp25.kr/s/2014/06/17/z9144210316.html" frameborder="0" width="100%" height="144" marginwidth="0" marginheight="0" scrolling="no"></iframe></div>',
+						'>', t9 ? 0 :'<div style="padding-left:3px;margin-bottom:-5px;height:130px; margin-left:-6px; margin-top:14px;"><iframe src="http://a1.dp25.kr/s/2014/06/17/z9150814164.html" width="100%" height="120" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allowTransparency="false"></iframe></div>',
+						'>', t9 ? 0 :'<div id="hiadone" style="padding:4px 0 0 8px;"><IFRAME width="100%" src="http://ad1.eventmanager.co.kr/ADHTML/Ad/asiatoday/mobile_text_iframe.html" marginwidth="0" marginheight="0" frameborder="0" scrolling="no"></IFRAME></div>',
+						'>', t5,
+						'>', t9 ? 0 :'<div id="div-lumi_nqVp4xz0saEpjGRmRhIE" style="padding-left:3px;"><iframe title="광고" id="lumi_9tXGA2p5e7ExWayuXMEY" src="http://mbad.lumieyes.com/show/media/9tXGA2p5e7/ExWayuXMEY_index.php" width="100%" height="150" frameborder="0" scrolling="no"></iframe></div>',
+						'>', t9 ? 0 :'<div id="div-lumi_nqVp4xz0saEpjGRmRhIE" style="padding-left:3px;"><iframe title="광고" id="lumi_byju2DA0HYBlHfsBfy1s" src="http://mbad.lumieyes.com/show/media/lEpIAmpgbY/adv_n10.php" width="100%" height="85" frameborder="0" scrolling="no"></iframe></div>',
+						'>', t9 ? 0 :'<div style="text-align:center;" id="footer_ad"><iframe title="광고" src="http://ad.about.co.kr/mad/html/asiatodayc/mobile/mobile" scrolling="no" frameborder="0" width="100%" height="270"></iframe></div>',
+						'>', t6,
+						'>', t9 ? 0 :'<iframe src="google_ad.html" style="margin:0 auto 50px auto; width:100%; height:260px; padding:0; text-align:center; overflow:hidden" frameborder="no" scrolling="no" seamless="seamless"></iframe></div>' //맨하단광고
+						//'>', t9 ? 0 :'<div style="width:100%;text-align:center;"><ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px;" data-ad-client="ca-pub-9363624895369716" data-ad-slot="6893232347"></ins></div>' //맨하단광고
+					);
+					/*모바일에서 HTML5 오디오 재생은 가능하지 않음!
+					if( i == 1 && state.ttsAutoPlay == 1 ){ //자동재생
+						state.ttsAutoPlay = 0;
+						if( t2.tts && t2.tts.length > 0 ) run.tts( t8 = bs.Dom( '@[data-id=tts' + t1 + ']' ), bs ), t8.END();
+					}*/
+				}else{
+					d.article.S( '{>' + i + '}', '*newskey', '', 'html', '<br/>' );
+				}
+			}
+			resize(), breadcrumb(), U.splashOff();
+			if( swipeType == 1 ) U.title( '타임라인', 0, 0 );
+			else U.title( map.news[state.newskey].category1, 0, 0 );
+			
+			//구글통계 및 ABC협회통계
+			document.title = map.news[state.newskey].newstitle;
+			t1 = map.news[state.newskey]; 
+			!U.isApp() && U.ga( 1, 'journalist', t1.gs_gija, 1, 3, 'department', t1.gs_depart, 1, 2, 'date', t1.gs_date, 1 );
+			U.isApp() && U.ga_app( t1.gs_gija, t1.gs_depart, t1.gs_date);
+			
+			//관련기사
+			var br_cnt = $(".news_bm br").length, br_cnt2 = br_cnt > 1 ? Math.floor(br_cnt / 2) : 0, br_index = 0;
+			for(var i=0, j=1; i<$(".news_bm").html().length; i++, j++){ i = $(".news_bm").html().indexOf("<br",i); if(j == br_cnt2) br_index = i; if(i < 0) break; }
+			$(".news_bm").html().substr(br_index+4,5).toLowerCase().indexOf("br") <= -1 && br_cnt2--; 
+			br_cnt2 > 0 && $(".news_bm br:eq("+(br_cnt2-1)+")").after(t2.relnews1);
+			br_cnt2 == 0 && $(".news_bm").append(t2.relnews1);
+			
+			//광고
+			if(!U.isApp()){
+				var newstext_ad1 = "<tr><td style='padding:5px 0'><iframe title='광고' id='lumi_nqVp4xz0saEpjGRmRhIE' src='http://mp.lumieyes.com/show/media/nqVp4xz0sa/EpjGRmRhIE_index.php' style='width:294px !important;' width='294' height='42' frameborder='0' scrolling='no' ></iframe></td></tr>";
+				var newstext_ad2 = "<table border='0' cellspacing='0' cellpadding='1' style='width:150px !important; height:150px; float:right !important; margin:4px 0 10px 10px;'><tr><td align=right><iframe src='http://provider.hiadone.com/cgi-bin/conad_hi.fcgi/asiatoday_mobile_banner/asia2day_mobile_Da' topmargin='0' leftmargin='0' marginwidth='0' marginheight='0' frameborder='0' scrolling='no' width='150' height='150'></iframe></td></tr></table>";
+				var newstext_img_chk = t2.news_body.toLowerCase().indexOf("<img");
+				var newstext_table_chk = cleanHTML($(".news_bm").html()).substr(0,45).toLowerCase().indexOf("<table");
+				
+				t2['video'] == 'N' && newstext_img_chk > -1 && newstext_table_chk > -1 && $(".news_bm table").eq(0).after(newstext_ad2); 
+				t2['video'] == 'N' && newstext_img_chk > -1 && newstext_table_chk <= -1 && bs.Dom(".news_bm").S("margin-top","20px") && $(".news_bm").prepend(newstext_ad2);
+				t2['video'] == 'N' && newstext_img_chk <= -1 && bs.Dom(".news_bm").S("margin-top","20px") && $(".news_bm").prepend(newstext_ad2);
+				t2['video'] == 'N' && setTimeout(function(){newstext_img_chk > -1 && $(".news_bm table").eq(0).find("img").eq(0).width() > 160 && $(".news_bm table").eq(0).find("tr").last().after(newstext_ad1)}, 50);
+				bs.js( function(){}, '../../news.hiadone.com/sdk/webSDK_type1.js' );
+				
+				var hiadone_ad_height = Math.floor((106 * document.getElementById("hiadone_frm_ad").offsetWidth) / 360)+"px";
+				document.getElementById("hiadone_ad").style.height = hiadone_ad_height;
+				document.getElementById("hiadone_frm_ad").style.height = hiadone_ad_height;
+
+				bs.Dom ("<div id='ad_lumieyes_new' class='adview' style='position:fixed; right:0px;'></div>").S("<", "body", 'this');
+				bs.js( function(){}, '../../nws.lumieyes.com/libs/js_mobile/jquery.mobile.custom_dv8.js' );
+				bs.js( function(){}, '../../nws.lumieyes.com/libs/js/commcon_nAd.js' );
+				bs.js( function(){}, '../../nws.lumieyes.com/mad/media/htKnSrbhos/js/advs.js' );
+			}
+		};
+		return function(){
+			var t0, t1, i, j;
+			state.loading = 1, 
+			newskey = arguments[0], bnewskey = 0, fnewskey = 0, m = {},
+			newskey = newskey.charAt(0) == '@' ? ( t1 = 0, newskey.substr(1) ) : ( t1 = 1, map.news = {}, d.article.S( '{>div}', 'html', '', '*newskey', '' ), state.left = -100, state.ani = 0, state.downed = 0, newskey ),
+			U.loading( 1, 1 ), bs.WIN.scroll( 0, 0 ), U.title( 'Loading...', 0, 0 ), U.menuChange();
+			if( map.news[newskey] ) loadedContent(0);
+			else{
+				swipeType = arguments.length > 1 ? arguments[1] == 'timeline' ? 1 : arguments[1] == 'myatoo' ? 2 : 0 : 0;
+				if( arguments.length > 1 ){
+					for( t0 = '', i = 1, j = arguments.length ; i < j ; i++ ) t0 += arguments[i] + '/';
+					state.category = t0.substr( 0, t0.length - 1 );
+					state.ttsAutoPlay = arguments[1] == 'atootalk' && t1 ? 1 : 0;
+				}else state.category = 0;
+				t0 = ['view_content', loadedContent, 'newskey', newskey, 'category', state.category && state.category.indexOf('timeline') == -1 && state.category.indexOf('myatoo') == -1 ? state.category : '', 'app', U.isApp() ? 'Y' : 'N' ], 
+				swipeType > 0 && t0.push( 'swipeType', swipeType );
+				U.data.apply( null, t0 );
+			}
+
+			bs.Dom ("<iframe style='display:none;' src='http://www.asiatoday.co.kr/comm/_counter_check_news.php?key="+newskey+"' ></iframe>").S("<", "body", 'this');
+		};
+	})(), 
+	map = {
+		ranknews:0, girls:0, news:{}
+	};
+	bs.router( '*', init, 'start', function(){
+		init.apply( null, window.__PATH ? window.__PATH : location.hash.substr(1).split('http://m.asiatoday.co.kr/') );
+	} );
+	U.sizer(function( w, h ){
+		if( state.w == w ) return;
+		state.w = w, resize();
+	});	
+	U.blur( function(type){
+		var t0, t1;
+		//선택초기화 
+		state.downed = 0, state.timeId && ( clearInterval(state.timeId), state.timeId = 0 ),
+		state.ani = 0, state.selected = 0, state.moveSelected = 0, d.article.S( 'left', -100 );
+		resize();
+		//Audio 초기화 
+		state.ttsSelected && state.ttsSelected.S( '@src', state.ttsSelected.S('*src0') ),
+		state.ttsAudio && state.ttsAudio.isPlay && state.ttsAudio.stop(), 
+		state.ttsSelected = 0;
+	} );	
+	U.gnbAdd( 25, d.breadcrumb ), U.gnbHide();
+	
+	//좌우 스와이프 버튼 삽입
+	var wh = $(window).height()?$(window).height() / 2:200;
+	bs.Dom('<div class="swipe_btn"><img alt="" src="i/23.gif" width="28px" /></div>').S( '<', bs.Dom('body'), 'position', 'fixed', 'opacity', 1.0, 'z-index', '999', 'top', wh+'px', 'left', '0', 'width', '28px', 'this' );
+	bs.Dom('<div class="swipe_btn"><img alt="" src="i/25.gif" width="28px" /></div>').S( '<', bs.Dom('body'), 'position', 'fixed', 'opacity', 1.0, 'z-index', '999', 'top', wh+'px', 'right', '0', 'width', '28px', 'this' );
+	//bs.ANI.style( bs.Dom('.swipe_btn img'), 'opacity', 0.1, 'time', 2);
+	setTimeout(function(){$(".swipe_btn").fadeOut(1400)}, 4000);
+	
+	/*광고*/
+	!U.isApp() && U.btmAdd( 65, bs.Dom('<div><div id="close_adopadzone" style="width:100;z-index:1001; text-align:right"><a href="javascript:closead();"><img alt="" src="../../adop.kr/outimg/close_bt_en.jpg" /></a></div><div style="z-index:1000; display:block;" id="adopadzone" align="center"><div id="banner_02" align="center"><iframe src="http://ad.about.co.kr/mad/html/asiatodayc/bottom/mobile" scrolling="no" frameborder="0" width="100%" height="50"></iframe></div></div></div>').S( '<', bs.Dom('body'), 'height', '65px', 'z-index', '5', 'overflow-y', 'hidden', 'this' ) );
+} );
+</script>
+<script type="text/javascript" src="../../www.asiatoday.co.kr/js/jquery.min.js"></script>
+<script type="text/javascript" src="atoo_abcbbe0.js?141105"></script>
+</head><body></body>
+<!-- Mirrored from m.asiatoday.co.kr/kn/view.php?r=articles%2F by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:32 GMT -->
+</html>

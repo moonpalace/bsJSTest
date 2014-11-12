@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!-- Mirrored from m.asiatoday.co.kr/kn/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:35 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+<title>아시아투데이</title>
+<meta name="keywords" content="아시아투데이" />
+<meta name="description" content="아시아투데이" />
+<meta name="share"/>
+<link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico" />
+<script src="r/bsjs.0.6.js"></script>
+<script src="r/main36b3.js?2013101411"></script>
+<script>
+'use strict';
+if( bs.local('session') ){
+	bs(function(){
+		var logouted = function(data){
+			bs.local( 'session', null ),
+			U.loading(0), location.href = 'index-2.html';
+		};
+		U.loading( 1, 1 ), U.data( 'memlogout', logouted ), 
+		U.title( '로그아웃', 0, 0 );		
+	});
+}else{
+	U.start( 'r/login.html', function(){
+		var state = {
+			downed:0, timeId:0, selected:0, loading:0, redirect:location.hash ? decodeURIComponent(location.hash.substr(1)) : 'index.html',
+		}, 
+		run = {
+			login:(function(){
+				var logined = function(data){
+					U.loading(0), state.loading = 0;
+					if( !data || !data.body || typeof data.body	!= 'string' || data.body == 'fail' ) return U.toast('아이디 또는 비밀번호가 일치하지 않습니다.');
+					bs.local( 'session', data.body ),
+					location.href = 'redirect.html#' + encodeURIComponent(state.redirect);
+				};
+				return function(){
+					var t0, t1;
+					if( state.loading ) return;
+					t0 = bs.trim(d.userId.S('@value'));
+					t1 = bs.trim(d.userpw.S('@value'));
+					if( !t0 || t0.length == 0 ) return U.toast('아이디를 입력하세요.'); 
+					if( !t1 || t1.length == 0 ) return U.toast('비밀번호를 입력하세요.');
+					U.loading( 1, 1 ), state.loading = 1, 
+					U.data( 'memlogin', logined, 'i', t0, 'p', t1 );
+				};
+			})(),
+			facebook:function(){
+				location.href = 'http://m.asiatoday.co.kr/api/fb_login.php?redirect='+ encodeURIComponent(state.redirect);
+			},
+		},
+		ev = {
+			timeout:function(e){
+				state.timeid = 0, state.downed = 0, state.selected = 0;
+			},
+			down:function(e){
+				if( state.loading || state.downed ) return;
+				state.downed = 1, state.selected = bs.Dom(this),
+				state.timeId = setTimeout( ev.timeout, 200 );
+			},
+			up:function(e){
+				var t0;
+				if( state.loading || !state.downed ) return;
+				state.downed = 0, state.timeId && ( clearInterval( state.timeId ), state.timeId = 0 );
+				if( !state.selected ) return;
+				if( -7 > ( t0 = e.dy ) || t0 > 7 ) return;
+				t0 = state.selected.S( '*id' );
+				if( t0 == 'login' ) run.login();
+				else if( t0 == 'facebook' ) run.facebook();
+				else return;
+				U.downCover( state.selected ), state.selected = 0;
+			},
+			keydown:function(e){
+				var t0;
+				if( !e.key('enter') ) return;
+				t0 = bs.Dom(this).S('*id');
+				if( t0 == 'userid' ) d.userpw.S('f');
+				else if( t0 == 'userpw' ) d.userpw.S('b'), run.login();
+			},
+		},
+		d = {
+			userId:bs.Dom('[data-id=userid]').S( 'keydown', ev.keydown, 'this' ),
+			userpw:bs.Dom('[data-id=userpw]').S( 'keydown', ev.keydown, 'this' ),
+			login:bs.Dom('[data-id=login]').S( 'down', ev.down, 'up', ev.up, 'this' ),
+			facebook:bs.Dom('[data-id=facebook]').S( 'down', ev.down, 'up', ev.up, 'this' ),
+		};
+		U.title( '로그인', 0, 0 );
+		U.ga();
+	});
+}
+</script>
+</head><body></body>
+<!-- Mirrored from m.asiatoday.co.kr/kn/login.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:36 GMT -->
+</html>

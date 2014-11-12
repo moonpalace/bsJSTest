@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<!-- Mirrored from m.asiatoday.co.kr/kn/sexygirl.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:36 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head>
+<meta charset="UTF-8"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+<title>아시아투데이::아는여자</title>
+<meta name="keywords" content="아시아투데이" />
+<meta name="description" content="아시아투데이,아는여자" />
+<link rel="shortcut icon" type="image/x-icon" href="i/favicon.ico" />
+<script src="r/bsjs.0.6.js"></script>
+<script src="r/main9a0b.js?2013101616"></script>
+<script>
+U.start( 'r/sexygirl.html', function(){
+	var cst = {
+		docName:location.pathname.indexOf('sexygirl.html') == -1 ? 'sexygirl.html' : 'sexygirl0.html', docSwipe:0,
+		thumbW:67, thumbPadding:15, scrollLimit:15, swipeLimit:40, fontSize:[13,16,18],
+		easeTime:.1, ease:'linear',
+	},
+	state = {
+		w:U.w, h:U.h, loading:0, downed:0, ani:0, tid:0, isScroll:0, selected:0, moveSelected:0, left:0,
+		//fontSizeIdx: ( t = +bs.local('fontSizeIdx'), typeof t == 'number' && !isNaN(t) ) ? t : 0, 	
+		fontSizeIdx:U.fontSizeIdx(),
+		isZoom:0,
+		thumbW:0, thumbLimit:0, photoW:0, //썸네일 스크롤영역 넓이, 썸네일 스크롤 한계값(left), 사진영역 넓이 
+		zoomPhoto:0, zoomData:0, moveData:0, zoomType:0, 
+	},
+	fn = {
+		posThumbs:function(idx){
+			var t0;
+			if( idx < 0 ) idx = 0;
+			else if( idx > map.list.length - 1 ) idx = map.list.length - 1;
+			t0 = -cst.thumbW * idx + cst.thumbPadding; //썸네일기본위치
+			return t0 < state.thumbLimit ? state.thumbLimit > cst.thumbPadding ? cst.thumbPadding : state.thumbLimit : t0;
+		},
+		idxThumbs:function(pos){
+			var t0 = -( pos + cst.thumbPadding ) / cst.thumbW;
+			if( t0 < 0 ) t0 = 0;
+			else if( t0 + 1 > map.list.length ) t0 = map.list.length - 1;
+			return Math.round(t0);
+		},
+		posPhotos:function(idx){
+			return -state.photoW * idx;
+		},
+		heightPhoto:function(idx){
+			var t0 = bs.Dom(d.photos.S( '>' + idx ));
+			return state.photoW / t0.S('*ratio');
+		},
+		zoomDist:function(pos){
+			return Math.sqrt((pos.x0-pos.x1) * (pos.x0-pos.x1) + (pos.y0-pos.y1) * (pos.y0-pos.y1));
+		}
+	}, 
+	ev = {
+		down:(function(){
+			var timeout = function(e){
+				state.tid = 0, state.selected = 0;
+			};
+			return function(e){
+				if( state.loading || state.downed || state.isZoom ) return;
+				var t0, t1;
+				t0 = bs.Dom(e.domPoint());
+				state.moveSelected = ( t1 = t0.S('*move') ) ? ( t1 = bs.Dom('[data-id=' + t1 + ']'), state.left = +t1.S('left'), t1 ): 0;
+				if( cst.docSwipe == 0 && state.moveSelected && state.moveSelected.S('*id') == 'photos' ) state.moveSelected = 0; //큰사진 swipe 방지처리함 
+				t1 = t0.S('*id') || ( t0 = bs.Dom(t0.S('<')) ).S('*id');
+				if( t1 && (t1 = t1.split('_')[0]) ) state.selected = t0;
+				if( state.selected || state.moveSelected ) state.downed = 1, state.isScroll = 1, state.tid = setTimeout( timeout, 200 );
+			};
+		})(),
+		move:function(e){
+			if( state.ani || !state.downed || state.isZoom ) return;
+			var t0 = e.dy, t1 = e.dx, t2;
+			if( state.isScroll ){
+				if( state.moveSelected && -cst.scrollLimit > t1 || t1 > cst.scrollLimit ) state.isScroll = 0;
+				if( -cst.scrollLimit > t0 || t0 > cst.scrollLimit ) state.downed = 0, state.selected = 0, state.moveSelected = 0, t1 = 0;
+			}
+			!state.isScroll && e && e.prevent();
+			state.moveSelected && state.moveSelected.S( 'left', state.left + t1 );
+		},
+		up:(function(){
+			var run = {
+				thumbL:function( selected, bs ){
+					return thumbMove( +fn.idxThumbs( +d.thumbs.S('left') ) - 1, end ), 0;
+				},
+				thumbR:function( selected, bs ){
+					return thumbMove( +fn.idxThumbs( +d.thumbs.S('left') ) + 1, end ), 0;
+				},
+				thumb:function( selected, bs ){
+					map.idx = +selected.S('*idx');
+					if( cst.docSwipe ) state.ani = 1, U.downCover( selected, photoMove );
+					else U.downCover( selected, cst.docName + '#' + map.seq + '/' + map.idx );
+					return 0;
+				},
+				photoL:function( selected, bs ){
+					if( map.idx - 1 < 0 ) return 1;					
+					map.idx--;
+					if( cst.docSwipe ) state.ani = 1, U.downCover( selected, photoMove );
+					else U.downCover( selected, cst.docName + '#' + map.seq + '/' + map.idx );
+					return 0;
+				},
+				photoR:function( selected, bs ){
+					if( map.idx + 1 >= map.list.length ) return 1;					
+					map.idx++;
+					if( cst.docSwipe ) state.ani = 1, U.downCover( selected, photoMove );
+					else U.downCover( selected, cst.docName + '#' + map.seq + '/' + map.idx );
+					return 0;
+				},
+				photo:function( selected, bs ){
+					state.zoomPhoto = bs.Dom('<img/>').S( '<', d.zoomContent, '@src', selected.S('@src'), 'width', '100:%', 'position', 'absolute', 'left', 0, 'top', 0, 'this' );
+					U.bodyFix(1), d.zoom.S( 'top', 0, 'display', 'block' ),
+					state.isZoom = 1, d.zoomTitle.S( 'position', 'fixed', 'top', 0 ), end();
+					return 1;
+				},			
+				articleOpen:function( selected, bs ){
+					var t0 = map.list[map.idx];
+					U.bodyFix(1), 
+					d.article.S( 'display', 'block');
+					d.articleTitle.S( 'html', t0.title );
+					d.articleDate.S( 'html', t0.confirmdate );
+					d.articleFont.S( '@src', ( state.fontSizeIdx == 0 ? 'i/08.png' : state.fontSizeIdx == 1 ? 'i/09.png' : 'i/10.png' ) );
+					d.articleBody.S( 'font-size', cst.fontSize[state.fontSizeIdx], 'html', t0.text );					
+					return 1;
+				},
+				articleFont:function( selected, bs ){
+					var t0 = d.articleBody;
+					t0.S( 'font-size', cst.fontSize[state.fontSizeIdx = state.fontSizeIdx + 1 == cst.fontSize.length ? 0 : state.fontSizeIdx + 1] ),
+					//d.articleFont.S( '@src', d.articleFont.S( '*src' + state.fontSizeIdx ) ),
+					U.fontSizeIdx(state.fontSizeIdx); 	
+					bs.local( 'fontSizeIdx', state.fontSizeIdx + '' );
+					U.downCover(selected);
+					return 1;
+				},
+				articleClose:function( selected, bs ){
+					U.bodyFix(0), d.article.S( 'display', 'none');
+					return 1;
+				},
+				articleShare:function( selected, bs ){
+					var t0 = map.list[map.idx];
+					U.share( selected.S('*service'), '#asiatoday #아는여자 ' + t0.title, 'articles/' + t0.newskey );
+					return 1;
+				},			
+				another:function( selected, bs ){
+					U.downCover( selected, '#' + selected.S('*seq') );
+					return 1;
+				},
+			},
+			thumbMove = function(idx, e){
+				bs.ANI.style( d.thumbs, 'left', fn.posThumbs(idx), 'time', cst.easeTime, 'ease', cst.ease, 'end', e ? e : null );
+			},
+			photoMove = function(){
+				bs.ANI.style( d.photos, 'left', fn.posPhotos(map.idx), 'time', cst.easeTime, 'ease', cst.ease, 'end', photoMoveEnd );
+				bs.ANI.style( d.photoView, 'height', fn.heightPhoto(map.idx), 'time', cst.easeTime, 'ease', cst.ease );	
+			},
+			photoMoveEnd = function(){
+				var t0;
+				//해당위치 원본이미지 읽어오기 
+				if( map.idx - 1 >= 0 && ( t0 = bs.Dom( d.photos.S('>' + (map.idx - 1) ) ) ).S('@src') != t0.S('*original') ) 
+					t0.S( '@src', t0.S('*original') );
+				if( map.idx + 1 < map.list.length && ( t0 = bs.Dom( d.photos.S('>' + (map.idx + 1) ) ) ).S('@src') != t0.S('*original') ) 
+					t0.S( '@src', t0.S('*original') );
+				if( ( t0 = bs.Dom( d.photos.S('>' + map.idx ) ) ).S('@src') != t0.S('*original') ) 
+					t0.S( '@src', t0.S('*original') );					
+				//선택한 썸네일 선택 
+				bs.Dom(d.thumbs.S('>')).S( 'border', '2px solid #fff' );
+				bs.Dom(d.thumbs.S('>'+map.idx)).S( 'border', '2px solid #f00' );
+				//제목반영
+				d.subject.S( 'html', map.list[map.idx].title );
+				end();
+			},
+			end = function(){
+				state.ani = 0, state.selected = 0, state.moveSelected = 0;
+			};
+			return function(e){
+				if( state.ani || !state.downed || state.isZoom ) return;
+				var t0, t1, t2;
+				state.downed = 0, state.ani = 1,
+				state.tid && ( clearInterval(state.tid), state.tid = 0 );
+				if( ( t1 = state.selected ) && -7 < ( t0 = e.dy ) && t0 < 7 && -7 < ( t0 = e.dx ) && t0 < 7 ){
+					t2 = t1.S('*id');
+					if( run[ t0 = t2.split('_')[0] ] ) run[t0]( t1, bs ) && end() && e.prevent();
+					else end();
+				}else if( state.moveSelected ){
+					t0 = state.moveSelected.S('*id');
+					if( t0 == 'thumbs' ){ 
+						idx = fn.idxThumbs(+state.moveSelected.S('left')),
+						thumbMove( idx, end );
+					}else if( t0 == 'photos' ){ 
+						if( -cst.swipeLimit < e.dx && map.idx > 0 ) map.idx--;
+						else if( cst.swipeLimit > e.dx && map.idx + 1 < map.list.length ) map.idx++;
+						thumbMove(map.idx), photoMove();					
+					}else end();
+					e.prevent();
+				}else end();
+			};
+		})(),
+		zoomDown:function(e){
+			if( !state.isZoom ) return;
+			var t0, t1;
+			t0 = e.touches, t1 = state.zoomPhoto;
+			if( t0.length == 1 ){
+				state.zoomType = "move";
+				state.moveData = {x:t0.x0,y:t0.y0, w:t1.S('width'), h:t1.S('height'), top:t1.S('top'), left:t1.S('left'), target:t1};
+			}else if( t0.length == 2 ){
+				state.zoomType = "zoom";
+ 				state.zoomData = {
+					x0:t0.x0, y0:t0.y0, 
+					x1:t0.x1, y1:t0.y1, 
+					w:t1.S('width'), h:t1.S('height'), 
+					target:t1, 
+					d:fn.zoomDist({x0:t0.x0,y0:t0.y0,x1:t0.x1,y1:t0.y1}) * 100 / t1.S('width'), 
+					rate:t1.S('width'), 
+					cx:(t0.x0+t0.x1)/2, 
+					cy:(t0.y0+t0.y1)/2, 
+					top:t1.S('top'), left:t1.S('left') 
+				};
+				
+			}else{
+				state.zoomType = "none";
+			}
+		},
+		zoomMove:function(e){
+			if( !state.isZoom ) return;
+			e.prevent();
+			var t0, t1, t2, t3;
+			if( state.zoomType == "move" ){
+				t0 = state.moveData;
+				t2 = t0.left+(e.touches.x0-t0.x);
+				t3 = t0.top+(e.touches.y0-t0.y);
+				if( t2 > (U.w - t0.target.S('w')) && t2 <= 0 ) state.zoomPhoto.S( 'left', t2 );
+				if( t3 > (U.h - t0.target.S('h')) && t3 <= 0 ) state.zoomPhoto.S( 'top', t3 );
+			}else if( state.zoomType == "zoom" ){
+				t0 = state.zoomData;
+				t1 = fn.zoomDist({x0 : e.touches.x0, y0 : e.touches.y0, x1 : e.touches.x1, y1 : e.touches.y1}) / t0.d * 100;
+				if( t1 < 100 ){
+					state.zoomPhoto.S( 'width',100, 'left', 0, 'top', 0 );	
+				}else if( t1 <= 200 ){
+					state.zoomPhoto.S( 'width', t1 )
+					t2 = t0.cx - t1*t0.cx/100;
+					if( t2 < U.w - t0.target.S('w') ) t2 = U.w - t0.target.S('w');
+					if( t2 > 0 ) t2 = 0;
+					state.zoomPhoto.S( 'left', t2 );
+					
+					t3 = t0.cy - t1*t0.cy/100;
+					if( t3 < U.h - t0.target.S('h') ) t3 = U.h - t0.target.S('h');
+					if( t3 > 0 ) t3 = 0;
+					state.zoomPhoto.S( 'top', t3 );
+				}				
+			}
+			
+		},			
+		zoomUp:function(e){
+			if( !state.isZoom ) return;
+			var t0;
+			if( e.touches.length == 1 ){
+				state.zoomType = "move";
+				t0 = state.zoomPhoto;
+				state.moveData = {x:e.touches.x, y:e.touches.y, w:t0.S('width'), h:t0.S('height'), top:t0.S('top'), left:t0.S('left'), target:t0};
+			}else state.zoomType = "none";
+			e.prevent();
+		},
+		zoomClose:function(e){
+			if( !state.isZoom ) return;
+			U.bodyFix(0), state.zoomPhoto = 0, state.isZoom = false;
+			d.zoom.S( 'display', 'none' ), d.zoomContent.S('html', '');
+			return 1;
+		},		
+			
+	},
+	d = {
+		body:bs.Dom('[data-id=body]').S( 'down', ev.down, 'move', ev.move, 'up', ev.up, 'this' ),
+		contents:bs.Dom('[data-id=contents]'),
+		subject:bs.Dom('[data-id=subject]'),
+		thumbs:bs.Dom('[data-id=thumbs]'),
+		photoView:bs.Dom('[data-id=photoView]'),
+		photos:bs.Dom('[data-id=photos]'),
+		articleOpen:bs.Dom('[data-id=articleOpen]'),
+		anothers:bs.Dom('[data-id=anothers]'),
+		zoom:bs.Dom('[data-id=zoom]').S( '<', 'body', 'down', ev.down, 'move', ev.move, 'up', ev.up, 'this' ),
+		zoomTitle:bs.Dom('[data-id=zoomTitle]'),
+		zoomClose:bs.Dom('[data-id=zoomClose]').S( 'down', ev.zoomClose, 'this' ),
+		zoomContent:bs.Dom('[data-id=zoomContent]').S( 'down', ev.zoomDown, 'move', ev.zoomMove, 'up', ev.zoomUp, 'this' ),
+		article:bs.Dom('[data-id=article]').S( '<', 'body', 'down', ev.down, 'move', ev.move, 'up', ev.up, 'this' ),
+		articleTitle:bs.Dom('[data-id=articleTitle]'),
+		articleFont:bs.Dom('[data-id=articleFont]'),
+		articleDate:bs.Dom('[data-id=articleDate]'),
+		articleBody:bs.Dom('[data-id=articleBody]'),
+	},
+	map = {seq:0, idx:0, list:0, another:0},
+	init = (function(){
+		var loadAnother = function(data){
+			var t0;
+			if( U.none( data && ( t0 = data.body ) && ( t0 = t0[0] ) && ( t0 = t0.newslist ) && t0 instanceof Array) ) return;
+			map.another = t0, U.data( 'girl_sub', load, 'seq', map.seq );
+		},
+		load = function(data){
+			var t0;
+			if( U.none( data && ( t0 = data.body ) && ( t0 = t0[0] ) && ( t0 = t0.category ) && t0 instanceof Array) ) return;
+			map.list = t0, render();
+		}, 
+		loadPhoto = function(){
+			var t0 = bs.Dom(this), t1 = +t0.S('w'), t2 = +t0.S('h');
+			if( t0.S('*original') == t0.S('@src') ) t0.S( 'load', null );
+			t0.S( '*ratio', t2 == 0 || t1 == 0 ? 1 : +t1 / t2 );
+			if( map.idx == +t0.S('*idx') ) U.loading(0), d.contents.S( 'opacity', 1 ), d.photoView.S( 'height', fn.heightPhoto(map.idx) );
+		},
+		render = function(){
+			var t0, t1, t2, i, j;
+			state.loading = 0,
+			d.anothers.S( 'html', '' ), d.thumbs.S( 'html', '' ), d.photos.S( 'html', '' );
+			t0 = map.list, d.subject.S( 'html', t0[map.idx].title );
+			//썸네일 및 이미지 
+			d.photos.S( 'width', ( t0.length * 100 ) + '%' ),
+			d.photos.S( 'left', -d.photos.S('w') * map.idx ),
+			t2 = 100 / t0.length;
+			if( map.idx < 0 ) map.idx = 0;
+			else if( map.idx + 1 >= t0.length ) map.idx = t0.length - 1;
+			for( i = 0, j = t0.length ; i < j ; i++ ){
+				t1 = t0[i], 
+				bs.Dom('<img/>').S( '<', d.thumbs, 
+					'*id', 'thumb_' + i, 
+					'@src', t1.thum_img, '*move', 'thumbs',
+					'*newskey', t1.newskey, '*idx', i,'left', cst.thumbW * i,
+					'border', i == map.idx ? '2px solid #f00' : '2px solid #fff'
+				),
+				bs.Dom('<img/>').S( '<', d.photos,
+					'*id', 'photo_' + i, 
+					'class+', 'b200', 'width', t2 + '%', 'load', loadPhoto,
+					'*move', 'photos', 
+					'*newskey', t1.newskey, '*idx', i, '*ratio', 1, 
+					'*original', t1.content_img, '@src', i == map.idx || ( cst.docSwipe == 1 && ( i == map.idx + 1 || i == map.idx - 1 ) ) ? t1.content_img : t1.thum_img
+				);
+			}
+			//구경가기 
+			for( t0 = map.another, i = 0, j = t0.length ; i < j ; i++ ){
+				t1 = t0[i], bs.Dom('<li class="b40"></li>').S( '<', d.anothers, '*id', 'another_' + t1.seq, '*seq', t1.seq, 'html', t1.title );
+			}
+			resize();
+		};
+		return function(){
+			if( state.loading ) return;
+			map.idx = arguments.length > 1 ? parseInt(arguments[1]) : 0, map.seq = parseInt(arguments[0]),
+			state.loading = 1, U.loading( 1, 1 ),
+			d.contents.S( 'opacity', 0 ),
+			bs.WIN.scroll( 0, 0 ), U.menuChange(),
+			U.data( 'girl_another', loadAnother, 'seq', map.seq );
+		};
+	})(),
+	resize = function(){
+		state.thumbW = +bs.Dom(d.thumbs.S('<')).S('w') - cst.thumbPadding * 2 + 14;
+		state.thumbLimit = -cst.thumbW * map.list.length + state.thumbW;
+		state.photoW = +bs.Dom(d.photos.S('<')).S('w');
+		d.thumbs.S( 'left', fn.posThumbs(map.idx) ), 
+		d.photos.S( 'left', fn.posPhotos(map.idx) ),
+		d.photoView.S( 'height', fn.heightPhoto(map.idx) );
+	};
+	bs.router( '*', init, 'start', function(){
+		init.apply( null, location.hash.substr(1).split('http://m.asiatoday.co.kr/') );		
+	});
+	U.sizer(function( w, h ){
+		if( state.w == w ) return;
+		state.w = w, state.h = h;
+		resize();
+	});
+	U.title( '아는여자', 0, 0 );
+});
+</script>
+</body>
+
+<!-- Mirrored from m.asiatoday.co.kr/kn/sexygirl.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 Nov 2014 16:35:40 GMT -->
+</html>
