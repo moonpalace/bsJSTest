@@ -50,27 +50,20 @@ bs( function(){
 		bs.Dom( '#stage' ).S( 'class', 'cls1' );
 	} );
 	
-	bsTest( '첫번째인자기능',
+	bsTest( '.child()',
 		function(){
 			bs.Dom('#stage').S('>', '<div id="fc00"><div id="fcd0">d0</div><div id="fcd1" class="a">a0</div><div id="fcd2" class="a">a1</div><span id="fcs0">s0</span><span id="fcs1">s1</span></div>');
-			bs.Dom('#fc00').S('{>div}', 'color', '#f00');
+			bs.Dom('#fc00').child('div').S( 'color', '#f00');
 			return bs.Dom('#fcd1').S('color');
 		}, '#f00',
 		function(){
-			bs.Dom('#fc00').S('{>.a}', 'color', '#ff0');
+			bs.Dom('#fc00').child('.a').S( 'color', '#ff0');
 			return bs.Dom('#fcd0').S('color') + bs.Dom('#fcd1').S('color');
 		}, '#f00#ff0',
 		function(){
-			//마지막자식
-			return bs.Dom('#fc00').S('{>$}')[0].id;
+			return bs.Dom('#fc00').child('$')[0].id;
 		}, 'fcs1'
 	);
-	bsTest( '마지막자식얻기',
-		function(){
-			//마지막자식
-			return bs.Dom('#fc00').S('>$')[0].id;
-		}, 'fcs1'
-	),
 	bsTest( '이미 있는 스타일인식',
 		function(){
 			bs.Dom('#stage').S( '>', '<div id="styleTest0" style="width:100px;height:10px;background:#ff0;font-size:2em;margin:2%;display:block"></div>' );
