@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>bs7 Test suite</title>
+    <meta name="keywords" content="bs5" />
+    <meta name="description" content="bs5 Test suite" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,target-densitydpi=medium-dpi" />
+    <link rel="shortcut icon" href="http://blog.bsidesoft.com/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<script src="../bsjs.0.7.js"></script>
+<script>
+    bs(function(){
+        var obj = function( key, v ){
+            var t0 = key.replace( bs.trim, '' ).toUpperCase();
+            ( !arguments[2] && t0 != key ) ? err( 1002, key ) : bs[t0] ? err( 2002, t0 ) : bs[t0] = v;
+        };
+        obj('BRYAN', {first:'bryan', last:'choi'});
+        bs.Dom('<div></div>').S('html', bs.BRYAN.first + ' ' + bs.BRYAN.last, '<', 'body');
+    });
+
+    // bs.obj 호출해서 등록되는 객체들 (KEY, WIN, DETECT, ANI)
+//
+//    // 아스키 코드를 담은 객체
+//    bs.obj( 'KEY', (function(){
+//        var t0 = {downed:{}, code2name:{}, name2code:{}}, i, j, k, v,
+//                t1 = 'a,65,b,66,c,67,d,68,e,69,f,70,g,71,h,72,i,73,j,74,k,75,l,76,m,77,n,78,o,79,p,80,q,81,r,82,s,83,t,84,u,85,v,86,w,87,x,88,y,88,z,90,back,8,tab,9,enter,13,shift,16,control,17,alt,18,pause,19,caps,20,esc,27,space,32,pageup,33,pagedown,34,end,35,home,36,left,37,up,38,right,39,down,40,insert,45,delete,46,numlock,144,scrolllock,145,0,48,1,49,2,50,3,51,4,52,5,53,6,54,7,55,8,56,9,57'.split(',');
+//        i = 0, j = t1.length;
+//        while( i < j ) k = t1[i++], v = parseInt(t1[i++]), t0.name2code[k] = v, t0.code2name[v] = k;
+//        return t0;
+//    })() );
+//
+//    // ev, on, scroll, sizer, size를 담은 객체
+//    bs.obj( 'WIN', (function(){
+//        var win, wdata = {}, ddata = {}, ev = {};
+//        win = {
+//            ev:function( k, v ){ev[k] ? err( 2401, k ) : ev[k] = v;},
+//            on:function( k, v, isDoc ){
+//                var data, t0, t1, k, k0, g, c, m, a, d;
+//                ( isDoc || k.substr(0,3) == 'key' ) ? ( data = ddata, d = doc ) : ( data = wdata, d = W );
+//                if( 'on' + k in d || k.indexOf(':') > -1 ) attrs[k] = 2;
+//                else return err( 4001, k );
+//                if( !( t0 = data.BSdomE ) ) data.BSdomE = t0 = bs.ev.dom(d);
+//                k0 = k, g = ( t1 = k0.indexOf(':') ) > -1 ? ( k = k0.substring( 0, t1 ), k0.substr( t1 + 1 ) ) : '';
+//                if( v ) v.splice ? ( m = v[1], a = v, c = v[0] || d ) : v[k] ? ( m = v[k], c = v ) : ( m = v, c = d );
+//                if( t1 = ev[k] ){
+//                    if( typeof t1 == 'function' ) return t1( t0, k, g, c, m, a );
+//                    k = t1;
+//                }
+//                v ? t0.on( k, g, c, m, a ) : t0.off( k, g );
+//            },
+//            scroll:(function( W, doc, root, docEl ){
+//                return function scroll(){
+//                    switch( arguments[0] ){
+//                        case'w':case'width':return Math.max( root.scrollWidth, root.clientWidth );
+//                        case'h':case'height':return Math.max( root.scrollHeight, root.clientHeight );
+//                        case'l':case'left':return docEl.scrollLeft || W.pageXOffset || 0;
+//                        case't':case'top':return docEl.scrollTop || W.pageYOffset || 0;
+//                    }
+//                    W.scrollTo( arguments[0], arguments[1] );
+//                };
+//            })( W, doc, detect.root, doc.documentElement )
+//        },
+//                win.sizer = (function( W, doc ){
+//                    var t0 = {w:0, h:0}, t1, size, docEl, docBody;
+//                    win.size = size = W['innerHeight'] === undefined ? (
+//                            docEl = doc.documentElement, docBody = doc.body, t1 = {w:'clientWidth', h:'clientHeight'}, t1.width = t1.w, t1.height = t1.h,
+//                                    function(k){return k = t1[k] ? docEl[k] || docBody[k] : ( t0.w = docEl[t1.w] || docBody[t1.w], t0.h = docEl[t1.h] || docBody[t1.h], t0 );}
+//                            ) : ( t1 = {w:'innerWidth', h:'innerHeight'}, t1.width = t1.w, t1.height = t1.h,
+//                            function(k){return k = t1[k] ? W[k] : ( t0.w = W[t1.w], t0.h = W[t1.h], t0 );}
+//                            );
+//                    return function(end){
+//                        var f = function(){size(), end( t0.w, t0.h );}, id;
+//                        win.on( 'resize', f );
+//                        if( 'onorientationchange' in W ) win.on( 'orientationchange', f );
+//                        size();
+//                        if( t0.w && t0.h ) end( t0.w, t0.h );
+//                        else id = setInterval( function(){
+//                            size();
+//                            if( t0.w && t0.h ) clearInterval(id), end( t0.w, t0.h );
+//                        }, 1 );
+//                    };
+//                })( W, doc );
+//        return win;
+//    })() )
+//
+//    // 실행 환경 정보를 담은 객체
+//    bs.obj( 'DETECT', detectDOM( W, detect ) )
+//
+//    // 애니메이션 객체
+//    bs.obj( 'ANI', ANIMATE() )
+//
+
+
+</script>
+</body>
+</html>
