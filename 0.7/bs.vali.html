@@ -91,16 +91,20 @@ range
 indexOf
 <input id='indexOf_OK' type='text' value='123ABC456'>
 <br/>
-<div id="stage"></div>
+<div id="stage">
+	<div id="gene">
+		<input type="text" value="0hika00" data-bsVALI="Falpha&alphanum" data-bsVALIid="userid"/>
+		<div>
+			<div data-bsVALIid="pw" data-bsVALIattribute="html" data-bsVALI="Falpha&alphanum">hika#11</div>
+		</div>
+	</div>
+</div>
 <div id="result"></div>
 <div id="test"></div>
 <script src="../../bsJS/bsjs.0.7.js"></script>
 <script src="../bsTest.js"></script>
 <script src="../0.7/printer.js"></script>
-<script>//{2}(([0-9])|(1[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))
-console.log(
-/^[0-9a-zA-Z-_.]+@[0-9a-zA-Z-]+[.]+[A-Za-z]+$/.test('gmail@gmail.com')
-);
+<script>
 bs( function(){
 	bsTest.tear( 'test init', function(){
 		bs.Dom( '<input id="id" type="text" value="hika00"/>' ).S('<','#stage' );
@@ -118,9 +122,30 @@ bs( function(){
 			}
 		);
 		bs.VALI.set( 
-			'set1', {userid:'Falpha|alphanum', pw:'Falpha|alphanum'}
+			'set1', {userid:'Falpha&alphanum', pw:'Falpha&alphanum'}
 		);
 	} );
+	var f = bs.VALI.generate(bs.Dom('#gene'));
+	bsTest( 'generate',
+		function(){
+			return f()[0][0];
+		}, 'Falpha',
+		function(){
+			return f()[0][1];
+		}, '0hika00',
+		function(){
+			return f()[0][3];
+		}, 'userid',
+		function(){
+			return f()[1][0];
+		}, 'alphanum',
+		function(){
+			return f()[1][1];
+		}, 'hika#11',
+		function(){
+			return f()[1][3];
+		}, 'pw'
+	);
 	bsTest( 'vali run',
 		function(){
 			return bs.VALI.run( {userid:'#id|@value', pw:'#pw|@value'}, 'set1' );
@@ -128,7 +153,7 @@ bs( function(){
 	);
 	bsTest( 'vali single',
 		function(){
-			return bs.VALI.single( '#id|@value', 'Falpha|alphanum|len[6]' );
+			return bs.VALI.single( '#id|@value', 'Falpha&alphanum&len[6]' );
 		}, 0
 	);
 	bsTest( 'test - direct access to RULE',
@@ -157,7 +182,7 @@ bs( function(){
 	for( i = 0, j = a.length ; i < j ; i+=2 ){
 		bsTest( 'NO-'+a[i+1], function(){
 			return bs.VALI.single( a[i], a[i+1] );
-		}, 1 );
+		}, bsTest.NOT(0) );
 	}
 	
 } );
