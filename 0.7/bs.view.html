@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>jpage - bsJSpluginTest</title>
+<title></title>
 <meta name="keywords" content="bs5" />
 <meta name="description" content="bs5 Test suite" />
 <meta charset="utf-8"/>
@@ -14,31 +14,113 @@
 </head>
 <body>
 <div id="stage"></div>
-<div id="result"></div>
-<div id="test"></div>
 <script src="../../bsJS/bsjs.0.7.js"></script>
-<script src="../bsTest.js"></script>
-<script src="../0.7/printer.js"></script>
 <script>
 bs.debug(1);
+
 bs( function(){
-	bsTest( '내장함수 OUT',
-		function(){
-			bs.model( 'a', 'hello jpage' );
-			return bs.view( '<%OUT(a)%>' );
-		}, 'hello jpage'
-	);
-	bsTest( '출력 및 지역변수 선언, 제어문을 포함한 복합테스트',
-		function(){
-			//<%=a%> <% var i = 0; while( i++ < 3 ){%><%=i%>: <%}%>
-			bs.Dom('#stage').S( 'html', bs.view( bs.Dom('#tmpl0').S('@text') ) );
-			return bs.trim( bs.Dom('#stage').S('html') );
-		}, 'hello jpage 1: 2: 3:'
-	);
+	bs.obj( 'VIEW', (function(bs){
+		var root = {}, fn, query, View, ViewGroup, Root, Rect;
+		query = (function(){
+			var mk, cls, tag;
+			mk = function(k){
+				return function( t, r, v ){
+					var t0, i, j;
+					if( t0 = t.childNodes ){
+						for( i = 0, j = t0.length, k = j % 8 ; i < k ; i++ ) cls( t0[i], r, v );
+						for( k = ( j * 0.125 ) ^ 0, j = 0 ; j < k ; j++ )
+							cls( t0[i++], r, v ), cls( t0[i++], r, v ), cls( t0[i++], r, v ), cls( t0[i++], r, v ),
+							cls( t0[i++], r, v ), cls( t0[i++], r, v ), cls( t0[i++], r, v ), cls( t0[i++], r, v )
+					}else if( t[k] == v ) r[r.length++] = t;
+					return r;
+				};
+			};
+			cls = mk('className'), tag = mk('tagName');
+			return function( v, root ){
+				var t0 = v.charAt(0);
+				return t0 == '#' ? root.ids[v.substr(1)] : t0 == '.' ? cls( root, {length:0}, v.substr(1) ) : tag( root, {length:0}, v );
+			};
+		})(),
+		View = function(id){
+			this.id = id,
+			this.parentNode = null;
+		},
+		fn = View.prototype,
+		fn.tagName = 'View',
+		fn.S = function(){
+		},
+		ViewGroup = function(id){
+			this.constructor.call( this, id );
+			this.childNodes = [];
+		},
+		ViewGroup.prototype = fn = new View(),
+		fn.tagName = 'ViewGroup',
+		fn.appendChild = function(v){
+			var t0 = v.parentNode;
+			if( t0 ) t0.childNodes.splice( t0.childNodes.indexOf(v), 1 );
+			v.parentNode = this, this.childNodes.push(v);
+		},
+		fn.removeChild = function(v){
+			var t0 = this.childNodes.indexOf(v);
+			if( t0 > -1 ) this.childNodes.splice( t0, 1 ), v.parentNode = null;
+		};
+		Root = function( type, id, bsdom, context ){
+			this.constructor.call( this, id ),
+			this.type = type,
+			this.__b = bsdom,
+			this.__c = context;
+			this.ids = {};
+		},
+		Root.prototype = fn = new ViewGroup(),
+		fn.tagName = 'Root'
+		
+		Rect = function(id){
+			this.constructor.call( this, id );
+		},
+		Rect.prototype = fn = new View(),
+		fn.width = fn.height = 100;
+		
+		return {
+			root:function( id, type ){
+				var t0, t1, c, i;
+				if( !root[k] ){
+					switch( type || ( type = 'DOM' ) ){
+					case'DOM':
+						t0 = bs.Dom('<div></div>'),
+						t0 = new Root( 'DOM', k, t0, t0 );
+						break;
+					case'WEBGL':
+						t0 = bs.Dom('<canvas width="300" height="300"></canvas>'),
+						t1 = 'experimental-webgl,webkit-3d,moz-webgl,webgl'.split(','), i = c.length;
+						while( i-- ) if( c = t0[0].getContext(t1[i]) ) break;
+						t0 = new Root( 'WEBGL', k, t0, c );
+						break;
+					case'CANVAS':
+						t0 = bs.Dom('<canvas width="300" height="300"></canvas>');
+						t0 = new Root( 'CANVAS', k, t0, t0[0].getContext('2d') );
+						break;
+					}
+					root[k] = t0;
+				}
+				return root[k];
+			},
+			rect:function(id){
+				
+			}
+		};
+	})(bs) );
+	
+	bs.VIEW.root( 'D', 'DOM' );
+	bs.VIEW.root( 'C', 'CANVAS' );
+	bs.VIEW.root( 'W', 'WEBGL' );
+	
+	bs.VIEW.rect( 'r1' ).S( '>', 'D', 'width', 50, 'height', 50 );
+	bs.VIEW.rect( 'r2' ).S( '>', 'C', 'width', 50, 'height', 50 );
+	bs.VIEW.rect( 'r2' ).S( '>', 'W', 'width', 50, 'height', 50 );
+	
+	
+	
 } );
-</script>
-<script id="tmpl0" type="text/tmpl">
-<%=a%> <% var i = 0; while( i++ < 3 ){%><%=i%>: <%}%>
 </script>
 </body>
 </html>
